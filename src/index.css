@@ -3,11 +3,13 @@
 @theme {
   --font-display: "Space Grotesk", ui-sans-serif, system-ui, sans-serif;
   --font-body: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, monospace;
 
   --color-night-950: #05060a;
   --color-night-900: #0a0c14;
   --color-night-800: #10131f;
   --color-night-700: #1a1f31;
+  --color-night-600: #262c42;
 
   --color-neon-cyan: #22d3ee;
   --color-neon-violet: #a78bfa;
@@ -40,6 +42,10 @@ body {
   background-color: rgba(34, 211, 238, 0.3);
 }
 
+.font-mono-num {
+  font-family: var(--font-mono);
+}
+
 /* Accesibilidad: usuarios con preferencia de movimiento reducido.
    Framer Motion se gestiona vía <MotionConfig reducedMotion="user">;
    esto cubre las animaciones CSS (marquee) y el scroll suave. */
@@ -58,5 +64,23 @@ body {
   /* La segunda copia del marquee es solo decorativa: sin animación sobra */
   .marquee-dup {
     display: none;
+  }
+}
+
+/* Impresión del certificado de la demo de portafolio (proyecto Certificados):
+   solo se imprime #certificado-preview, el resto de la SPA se oculta. */
+@media print {
+  body * {
+    visibility: hidden;
+  }
+  #certificado-preview,
+  #certificado-preview * {
+    visibility: visible;
+  }
+  #certificado-preview {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
   }
 }

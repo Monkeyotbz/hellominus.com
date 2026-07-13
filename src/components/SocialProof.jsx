@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { Building2, Quote, TrendingDown, Clock3, PiggyBank } from "lucide-react";
+import { Building2, Quote, TrendingDown, Clock3, PiggyBank, ArrowRight, LayoutGrid, CalendarClock, BarChart3, FileText } from "lucide-react";
 
 // PLACEHOLDERS: sustituir por logos reales (SVG/PNG en /src/assets o /public)
 // cuando existan clientes/aliados confirmados. El componente ya está listo:
@@ -151,6 +151,128 @@ export default function SocialProof() {
             ))}
           </div>
         </motion.article>
+
+        {/* Proyecto propio interactivo */}
+        <motion.a
+          href="#/proyectos/comisiones-art"
+          initial={{ opacity: 0, y: 32 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-80px" }}
+          transition={{ duration: 0.6, delay: 0.15 }}
+          className="group mx-auto mt-6 flex max-w-5xl flex-col items-start gap-5 rounded-3xl border border-neon-cyan/20 bg-night-800/60 p-8 backdrop-blur transition-colors hover:border-neon-cyan/40 sm:flex-row sm:items-center sm:p-10"
+        >
+          <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl border border-neon-cyan/30 bg-neon-cyan/10 text-neon-cyan">
+            <LayoutGrid className="h-6 w-6" aria-hidden="true" />
+          </div>
+          <div className="flex-1">
+            <span className="inline-flex items-center gap-2 rounded-full border border-neon-cyan/30 bg-neon-cyan/10 px-3 py-1 text-[11px] font-medium text-neon-cyan">
+              Proyecto propio · Automatización de datos
+            </span>
+            <h3 className="mt-3 font-display text-xl font-semibold text-white">
+              De 13 reportes de comisiones a un panel único — probalo vos mismo
+            </h3>
+            <p className="mt-2 text-sm leading-relaxed text-slate-400">
+              Pipeline de scripts que convierte reportes de comisiones de 13 aseguradoras, cada uno con su propio
+              formato, en un panel web consolidado. Incluye el caso de estudio completo y una demo 100% interactiva
+              con datos ficticios.
+            </p>
+          </div>
+          <span className="flex shrink-0 items-center gap-2 self-start rounded-full border border-neon-cyan/40 px-5 py-2.5 text-sm font-medium text-neon-cyan transition-all group-hover:border-neon-cyan group-hover:bg-neon-cyan/10 group-hover:shadow-[0_0_20px_rgba(34,211,238,0.35)] sm:self-center">
+            Ver caso de estudio <ArrowRight className="h-4 w-4" aria-hidden="true" />
+          </span>
+        </motion.a>
+
+        {/* Proyecto propio: Dashboard de cobranzas (WTW) */}
+        <motion.a
+          href="#/proyectos/cobranzas-wtw"
+          initial={{ opacity: 0, y: 32 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-80px" }}
+          transition={{ duration: 0.6, delay: 0.18 }}
+          className="group mx-auto mt-6 flex max-w-5xl flex-col items-start gap-5 rounded-3xl border border-neon-emerald/20 bg-night-800/60 p-8 backdrop-blur transition-colors hover:border-neon-emerald/40 sm:flex-row sm:items-center sm:p-10"
+        >
+          <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl border border-neon-emerald/30 bg-neon-emerald/10 text-neon-emerald">
+            <BarChart3 className="h-6 w-6" aria-hidden="true" />
+          </div>
+          <div className="flex-1">
+            <span className="inline-flex items-center gap-2 rounded-full border border-neon-emerald/30 bg-neon-emerald/10 px-3 py-1 text-[11px] font-medium text-neon-emerald">
+              Proyecto propio · Auditoría de cartera vencida
+            </span>
+            <h3 className="mt-3 font-display text-xl font-semibold text-white">
+              Dashboard de cobranzas — WTW: bad debt, cruce y gestión de cobro
+            </h3>
+            <p className="mt-2 text-sm leading-relaxed text-slate-400">
+              Panel en Streamlit que sincroniza reportes de Finanzas e Inbroker, concilia ambos sistemas, clasifica
+              deuda por antigüedad y riesgo, y exporta reportes en PDF. Incluye el caso de estudio completo y una
+              demo interactiva con el mismo look de la app real y datos 100% ficticios.
+            </p>
+          </div>
+          <span className="flex shrink-0 items-center gap-2 self-start rounded-full border border-neon-emerald/40 px-5 py-2.5 text-sm font-medium text-neon-emerald transition-all group-hover:border-neon-emerald group-hover:bg-neon-emerald/10 group-hover:shadow-[0_0_20px_rgba(52,211,153,0.35)] sm:self-center">
+            Ver caso de estudio <ArrowRight className="h-4 w-4" aria-hidden="true" />
+          </span>
+        </motion.a>
+
+        {/* Proyecto propio: Generador de certificados */}
+        <motion.a
+          href="#/proyectos/certificados"
+          initial={{ opacity: 0, y: 32 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-80px" }}
+          transition={{ duration: 0.6, delay: 0.22 }}
+          className="group mx-auto mt-6 flex max-w-5xl flex-col items-start gap-5 rounded-3xl border border-neon-cyan/20 bg-night-800/60 p-8 backdrop-blur transition-colors hover:border-neon-cyan/40 sm:flex-row sm:items-center sm:p-10"
+        >
+          <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl border border-neon-cyan/30 bg-neon-cyan/10 text-neon-cyan">
+            <FileText className="h-6 w-6" aria-hidden="true" />
+          </div>
+          <div className="flex-1">
+            <span className="inline-flex items-center gap-2 rounded-full border border-neon-cyan/30 bg-neon-cyan/10 px-3 py-1 text-[11px] font-medium text-neon-cyan">
+              Proyecto propio · Automatización documental
+            </span>
+            <h3 className="mt-3 font-display text-xl font-semibold text-white">
+              Generador de certificados de seguro — de Word manual a app instalable
+            </h3>
+            <p className="mt-2 text-sm leading-relaxed text-slate-400">
+              App de escritorio que arma certificados de cobertura editando directamente el XML del Word original
+              (sin perder formato), con grupos de asegurados, carga masiva desde Excel e historial. Esta demo
+              rediseña la interfaz con un look moderno — datos 100% ficticios.
+            </p>
+          </div>
+          <span className="flex shrink-0 items-center gap-2 self-start rounded-full border border-neon-cyan/40 px-5 py-2.5 text-sm font-medium text-neon-cyan transition-all group-hover:border-neon-cyan group-hover:bg-neon-cyan/10 group-hover:shadow-[0_0_20px_rgba(34,211,238,0.35)] sm:self-center">
+            Ver caso de estudio <ArrowRight className="h-4 w-4" aria-hidden="true" />
+          </span>
+        </motion.a>
+
+        {/* Proyecto propio: KAIROS (app en producción) */}
+        <motion.a
+          href="https://kairosplanner.vercel.app"
+          target="_blank"
+          rel="noopener noreferrer"
+          initial={{ opacity: 0, y: 32 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-80px" }}
+          transition={{ duration: 0.6, delay: 0.2 }}
+          className="group mx-auto mt-6 flex max-w-5xl flex-col items-start gap-5 rounded-3xl border border-neon-violet/20 bg-night-800/60 p-8 backdrop-blur transition-colors hover:border-neon-violet/40 sm:flex-row sm:items-center sm:p-10"
+        >
+          <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl border border-neon-violet/30 bg-neon-violet/10 text-neon-violet">
+            <CalendarClock className="h-6 w-6" aria-hidden="true" />
+          </div>
+          <div className="flex-1">
+            <span className="inline-flex items-center gap-2 rounded-full border border-neon-violet/30 bg-neon-violet/10 px-3 py-1 text-[11px] font-medium text-neon-violet">
+              Proyecto propio · App en producción
+            </span>
+            <h3 className="mt-3 font-display text-xl font-semibold text-white">
+              KAIROS — planificador personal con IA
+            </h3>
+            <p className="mt-2 text-sm leading-relaxed text-slate-400">
+              App de productividad personal con enfoque (focus timer), kanban, calendario, finanzas y reproductor de
+              música integrados, potenciada por ABAD, un asistente de IA conversacional con voz que ayuda a organizar
+              el día. Frontend React + backend Express, sobre Supabase.
+            </p>
+          </div>
+          <span className="flex shrink-0 items-center gap-2 self-start rounded-full border border-neon-violet/40 px-5 py-2.5 text-sm font-medium text-neon-violet transition-all group-hover:border-neon-violet group-hover:bg-neon-violet/10 group-hover:shadow-[0_0_20px_rgba(167,139,250,0.35)] sm:self-center">
+            Ver app en vivo <ArrowRight className="h-4 w-4" aria-hidden="true" />
+          </span>
+        </motion.a>
       </div>
     </section>
   );
