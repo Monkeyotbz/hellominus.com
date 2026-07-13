@@ -1,4 +1,5 @@
 import { MotionConfig } from "framer-motion";
+import { Analytics } from "@vercel/analytics/react";
 import Navbar from "./components/Navbar.jsx";
 import Hero from "./components/Hero.jsx";
 import ValueProps from "./components/ValueProps.jsx";
@@ -27,6 +28,7 @@ export default function App() {
         <Footer />
         <WhatsAppButton />
         <CookieConsent />
+        <Analytics />
       </div>
     </MotionConfig>
   );
