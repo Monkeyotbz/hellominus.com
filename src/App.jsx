@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { MotionConfig } from "framer-motion";
+import { Analytics } from "@vercel/analytics/react";
 import Navbar from "./components/Navbar.jsx";
 import Hero from "./components/Hero.jsx";
 import ValueProps from "./components/ValueProps.jsx";
@@ -35,6 +36,7 @@ export default function App() {
     return (
       <MotionConfig reducedMotion="user">
         <ComisionesArtPage />
+        <Analytics />
       </MotionConfig>
     );
   }
@@ -43,6 +45,7 @@ export default function App() {
     return (
       <MotionConfig reducedMotion="user">
         <CobranzasWtwPage />
+        <Analytics />
       </MotionConfig>
     );
   }
@@ -51,6 +54,7 @@ export default function App() {
     return (
       <MotionConfig reducedMotion="user">
         <CertificadosPage />
+        <Analytics />
       </MotionConfig>
     );
   }
@@ -72,6 +76,7 @@ export default function App() {
         <WhatsAppButton />
         <CookieConsent />
       </div>
+      <Analytics />
     </MotionConfig>
   );
 }
