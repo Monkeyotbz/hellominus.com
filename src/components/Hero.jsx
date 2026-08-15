@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
-import { CalendarCheck, MessageSquareText, ShieldCheck, Sparkles } from "lucide-react";
+import { Bot, CalendarCheck, ShieldCheck, Sparkles } from "lucide-react";
+import { useChatWidget } from "../context/ChatWidgetContext.jsx";
 
 const container = {
   hidden: {},
@@ -12,6 +13,8 @@ const item = {
 };
 
 export default function Hero() {
+  const { openChat } = useChatWidget();
+
   return (
     <section className="relative flex min-h-screen items-center justify-center overflow-hidden px-4 pt-16 sm:px-6 lg:px-8">
       {/* Grid decorativo de fondo */}
@@ -64,13 +67,14 @@ export default function Hero() {
             <CalendarCheck className="h-4 w-4 transition-transform duration-300 group-hover:-rotate-6" aria-hidden="true" />
             Agendar una Demostración
           </a>
-          <a
-            href="#contacto"
+          <button
+            type="button"
+            onClick={openChat}
             className="group inline-flex w-full items-center justify-center gap-2 rounded-full border border-white/15 bg-white/5 px-8 py-3.5 font-display text-sm font-semibold text-white backdrop-blur transition-all duration-300 hover:border-neon-violet/60 hover:bg-neon-violet/10 hover:text-neon-violet hover:shadow-[0_0_24px_rgba(167,139,250,0.3)] sm:w-auto"
           >
-            <MessageSquareText className="h-4 w-4" aria-hidden="true" />
-            Hablar con un Experto en IA
-          </a>
+            <Bot className="h-4 w-4" aria-hidden="true" />
+            Hablar con nuestro Asistente IA
+          </button>
         </motion.div>
 
         <motion.p

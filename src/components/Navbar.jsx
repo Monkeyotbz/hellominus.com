@@ -4,10 +4,10 @@ import { BrainCircuit, Menu, X } from "lucide-react";
 
 const links = [
   { label: "Soluciones", href: "#soluciones" },
-  { label: "Casos", href: "#casos" },
-  { label: "Sectores", href: "#sectores" },
-  { label: "Tecnología", href: "#tecnologia" },
+  { label: "Software", href: "#software" },
+  { label: "Agentes", href: "#agentes" },
   { label: "Contacto", href: "#contacto" },
+  { label: "Quiénes somos", href: "#quienes-somos" },
 ];
 
 export default function Navbar() {

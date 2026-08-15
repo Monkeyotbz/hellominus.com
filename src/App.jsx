@@ -9,7 +9,11 @@ import TechMarquee from "./components/TechMarquee.jsx";
 import Contact from "./components/Contact.jsx";
 import Footer from "./components/Footer.jsx";
 import WhatsAppButton from "./components/WhatsAppButton.jsx";
+import ChatWidget from "./components/ChatWidget.jsx";
 import CookieConsent from "./components/CookieConsent.jsx";
+import UniverseBackground from "./components/UniverseBackground.jsx";
+import PageFrame from "./components/PageFrame.jsx";
+import { ChatWidgetProvider } from "./context/ChatWidgetContext.jsx";
 import ComisionesArtPage from "./projects/comisiones-art/Page.jsx";
 import CobranzasWtwPage from "./projects/cobranzas-wtw/Page.jsx";
 import CertificadosPage from "./projects/certificados/Page.jsx";
@@ -34,6 +38,7 @@ export default function App() {
   if (hash.startsWith("#/proyectos/comisiones-art")) {
     return (
       <MotionConfig reducedMotion="user">
+        <PageFrame />
         <ComisionesArtPage />
       </MotionConfig>
     );
@@ -42,6 +47,7 @@ export default function App() {
   if (hash.startsWith("#/proyectos/cobranzas-wtw")) {
     return (
       <MotionConfig reducedMotion="user">
+        <PageFrame />
         <CobranzasWtwPage />
       </MotionConfig>
     );
@@ -50,6 +56,7 @@ export default function App() {
   if (hash.startsWith("#/proyectos/certificados")) {
     return (
       <MotionConfig reducedMotion="user">
+        <PageFrame />
         <CertificadosPage />
       </MotionConfig>
     );
@@ -58,20 +65,25 @@ export default function App() {
   return (
     // reducedMotion="user": respeta prefers-reduced-motion del sistema operativo
     <MotionConfig reducedMotion="user">
-      <div className="relative min-h-screen overflow-x-hidden">
-        <Navbar />
-        <main>
-          <Hero />
-          <ValueProps />
-          <SocialProof />
-          <Sectors />
-          <TechMarquee />
-          <Contact />
-        </main>
-        <Footer />
-        <WhatsAppButton />
-        <CookieConsent />
-      </div>
+      <PageFrame />
+      <ChatWidgetProvider>
+        <div className="relative min-h-screen overflow-x-hidden">
+          <UniverseBackground />
+          <Navbar />
+          <main>
+            <Hero />
+            <ValueProps />
+            <SocialProof />
+            <Sectors />
+            <TechMarquee />
+            <Contact />
+          </main>
+          <Footer />
+          <WhatsAppButton />
+          <ChatWidget />
+          <CookieConsent />
+        </div>
+      </ChatWidgetProvider>
     </MotionConfig>
   );
 }

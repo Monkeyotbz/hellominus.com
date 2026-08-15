@@ -28,3 +28,8 @@ export const formConfigured = /^https:\/\//.test(FORM_ENDPOINT);
 export const CLARITY_ID = env.VITE_CLARITY_ID || "";
 export const GA_ID = env.VITE_GA_ID || "";
 export const analyticsConfigured = Boolean(CLARITY_ID || GA_ID);
+
+// Kill-switch del chat de ventas con IA (api/chat.js). A diferencia de los
+// flags de arriba, por defecto está VISIBLE — no hay un "a medio configurar"
+// que ocultar, la clave de Anthropic vive solo en el servidor.
+export const CHAT_ENABLED = env.VITE_CHAT_ENABLED !== "false";
