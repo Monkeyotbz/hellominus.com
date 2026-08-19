@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import { Bot, Loader2, Send, Sparkles, X } from "lucide-react";
+import { BrainCircuit, Loader2, Send, Sparkles, X } from "lucide-react";
 import { CHAT_ENABLED } from "../config.js";
 import { useChatWidget } from "../context/ChatWidgetContext.jsx";
 
@@ -86,7 +86,7 @@ export default function ChatWidget() {
         aria-label="Abrir el asistente de IA de Hellominus"
         className="fixed bottom-6 right-[77px] z-40 inline-flex h-14 w-14 items-center justify-center rounded-full bg-gradient-to-br from-neon-cyan to-neon-violet text-night-950 shadow-[0_0_28px_rgba(167,139,250,0.4)] transition-all duration-300 hover:scale-110 hover:shadow-[0_0_44px_rgba(167,139,250,0.6)] sm:right-24"
       >
-        <Bot className="h-7 w-7" aria-hidden="true" />
+        <BrainCircuit className="h-7 w-7" aria-hidden="true" />
       </button>
 
       <AnimatePresence>
