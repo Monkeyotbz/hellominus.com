@@ -3,3 +3,7 @@ dist/
 .env
 .env.local
 *.log
+
+# Repos hermanos del ecosistema Hellominus (cada uno con su propio git remote,
+# no se versionan ni se deployan junto a esta landing). Ver CLAUDE.md.
+/projects/
