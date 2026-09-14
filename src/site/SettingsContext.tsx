@@ -56,7 +56,9 @@ export function SettingsProvider({ children }: { children: React.ReactNode }) {
         enabled: ann.enabled !== false,
         text:
           pickText(ann.text as never, locale) ||
-          'Reservá directo con anfitriones locales — sin comisiones',
+          (locale === 'en'
+            ? 'Access hundreds of deals – 20% OFF your first booking'
+            : 'Accedé a cientos de ofertas – 20% OFF en tu primera reserva'),
       },
       social: (raw.social ?? {}) as Record<string, string>,
     };

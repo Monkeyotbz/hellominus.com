@@ -86,11 +86,6 @@ export default function HomePage() {
             >
               {es ? '¿Preferís que te armemos el plan? Escribinos' : 'Rather we plan it for you? Message us'}
             </button>
-            <div className="mt-6 flex flex-wrap gap-x-6 gap-y-1 text-sm font-medium text-[#E4DFD2]">
-              <span>{es ? '17 años operando en Colombia' : '17 years operating in Colombia'}</span>
-              <span className="opacity-50">·</span>
-              <span>{es ? 'Reserva directa, sin comisiones' : 'Book direct, no fees'}</span>
-            </div>
           </div>
         </Container>
       </section>
