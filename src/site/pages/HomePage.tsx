@@ -69,14 +69,14 @@ export default function HomePage() {
         <div className="absolute inset-0 bg-gradient-to-b from-black/35 via-black/25 to-black/70" />
         <Container className="relative flex flex-col justify-center">
           <div className="max-w-3xl">
-            <Eyebrow dark>{es ? 'Colombia, de la mano de quien la vive' : 'Colombia, guided by locals'}</Eyebrow>
+            <Eyebrow dark>{es ? 'Hospedajes y tours en un solo lugar' : 'Stays and tours in one place'}</Eyebrow>
             <h1 className="mt-3 font-serif text-4xl leading-[1.05] text-[#FCFAF4] sm:text-5xl lg:text-6xl">
-              {es ? 'Viví la Colombia que no sale en los folletos' : "Experience the Colombia guidebooks miss"}
+              {es ? 'Las mejores opciones para tu viaje, sin pagar de más' : 'The best options for your trip, without overpaying'}
             </h1>
             <p className="mt-4 max-w-lg text-lg text-[#E9E4D8]">
               {es
-                ? 'Tours, hospedajes y experiencias con anfitriones locales. Vos elegís, un asesor de la región te arma el plan.'
-                : 'Tours, stays and experiences with local hosts. You choose, a regional advisor builds the plan.'}
+                ? 'Explorá cientos de ofertas en hospedajes, tours y experiencias.'
+                : 'Explore hundreds of deals on stays, tours and experiences.'}
             </p>
             <SearchBar className="mt-7" />
             <button

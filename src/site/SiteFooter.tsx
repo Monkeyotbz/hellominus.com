@@ -13,11 +13,6 @@ export default function SiteFooter() {
       <Container className="grid grid-cols-2 gap-10 py-12 md:grid-cols-4">
         <div className="col-span-2 md:col-span-1">
           <img src="/brand/logo.svg" alt="Hellominus" className="h-10 w-auto" />
-          <p className="mt-3 max-w-[260px] text-sm leading-relaxed text-muted">
-            {es
-              ? 'Turismo con anfitriones locales en Colombia. Reserva directa, sin comisiones. 17 años.'
-              : 'Travel with local hosts in Colombia. Book direct, no fees. 17 years.'}
-          </p>
         </div>
         <FooterCol title={es ? 'Explorar' : 'Explore'}>
           <Link to="/tours">Tours</Link>
