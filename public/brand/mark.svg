@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 714.90 1006.71" role="img" aria-label="Hellominus">
+  <defs>
+    <mask id="pinRing" maskUnits="userSpaceOnUse" x="-100000" y="-100000" width="200000" height="200000"><rect x="-100000" y="-100000" width="200000" height="200000" fill="white"/><circle cx="0.00" cy="1302.94" r="182.10" fill="black"/><circle cx="0.00" cy="1302.94" r="118.03" fill="white"/></mask>
+  </defs>
+  <g transform="translate(357.45,986.47) scale(1,-1)" fill="#F06C5F">
+    <g transform="translate(0,-673.92)">
+      <path d="M -285.98 1124.24 C -285.98 938.77 -101.17 859.39 0.00 673.92 C 101.17 859.39 285.98 938.77 285.98 1124.24 A 337.22 337.22 0 0 1 0.00 1640.16 A 337.22 337.22 0 0 1 -285.98 1124.24 Z" mask="url(#pinRing)"/>
+    </g>
+  </g>
+</svg>

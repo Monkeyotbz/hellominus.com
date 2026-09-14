@@ -1,0 +1,208 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Hanken+Grotesk:wght@400;500;600;700&display=swap">
+  <style>
+    * { box-sizing: border-box; }
+    body { margin: 0; }
+    a { color: #0037B3; text-decoration: none; }
+    a:hover { color: #002B8C; }
+    .serif { font-family: 'Instrument Serif', Georgia, serif; font-weight: 400; }
+    .card-img { background: #E6DFD0; position: relative; overflow: hidden; }
+    .ph-label { position: absolute; left: 12px; bottom: 12px; font-size: 11px; color: #6E675B; background: rgba(255,255,255,.82); padding: 3px 8px; border-radius: 999px; }
+    .btn-primary { background: #0037B3; color: #fff; border: 0; padding: 14px 22px; border-radius: 12px; font-weight: 600; font-size: 15px; font-family: inherit; width: 100%; }
+    .btn-wa { background: #fff; color: #1C1A17; border: 1px solid #1C1A17; padding: 13px 22px; border-radius: 12px; font-weight: 600; font-size: 15px; font-family: inherit; width: 100%; display:flex; align-items:center; justify-content:center; gap:8px; }
+    .fact { display: flex; gap: 12px; align-items: flex-start; }
+    .fact svg { flex-shrink: 0; margin-top: 2px; }
+    h2.sec { font-size: 26px; margin: 0 0 16px; }
+  </style>
+</helmet>
+
+<div style="width: 1440px; background: #FBF9F4; font-family: 'Hanken Grotesk', system-ui, sans-serif; color: #1C1A17;">
+
+  <div style="display:flex; height:3px;"><div style="flex:2; background:#E0A32E;"></div><div style="flex:1; background:#0037B3;"></div><div style="flex:1; background:#B23A2E;"></div></div>
+  <div style="background: #B23A2E; color: #FBEEEA; font-size: 13px; text-align: center; padding: 9px 16px;">Reservás directo con el anfitrión · Sin comisiones · WhatsApp +57 314 528 4548</div>
+
+  <div style="display: flex; align-items: center; justify-content: space-between; max-width: 1200px; margin: 0 auto; padding: 18px 40px;">
+    <div class="serif" style="font-size: 24px;">Turismo&#8202;Colombia</div>
+    <div style="display: flex; gap: 28px; font-size: 15px; font-weight: 500; color: #3A362E;">
+      <a href="#">Tours</a><a href="#">Hospedajes</a><a href="#">Destinos</a><a href="#">Eventos</a><a href="#">Propiedades</a><a href="#">Blog</a>
+    </div>
+    <button class="btn-primary" style="width:auto; padding: 9px 18px; border-radius:999px; font-size:14px;">Reservar</button>
+  </div>
+
+  <div style="max-width: 1200px; margin: 0 auto; padding: 12px 40px 0;">
+    <div style="font-size: 13px; color: #8A8275;">Tours / Jardín / Travesía Filo de Oro</div>
+    <h1 class="serif" style="font-size: 40px; margin: 8px 0 8px;">Travesía Filo de Oro — cascada escondida y túnel</h1>
+    <div style="display: flex; align-items: center; gap: 16px; font-size: 14px; color: #3A362E;">
+      <span style="display:flex; align-items:center; gap:5px;"><svg width="14" height="14" viewBox="0 0 24 24" fill="#E0A32E"><polygon points="12 2 15 9 22 9.3 16.5 14 18.5 21 12 17 5.5 21 7.5 14 2 9.3 9 9"></polygon></svg><b>4.9</b> · 86 reseñas</span>
+      <span style="color:#8A8275;">·</span>
+      <span style="display:flex; align-items:center; gap:5px;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#6E675B" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>Jardín, Antioquia</span>
+      <span style="flex:1;"></span>
+      <span style="display:flex; align-items:center; gap:6px; font-weight:600;"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8z"></path></svg>Guardar</span>
+    </div>
+  </div>
+
+  <!-- Gallery -->
+  <div style="max-width: 1200px; margin: 0 auto; padding: 16px 40px 0;">
+    <div style="display: grid; grid-template-columns: 2fr 1fr 1fr; grid-template-rows: 1fr 1fr; gap: 10px; height: 440px; border-radius: 20px; overflow: hidden;">
+      <div class="card-img" style="grid-row: 1 / 3;"><span class="ph-label">Foto principal — cascada del amor</span></div>
+      <div class="card-img"><span class="ph-label">Túnel</span></div>
+      <div class="card-img"><span class="ph-label">Charco corazón</span></div>
+      <div class="card-img"><span class="ph-label">Almuerzo fiambre</span></div>
+      <div class="card-img" style="display:flex; align-items:flex-end; justify-content:flex-end; padding:14px;">
+        <span style="background:#fff; border:1px solid #1C1A17; border-radius:10px; padding:8px 14px; font-size:13px; font-weight:600;">Ver las 24 fotos</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Body -->
+  <div style="max-width: 1200px; margin: 0 auto; padding: 36px 40px 40px; display: grid; grid-template-columns: 1fr 380px; gap: 56px; align-items: start;">
+
+    <!-- LEFT -->
+    <div>
+      <!-- quick facts -->
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 18px; padding-bottom: 28px; border-bottom: 1px solid #EAE3D4;">
+        <div class="fact"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0037B3" stroke-width="1.8"><circle cx="12" cy="12" r="9"></circle><polyline points="12 7 12 12 15 14"></polyline></svg><div><div style="font-weight:600; font-size:15px;">4 horas</div><div style="font-size:13px; color:#6E675B;">Salida 8:00 am</div></div></div>
+        <div class="fact"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0037B3" stroke-width="1.8"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path></svg><div><div style="font-weight:600; font-size:15px;">Grupo pequeño</div><div style="font-size:13px; color:#6E675B;">Máx. 10 personas</div></div></div>
+        <div class="fact"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0037B3" stroke-width="1.8"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15 15 0 0 1 0 20 15 15 0 0 1 0-20z"></path></svg><div><div style="font-weight:600; font-size:15px;">Español e inglés</div><div style="font-size:13px; color:#6E675B;">Guía bilingüe a pedido</div></div></div>
+        <div class="fact"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0037B3" stroke-width="1.8"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg><div><div style="font-weight:600; font-size:15px;">Punto de encuentro</div><div style="font-size:13px; color:#6E675B;">Parque principal de Jardín</div></div></div>
+      </div>
+
+      <!-- descripción -->
+      <div style="padding: 28px 0; border-bottom: 1px solid #EAE3D4;">
+        <h2 class="serif sec">Qué vas a hacer</h2>
+        <p style="font-size: 15px; line-height: 1.7; color: #3A362E; margin: 0 0 12px;">Caminata guiada por el filo de la montaña hasta una cascada escondida. Entramos por un túnel con salida al agua, pasamos por el charco corazón y la cascada del amor, y bajamos por el camino de herradura la Herrera con parada en la casa de los dulces.</p>
+        <p style="font-size: 15px; line-height: 1.7; color: #3A362E; margin: 0;">Incluye hidratación en ruta, almuerzo típico tipo fiambre y tarjeta de asistencia médica. Nivel moderado: 3–4 horas de caminata con tramos de subida.</p>
+      </div>
+
+      <!-- incluye / no incluye -->
+      <div style="padding: 28px 0; border-bottom: 1px solid #EAE3D4;">
+        <h2 class="serif sec">Qué incluye</h2>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 28px;">
+          <div style="display:flex; flex-direction:column; gap:10px;">
+            <div style="display:flex; gap:10px; font-size:14px;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0037B3" stroke-width="2.4"><polyline points="20 6 9 17 4 12"></polyline></svg>Guía local certificado</div>
+            <div style="display:flex; gap:10px; font-size:14px;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0037B3" stroke-width="2.4"><polyline points="20 6 9 17 4 12"></polyline></svg>Almuerzo típico (fiambre)</div>
+            <div style="display:flex; gap:10px; font-size:14px;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0037B3" stroke-width="2.4"><polyline points="20 6 9 17 4 12"></polyline></svg>Hidratación en ruta</div>
+            <div style="display:flex; gap:10px; font-size:14px;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0037B3" stroke-width="2.4"><polyline points="20 6 9 17 4 12"></polyline></svg>Tarjeta de asistencia médica</div>
+          </div>
+          <div style="display:flex; flex-direction:column; gap:10px;">
+            <div style="display:flex; gap:10px; font-size:14px; color:#8A8275;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#E0A32E" stroke-width="2.4"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>Transporte a Jardín (opción con recargo)</div>
+            <div style="display:flex; gap:10px; font-size:14px; color:#8A8275;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#E0A32E" stroke-width="2.4"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>Propinas</div>
+            <div style="display:flex; gap:10px; font-size:14px; color:#8A8275;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#E0A32E" stroke-width="2.4"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>Alquiler de caballo</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- anfitrión -->
+      <div style="padding: 28px 0; border-bottom: 1px solid #EAE3D4;">
+        <h2 class="serif sec">Conocé a tu anfitrión</h2>
+        <div style="display: flex; gap: 18px; align-items: flex-start;">
+          <div class="card-img" style="width: 76px; height: 76px; border-radius: 999px; flex-shrink: 0;"></div>
+          <div>
+            <div style="display:flex; align-items:center; gap:8px;">
+              <span style="font-weight:700; font-size:16px;">Wílmar</span>
+              <span style="display:flex; align-items:center; gap:4px; font-size:12px; color:#0037B3; background:#EAF0FB; padding:3px 9px; border-radius:999px;"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>Verificado</span>
+            </div>
+            <div style="font-size:13px; color:#6E675B; margin-top:2px;">Guía de montaña · anfitrión desde 2019 · nacido en Jardín</div>
+            <p style="font-size:14px; line-height:1.6; color:#3A362E; margin: 10px 0 0;">“Estas montañas son mi casa. Me gusta caminarlas sin afán, contar de dónde viene cada cascada y sentar a la gente a almorzar donde almuerza mi familia.”</p>
+            <a href="#" style="font-size:14px; font-weight:600; display:inline-block; margin-top:10px;">Ver perfil y sus 3 experiencias →</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- dónde es -->
+      <div style="padding: 28px 0; border-bottom: 1px solid #EAE3D4;">
+        <h2 class="serif sec">Dónde es</h2>
+        <div class="card-img" style="height: 260px; border-radius: 16px; background:#DCE4DA; display:flex; align-items:center; justify-content:center; margin-bottom:12px;">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#8A8275" stroke-width="1.8"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+        </div>
+        <div style="font-size:14px; color:#3A362E;">Punto de encuentro: parque principal de Jardín, junto a la iglesia. La ubicación exacta se envía al confirmar.</div>
+      </div>
+
+      <!-- reseñas -->
+      <div style="padding: 28px 0; border-bottom: 1px solid #EAE3D4;">
+        <div style="display:flex; align-items:baseline; gap:12px; margin-bottom:20px;">
+          <div class="serif" style="font-size:34px;">4.9</div>
+          <div style="display:flex; gap:2px;">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="#E0A32E"><polygon points="12 2 15 9 22 9.3 16.5 14 18.5 21 12 17 5.5 21 7.5 14 2 9.3 9 9"></polygon></svg><svg width="16" height="16" viewBox="0 0 24 24" fill="#E0A32E"><polygon points="12 2 15 9 22 9.3 16.5 14 18.5 21 12 17 5.5 21 7.5 14 2 9.3 9 9"></polygon></svg><svg width="16" height="16" viewBox="0 0 24 24" fill="#E0A32E"><polygon points="12 2 15 9 22 9.3 16.5 14 18.5 21 12 17 5.5 21 7.5 14 2 9.3 9 9"></polygon></svg><svg width="16" height="16" viewBox="0 0 24 24" fill="#E0A32E"><polygon points="12 2 15 9 22 9.3 16.5 14 18.5 21 12 17 5.5 21 7.5 14 2 9.3 9 9"></polygon></svg><svg width="16" height="16" viewBox="0 0 24 24" fill="#E0A32E"><polygon points="12 2 15 9 22 9.3 16.5 14 18.5 21 12 17 5.5 21 7.5 14 2 9.3 9 9"></polygon></svg>
+          </div>
+          <div style="font-size:14px; color:#6E675B;">86 reseñas · [datos de ejemplo]</div>
+        </div>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 22px;">
+          <div>
+            <div style="display:flex; gap:3px; margin-bottom:6px;"><svg width="13" height="13" viewBox="0 0 24 24" fill="#E0A32E"><polygon points="12 2 15 9 22 9.3 16.5 14 18.5 21 12 17 5.5 21 7.5 14 2 9.3 9 9"></polygon></svg><svg width="13" height="13" viewBox="0 0 24 24" fill="#E0A32E"><polygon points="12 2 15 9 22 9.3 16.5 14 18.5 21 12 17 5.5 21 7.5 14 2 9.3 9 9"></polygon></svg><svg width="13" height="13" viewBox="0 0 24 24" fill="#E0A32E"><polygon points="12 2 15 9 22 9.3 16.5 14 18.5 21 12 17 5.5 21 7.5 14 2 9.3 9 9"></polygon></svg><svg width="13" height="13" viewBox="0 0 24 24" fill="#E0A32E"><polygon points="12 2 15 9 22 9.3 16.5 14 18.5 21 12 17 5.5 21 7.5 14 2 9.3 9 9"></polygon></svg><svg width="13" height="13" viewBox="0 0 24 24" fill="#E0A32E"><polygon points="12 2 15 9 22 9.3 16.5 14 18.5 21 12 17 5.5 21 7.5 14 2 9.3 9 9"></polygon></svg></div>
+            <p style="font-size:14px; line-height:1.6; color:#2C2820; margin:0 0 6px;">“El túnel y la cascada son irreales. Wílmar conoce cada piedra y el fiambre estaba buenísimo.”</p>
+            <div style="font-size:12px; color:#8A8275;">Marina · marzo 2026</div>
+          </div>
+          <div>
+            <div style="display:flex; gap:3px; margin-bottom:6px;"><svg width="13" height="13" viewBox="0 0 24 24" fill="#E0A32E"><polygon points="12 2 15 9 22 9.3 16.5 14 18.5 21 12 17 5.5 21 7.5 14 2 9.3 9 9"></polygon></svg><svg width="13" height="13" viewBox="0 0 24 24" fill="#E0A32E"><polygon points="12 2 15 9 22 9.3 16.5 14 18.5 21 12 17 5.5 21 7.5 14 2 9.3 9 9"></polygon></svg><svg width="13" height="13" viewBox="0 0 24 24" fill="#E0A32E"><polygon points="12 2 15 9 22 9.3 16.5 14 18.5 21 12 17 5.5 21 7.5 14 2 9.3 9 9"></polygon></svg><svg width="13" height="13" viewBox="0 0 24 24" fill="#E0A32E"><polygon points="12 2 15 9 22 9.3 16.5 14 18.5 21 12 17 5.5 21 7.5 14 2 9.3 9 9"></polygon></svg><svg width="13" height="13" viewBox="0 0 24 24" fill="#E0A32E"><polygon points="12 2 15 9 22 9.3 16.5 14 18.5 21 12 17 5.5 21 7.5 14 2 9.3 9 9"></polygon></svg></div>
+            <p style="font-size:14px; line-height:1.6; color:#2C2820; margin:0 0 6px;">“Íbamos con niños y adaptaron el ritmo. Reservamos por WhatsApp en 5 minutos.”</p>
+            <div style="font-size:12px; color:#8A8275;">Andrés · febrero 2026</div>
+          </div>
+        </div>
+        <a href="#" style="display:inline-block; margin-top:18px; font-weight:600; font-size:14px;">Ver las 86 reseñas →</a>
+      </div>
+
+      <!-- antes de reservar -->
+      <div style="padding: 28px 0;">
+        <h2 class="serif sec">Antes de reservar</h2>
+        <div style="display:flex; flex-direction:column; gap:12px; font-size:14px; color:#3A362E; line-height:1.6;">
+          <div><b>Cancelación:</b> gratis hasta 48 h antes. Después, según disponibilidad de reprogramación.</div>
+          <div><b>Qué llevar:</b> zapatos cerrados, ropa cómoda, impermeable, bloqueador y efectivo para gastos personales.</div>
+          <div><b>Requisitos:</b> apto para mayores de 8 años con condición física básica. No recomendado en embarazo.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- RIGHT sticky -->
+    <div style="position: sticky; top: 24px;">
+      <div style="border: 1px solid #E4DCCB; border-radius: 18px; padding: 24px; background: #fff; box-shadow: 0 18px 40px -24px rgba(20,24,17,.25);">
+        <div style="display:flex; align-items:baseline; gap:8px; margin-bottom:16px;">
+          <span style="font-size:24px; font-weight:700;">$145.000</span>
+          <span style="font-size:14px; color:#8A8275;">/ persona</span>
+        </div>
+        <div style="border:1px solid #E4DCCB; border-radius:12px; overflow:hidden; margin-bottom:12px;">
+          <div style="display:flex;">
+            <div style="flex:1; padding:12px 14px; border-right:1px solid #E4DCCB;">
+              <div style="font-size:10px; font-weight:700; letter-spacing:1px; color:#8A8275;">FECHA</div>
+              <div style="font-size:14px; margin-top:2px;">Sáb 14 mar</div>
+            </div>
+            <div style="flex:1; padding:12px 14px;">
+              <div style="font-size:10px; font-weight:700; letter-spacing:1px; color:#8A8275;">HORA</div>
+              <div style="font-size:14px; margin-top:2px;">8:00 am</div>
+            </div>
+          </div>
+          <div style="padding:12px 14px; border-top:1px solid #E4DCCB; display:flex; align-items:center; justify-content:space-between;">
+            <div><div style="font-size:10px; font-weight:700; letter-spacing:1px; color:#8A8275;">VIAJEROS</div><div style="font-size:14px; margin-top:2px;">2 adultos</div></div>
+            <div style="display:flex; gap:8px;">
+              <span style="width:28px; height:28px; border:1px solid #C9C0AE; border-radius:999px; display:flex; align-items:center; justify-content:center; font-size:16px;">–</span>
+              <span style="width:28px; height:28px; border:1px solid #C9C0AE; border-radius:999px; display:flex; align-items:center; justify-content:center; font-size:16px;">+</span>
+            </div>
+          </div>
+        </div>
+        <div style="display:flex; justify-content:space-between; font-size:14px; margin-bottom:4px;"><span style="color:#6E675B;">$145.000 × 2</span><span>$290.000</span></div>
+        <div style="display:flex; justify-content:space-between; font-size:15px; font-weight:700; padding-top:10px; border-top:1px solid #EEE7DA; margin-bottom:16px;"><span>Total estimado</span><span>$290.000</span></div>
+        <button class="btn-primary" style="margin-bottom:10px;">Solicitar reserva</button>
+        <button class="btn-wa">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor"><path d="M17.5 14.4c-.3-.1-1.7-.9-2-1s-.5-.1-.6.1-.7.9-.9 1.1-.3.2-.6 0a8 8 0 0 1-2.4-1.5 9 9 0 0 1-1.6-2c-.2-.3 0-.5.1-.6l.5-.5.3-.5c0-.2 0-.3 0-.5l-.9-2.2c-.2-.6-.5-.5-.6-.5h-.6a1 1 0 0 0-.8.4A3.2 3.2 0 0 0 3.8 11a5.7 5.7 0 0 0 1.2 3 12.9 12.9 0 0 0 5 4.4c2.9 1.2 2.9.8 3.5.8a2.9 2.9 0 0 0 1.9-1.4 2.4 2.4 0 0 0 .2-1.3c-.1-.1-.3-.2-.5-.3zM12 21.5A9.5 9.5 0 0 1 2.5 12 9.5 9.5 0 1 1 12 21.5z"></path></svg>
+          Preguntar por WhatsApp
+        </button>
+        <div style="text-align:center; font-size:12px; color:#8A8275; margin-top:12px;">No se cobra nada ahora. Un asesor confirma cupo y forma de pago.</div>
+      </div>
+      <div style="text-align:center; font-size:13px; color:#6E675B; margin-top:14px;">¿Fechas flexibles? <a href="#">Escribinos y armamos el plan</a></div>
+    </div>
+  </div>
+
+  <div style="border-top: 1px solid #E7E0D4; padding: 28px 0; text-align: center; font-size: 13px; color: #8A8275;">© 2026 Turismo Colombia · WhatsApp +57 314 528 4548 · Términos · Privacidad</div>
+
+</div>
+</x-dc>
+</body>
+</html>

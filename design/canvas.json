@@ -1,0 +1,13 @@
+{
+  "artboards": [
+    { "file": "Main.dc.html", "title": "Home", "x": 0, "y": 0, "w": 1440, "h": 5600 },
+    { "file": "Tours.dc.html", "title": "Tours — listado", "x": 1600, "y": 0, "w": 1440, "h": 2400 },
+    { "file": "TourDetail.dc.html", "title": "Tour — detalle / reserva", "x": 3200, "y": 0, "w": 1440, "h": 3200 },
+    { "file": "Hospedajes.dc.html", "title": "Hospedajes — listado", "x": 4800, "y": 0, "w": 1440, "h": 2000 },
+    { "file": "Nosotros.dc.html", "title": "Nosotros", "x": 6400, "y": 0, "w": 1440, "h": 3400 }
+  ],
+  "annotations": [
+    { "id": "note-direction", "x": 0, "y": -150, "w": 620, "text": "Turismo Colombia — dirección de diseño v1\nEstructura tipo marketplace de experiencias (buscador, carruseles por ciudad, 'Originales', ficha con reserva lateral y anfitrión) con identidad propia: paleta verde selva + oro + arcilla, tipografía Instrument Serif + Hanken Grotesk, y la historia del CEO al centro. Fotos = placeholders para tus videos/imágenes IA." }
+  ],
+  "launch": { "view": "canvas" }
+}

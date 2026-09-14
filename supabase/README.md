@@ -1,40 +1,54 @@
-# Supabase de Hellominus (chat de ventas)
+# Supabase — Turismo Colombia
 
-Proyecto Supabase dedicado al negocio de Hellominus — guarda los leads que califica el chat de ventas (`api/chat.js`). **No es el mismo proyecto que usa KAIROS** (ese lo usa `agents/linkedin-agent` con sus propias credenciales); acá se crea uno nuevo para no mezclar datos de negocio de Hellominus con la app personal.
+Esquema del proyecto **nuevo** de Supabase. Ver el diseño completo en [`ESQUEMA.md`](./ESQUEMA.md).
+
+## Contenido
 
 ```
-Visitante del sitio          api/chat.js               Supabase (este proyecto)
-┌──────────────────┐   ┌──────────────────────┐   ┌─────────────────────┐
-│ chatea en el      │──▶│ Claude conduce la    │──▶│ tabla `leads`       │
-│ ChatWidget        │   │ venta, cuando ya     │   │ (nombre, email,     │
-│                   │   │ calificó llama la    │   │  resumen, transcript)│
-│                   │   │ tool registrar_lead  │   │                     │
-└──────────────────┘   └──────────────────────┘   └─────────────────────┘
-                              │
-                              ▼
-                        también notifica por
-                        Formspree (FORM_ENDPOINT)
+supabase/
+├─ ESQUEMA.md              Diseño y decisiones (leer primero)
+├─ migrations/             Migraciones SQL en orden
+│  ├─ 20260901120001_foundation.sql        extensiones, helpers, locales
+│  ├─ 20260901120002_profiles.sql          profiles + is_staff()/is_admin()
+│  ├─ 20260901120003_catalog.sql           features, destinos, hospedajes, tours, eventos
+│  ├─ 20260901120004_real_estate.sql       propiedades a la venta
+│  ├─ 20260901120005_content.sql           blog + testimonios
+│  ├─ 20260901120006_leads_newsletter.sql  captura de leads + newsletter
+│  ├─ 20260901120007_bookings.sql          espejo de reservas + tracking
+│  ├─ 20260901120008_site_settings.sql     configuración clave/valor
+│  └─ 20260901120009_storage.sql           buckets de Storage
+└─ seed.sql                (pendiente) carga inicial del catálogo
 ```
 
-## Configuración (una sola vez)
+## Cómo aplicarlo
 
-### 1. Crear el proyecto
+### Opción A — Supabase CLI (recomendado)
 
-1. [supabase.com](https://supabase.com) → **New project** → nombralo algo como `hellominus-web`.
-2. Guardá la contraseña de la base que te pide crear (no hace falta para este flujo, pero Supabase la pide igual).
+```bash
+npm i -g supabase
+supabase login
+supabase link --project-ref <PROJECT_REF>   # del dashboard: Settings → General
+supabase db push                            # aplica todas las migraciones de supabase/migrations
+```
 
-### 2. Crear la tabla
+### Opción B — SQL Editor del dashboard
 
-En el **SQL Editor** del proyecto, pegá y corré [setup.sql](setup.sql). Crea la tabla `leads` con RLS activo (el backend usa la `service_role` key, que bypassa RLS).
+Ejecutar el contenido de cada archivo de `migrations/` **en orden numérico**.
 
-### 3. Credenciales
+## Después de aplicar
 
-En **Project Settings → API**:
-- `Project URL` → `SUPABASE_URL`
-- `service_role` key (la secreta, **no** la `anon`) → `SUPABASE_SERVICE_KEY`
+1. Crear un usuario, y en `profiles` poner su `role = 'admin'` (desde el dashboard).
+2. Configurar `.env` en la raíz del proyecto:
+   ```
+   VITE_SUPABASE_URL=https://<PROJECT_REF>.supabase.co
+   VITE_SUPABASE_ANON_KEY=<anon key>
+   ```
+3. Revisar/ajustar las semillas de `site_settings` (WhatsApp, email, redes).
+4. Sembrar el catálogo (`seed.sql`, pendiente de generar a partir del contenido actual).
 
-Estas dos variables son **server-only**: se configuran en el dashboard de Vercel (Project Settings → Environment Variables) o en tu `.env` local para `vercel dev`, nunca con el prefijo `VITE_` (eso las metería en el bundle del navegador). Ver `.env.example` en la raíz del repo.
+## Notas
 
-### 4. Revisar leads
-
-Mientras no haya un panel propio, `Table Editor → leads` en el dashboard de Supabase alcanza para ver los leads nuevos, filtrar por `estado` y marcarlos como `contactado`/`agendado`/`descartado` a mano. Si el volumen crece, vale la pena armar una vista simple en KAIROS o un panel dedicado — no está en el alcance de esta primera versión.
+- Textos traducibles = columnas `jsonb` `{ "es": "...", "en": "..." }`. Helper SQL: `i18n_text(col, 'en')`.
+- RLS: público lee sólo `status = 'published'`; escribe `role in ('editor','admin')`; el CRM usará `service_role` (bypassa RLS).
+- Imágenes en Storage (`catalog`, `avatars`, `booking-docs`), no en `public/`.
+- El `service_role` key **nunca** va al front ni al repo.

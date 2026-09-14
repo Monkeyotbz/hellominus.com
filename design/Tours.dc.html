@@ -1,0 +1,160 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Hanken+Grotesk:wght@400;500;600;700&display=swap">
+  <style>
+    * { box-sizing: border-box; }
+    body { margin: 0; }
+    a { color: #0037B3; text-decoration: none; }
+    a:hover { color: #002B8C; }
+    .serif { font-family: 'Instrument Serif', Georgia, serif; font-weight: 400; }
+    .card-img { background: #E6DFD0; position: relative; overflow: hidden; }
+    .ph-label { position: absolute; left: 12px; bottom: 12px; font-size: 11px; color: #6E675B; background: rgba(255,255,255,.82); padding: 3px 8px; border-radius: 999px; }
+    .btn-primary { background: #0037B3; color: #fff; border: 0; padding: 12px 20px; border-radius: 999px; font-weight: 600; font-size: 14px; font-family: inherit; }
+    .fchip { border: 1px solid #E1D9C8; border-radius: 999px; padding: 9px 15px; font-size: 14px; font-weight: 500; color: #3A362E; background: #fff; display: flex; align-items: center; gap: 7px; white-space: nowrap; }
+    .star { display:flex; align-items:center; gap:4px; font-size:13px; }
+  </style>
+</helmet>
+
+<div style="width: 1440px; background: #FBF9F4; font-family: 'Hanken Grotesk', system-ui, sans-serif; color: #1C1A17;">
+
+  <div style="display:flex; height:3px;"><div style="flex:2; background:#E0A32E;"></div><div style="flex:1; background:#0037B3;"></div><div style="flex:1; background:#B23A2E;"></div></div>
+  <div style="background: #B23A2E; color: #FBEEEA; font-size: 13px; text-align: center; padding: 9px 16px;">Reservás directo con anfitriones locales · Atención por WhatsApp +57 314 528 4548</div>
+
+  <div style="display: flex; align-items: center; justify-content: space-between; max-width: 1280px; margin: 0 auto; padding: 18px 40px;">
+    <div class="serif" style="font-size: 24px;">Turismo&#8202;Colombia</div>
+    <div style="display: flex; gap: 28px; font-size: 15px; font-weight: 500; color: #3A362E;">
+      <a href="#" style="color:#1C1A17; border-bottom:2px solid #0037B3; padding-bottom:2px;">Tours</a><a href="#">Hospedajes</a><a href="#">Destinos</a><a href="#">Eventos</a><a href="#">Propiedades</a><a href="#">Blog</a>
+    </div>
+    <div style="display: flex; align-items: center; gap: 14px;">
+      <span style="font-size: 14px; font-weight: 600; color: #6E675B;">ES / EN</span>
+      <button class="btn-primary" style="padding: 9px 18px;">Reservar</button>
+    </div>
+  </div>
+
+  <!-- Header -->
+  <div style="max-width: 1280px; margin: 0 auto; padding: 20px 40px 0;">
+    <div style="font-size: 13px; color: #8A8275;">Inicio / Tours</div>
+    <h1 class="serif" style="font-size: 44px; margin: 8px 0 4px;">Tours y experiencias en Colombia</h1>
+    <div style="font-size: 15px; color: #6E675B;">86 experiencias · guiadas por gente de cada región</div>
+  </div>
+
+  <!-- Filter bar -->
+  <div style="max-width: 1280px; margin: 0 auto; padding: 20px 40px; display: flex; align-items: center; gap: 12px; flex-wrap: wrap; border-bottom: 1px solid #EDE6D8;">
+    <div style="flex: 1; min-width: 240px; display: flex; align-items: center; gap: 10px; border: 1px solid #E1D9C8; border-radius: 999px; padding: 10px 18px; background: #fff;">
+      <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#8A8275" stroke-width="2.2"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+      <span style="font-size: 14px; color: #8A8275;">Buscar por nombre, lugar o actividad</span>
+    </div>
+    <div class="fchip">Ciudad <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"></polyline></svg></div>
+    <div class="fchip">Precio <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"></polyline></svg></div>
+    <div class="fchip">Duración <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"></polyline></svg></div>
+    <div class="fchip">Categoría <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"></polyline></svg></div>
+    <div class="fchip">Dificultad <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"></polyline></svg></div>
+    <div style="flex: 1;"></div>
+    <div class="fchip" style="border-color:#0037B3; color:#0037B3; font-weight:600;">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="1 6 8 3 16 6 23 3 23 18 16 21 8 18 1 21 1 6"></polygon><line x1="8" y1="3" x2="8" y2="18"></line><line x1="16" y1="6" x2="16" y2="21"></line></svg>
+      Ver mapa
+    </div>
+  </div>
+
+  <!-- Results + map -->
+  <div style="max-width: 1280px; margin: 0 auto; padding: 24px 40px 40px; display: grid; grid-template-columns: 1fr 400px; gap: 32px; align-items: start;">
+
+    <div style="display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 24px;">
+      <!-- 6 cards -->
+      <div>
+        <div class="card-img" style="aspect-ratio: 5 / 4; border-radius: 16px;">
+          <div style="position:absolute; top:12px; right:12px; width:32px; height:32px; border-radius:999px; background:rgba(255,255,255,.9); display:flex; align-items:center; justify-content:center;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#1C1A17" stroke-width="2"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8z"></path></svg></div>
+          <span class="ph-label">Foto — Isla Cholón</span>
+        </div>
+        <div style="display:flex; justify-content:space-between; margin-top:10px; gap:8px;">
+          <div style="font-weight:600; font-size:16px;">Isla Cholón — full day</div>
+          <div class="star"><svg width="13" height="13" viewBox="0 0 24 24" fill="#E0A32E"><polygon points="12 2 15 9 22 9.3 16.5 14 18.5 21 12 17 5.5 21 7.5 14 2 9.3 9 9"></polygon></svg>4.7 <span style="color:#8A8275;">(312)</span></div>
+        </div>
+        <div style="font-size:13px; color:#6E675B; margin-top:2px;">Cartagena · lancha · almuerzo · 8 h</div>
+        <div style="font-size:14px; margin-top:8px;"><b>$120.000</b> <span style="color:#8A8275;">/ persona</span></div>
+      </div>
+      <div>
+        <div class="card-img" style="aspect-ratio: 5 / 4; border-radius: 16px;">
+          <div style="position:absolute; top:12px; right:12px; width:32px; height:32px; border-radius:999px; background:rgba(255,255,255,.9); display:flex; align-items:center; justify-content:center;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#1C1A17" stroke-width="2"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8z"></path></svg></div>
+          <span style="position:absolute; top:12px; left:12px; background:#B23A2E; color:#fff; font-size:11px; font-weight:700; padding:4px 10px; border-radius:999px;">POPULAR</span>
+          <span class="ph-label">Foto — Islas del Rosario</span>
+        </div>
+        <div style="display:flex; justify-content:space-between; margin-top:10px; gap:8px;">
+          <div style="font-weight:600; font-size:16px;">Barú + Islas del Rosario</div>
+          <div class="star"><svg width="13" height="13" viewBox="0 0 24 24" fill="#E0A32E"><polygon points="12 2 15 9 22 9.3 16.5 14 18.5 21 12 17 5.5 21 7.5 14 2 9.3 9 9"></polygon></svg>4.8 <span style="color:#8A8275;">(540)</span></div>
+        </div>
+        <div style="font-size:13px; color:#6E675B; margin-top:2px;">Cartagena · snorkel · acuario · 8 h</div>
+        <div style="font-size:14px; margin-top:8px;"><b>$160.000</b> <span style="color:#8A8275;">/ persona</span></div>
+      </div>
+      <div>
+        <div class="card-img" style="aspect-ratio: 5 / 4; border-radius: 16px;"><span class="ph-label">Foto — Comuna 13</span>
+          <div style="position:absolute; top:12px; right:12px; width:32px; height:32px; border-radius:999px; background:rgba(255,255,255,.9); display:flex; align-items:center; justify-content:center;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#1C1A17" stroke-width="2"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8z"></path></svg></div>
+        </div>
+        <div style="display:flex; justify-content:space-between; margin-top:10px; gap:8px;">
+          <div style="font-weight:600; font-size:16px;">Comuna 13 + graffiti tour</div>
+          <div class="star"><svg width="13" height="13" viewBox="0 0 24 24" fill="#E0A32E"><polygon points="12 2 15 9 22 9.3 16.5 14 18.5 21 12 17 5.5 21 7.5 14 2 9.3 9 9"></polygon></svg>4.9 <span style="color:#8A8275;">(421)</span></div>
+        </div>
+        <div style="font-size:13px; color:#6E675B; margin-top:2px;">Medellín · guía local de la comuna · 3 h</div>
+        <div style="font-size:14px; margin-top:8px;"><b>$80.000</b> <span style="color:#8A8275;">/ persona</span></div>
+      </div>
+      <div>
+        <div class="card-img" style="aspect-ratio: 5 / 4; border-radius: 16px;"><span class="ph-label">Foto — Guatapé</span>
+          <div style="position:absolute; top:12px; right:12px; width:32px; height:32px; border-radius:999px; background:rgba(255,255,255,.9); display:flex; align-items:center; justify-content:center;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#1C1A17" stroke-width="2"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8z"></path></svg></div>
+        </div>
+        <div style="display:flex; justify-content:space-between; margin-top:10px; gap:8px;">
+          <div style="font-weight:600; font-size:16px;">Guatapé + Piedra del Peñol</div>
+          <div class="star"><svg width="13" height="13" viewBox="0 0 24 24" fill="#E0A32E"><polygon points="12 2 15 9 22 9.3 16.5 14 18.5 21 12 17 5.5 21 7.5 14 2 9.3 9 9"></polygon></svg>4.8 <span style="color:#8A8275;">(198)</span></div>
+        </div>
+        <div style="font-size:13px; color:#6E675B; margin-top:2px;">Desde Medellín · lancha · 9 h</div>
+        <div style="font-size:14px; margin-top:8px;"><b>$130.000</b> <span style="color:#8A8275;">/ persona</span></div>
+      </div>
+      <div>
+        <div class="card-img" style="aspect-ratio: 5 / 4; border-radius: 16px;"><span class="ph-label">Foto — Filo de Oro</span>
+          <div style="position:absolute; top:12px; right:12px; width:32px; height:32px; border-radius:999px; background:rgba(255,255,255,.9); display:flex; align-items:center; justify-content:center;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#1C1A17" stroke-width="2"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8z"></path></svg></div>
+        </div>
+        <div style="display:flex; justify-content:space-between; margin-top:10px; gap:8px;">
+          <div style="font-weight:600; font-size:16px;">Travesía Filo de Oro</div>
+          <div class="star"><svg width="13" height="13" viewBox="0 0 24 24" fill="#E0A32E"><polygon points="12 2 15 9 22 9.3 16.5 14 18.5 21 12 17 5.5 21 7.5 14 2 9.3 9 9"></polygon></svg>4.9 <span style="color:#8A8275;">(86)</span></div>
+        </div>
+        <div style="font-size:13px; color:#6E675B; margin-top:2px;">Jardín · cascada · túnel · fiambre · 4 h</div>
+        <div style="font-size:14px; margin-top:8px;"><b>$145.000</b> <span style="color:#8A8275;">/ persona</span></div>
+      </div>
+      <div>
+        <div class="card-img" style="aspect-ratio: 5 / 4; border-radius: 16px;"><span class="ph-label">Foto — Hacienda Nápoles</span>
+          <div style="position:absolute; top:12px; right:12px; width:32px; height:32px; border-radius:999px; background:rgba(255,255,255,.9); display:flex; align-items:center; justify-content:center;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#1C1A17" stroke-width="2"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8z"></path></svg></div>
+        </div>
+        <div style="display:flex; justify-content:space-between; margin-top:10px; gap:8px;">
+          <div style="font-weight:600; font-size:16px;">Hacienda Nápoles — día completo</div>
+          <div class="star"><svg width="13" height="13" viewBox="0 0 24 24" fill="#E0A32E"><polygon points="12 2 15 9 22 9.3 16.5 14 18.5 21 12 17 5.5 21 7.5 14 2 9.3 9 9"></polygon></svg>4.6 <span style="color:#8A8275;">(147)</span></div>
+        </div>
+        <div style="font-size:13px; color:#6E675B; margin-top:2px;">Doradal · safari · parque acuático · 9 h</div>
+        <div style="font-size:14px; margin-top:8px;"><b>Desde [precio]</b> <span style="color:#8A8275;">/ persona</span></div>
+      </div>
+    </div>
+
+    <!-- Map -->
+    <div style="position: sticky; top: 24px;">
+      <div class="card-img" style="height: 560px; border-radius: 18px; background: #DCE4DA; display:flex; align-items:center; justify-content:center;">
+        <div style="text-align:center; color:#6E675B;">
+          <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#8A8275" stroke-width="1.8" style="margin-bottom:8px;"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+          <div style="font-size:13px;">Mapa interactivo de experiencias</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div style="text-align: center; padding: 8px 0 56px;">
+    <button style="background:#fff; border:1px solid #1C1A17; border-radius:999px; padding:13px 28px; font-weight:600; font-size:14px; font-family:inherit;">Mostrar más experiencias</button>
+  </div>
+
+</div>
+</x-dc>
+</body>
+</html>
