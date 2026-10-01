@@ -1,11 +1,12 @@
 import Button from './Button';
-import { FEATURED_PROPERTY_ID, PROPERTIES, formatCop } from './data';
+import { FEATURED_PROPERTY_ID, formatCop } from './data';
 import { useHomeStore } from './store';
 import styles from './NewHome.module.css';
 
 export default function NewHome() {
-  const featured = PROPERTIES.find((p) => p.id === FEATURED_PROPERTY_ID);
+  const properties = useHomeStore((s) => s.properties);
   const setStayFilter = useHomeStore((s) => s.setStayFilter);
+  const featured = properties.find((p) => p.id === FEATURED_PROPERTY_ID);
   if (!featured) return null;
 
   const show = () => setStayFilter(featured.city);
@@ -13,7 +14,7 @@ export default function NewHome() {
   return (
     <section id="novedad" className={styles.wrap} aria-label="Novedad">
       <a className={styles.photo} href="#estadia" onClick={show} tabIndex={-1} aria-hidden="true">
-        <img src="/home/feat-medellin.jpg" alt="" width={1280} height={853} loading="lazy" />
+        <img src={featured.image} alt="" width={1280} height={853} loading="lazy" />
       </a>
       <div className={styles.text}>
         <span className={styles.tag}>Nueva</span>

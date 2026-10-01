@@ -1,6 +1,6 @@
 import { useId, useMemo, useState, type FormEvent } from 'react';
 import Button from './Button';
-import { CITIES, HERO_ASSURANCES, PROPERTIES, type City } from './data';
+import { CITIES, HERO_ASSURANCES, type City } from './data';
 import { scrollToId } from './hooks';
 import { useHomeStore } from './store';
 import styles from './Hero.module.css';
@@ -29,6 +29,7 @@ export default function Hero() {
   const [guests, setGuests] = useState(2);
   const [note, setNote] = useState('');
   const setStayFilter = useHomeStore((s) => s.setStayFilter);
+  const properties = useHomeStore((s) => s.properties);
 
   const onArrival = (value: string) => {
     setArrival(value);
@@ -38,7 +39,7 @@ export default function Hero() {
   const onSubmit = (event: FormEvent) => {
     event.preventDefault();
     setStayFilter(destination);
-    const shown = destination === 'todas' ? PROPERTIES.length : PROPERTIES.filter((p) => p.city === destination).length;
+    const shown = destination === 'todas' ? properties.length : properties.filter((p) => p.city === destination).length;
     setNote(
       `Maqueta: mostramos ${shown} ${shown === 1 ? 'casa' : 'casas'} de ejemplo para ${guests} ${
         guests === 1 ? 'huésped' : 'huéspedes'

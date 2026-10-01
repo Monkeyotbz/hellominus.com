@@ -1,5 +1,7 @@
 import { useEffect } from 'react';
 import { SettingsProvider } from '../site/SettingsContext';
+import { fetchHomeStays } from './services/homeService';
+import { useHomeStore } from './store';
 import About from './About';
 import Blog from './Blog';
 import BigDestination from './BigDestination';
@@ -30,6 +32,17 @@ export default function HomePage() {
       document.title = previous;
     };
   }, []);
+
+  const setProperties = useHomeStore((s) => s.setProperties);
+  useEffect(() => {
+    let active = true;
+    fetchHomeStays().then((stays) => {
+      if (active && stays.length > 0) setProperties(stays);
+    });
+    return () => {
+      active = false;
+    };
+  }, [setProperties]);
 
   return (
     <SettingsProvider>

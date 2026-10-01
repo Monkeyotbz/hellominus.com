@@ -1,5 +1,5 @@
 import { Image as ImageIcon } from 'lucide-react';
-import { crmImageUrl } from '../lib/crm';
+import { catalogImageUrl } from '../lib/supabase';
 import type { ImageRow } from '../lib/queries';
 
 /**
@@ -18,7 +18,7 @@ export default function ImageThumb({
   rounded?: string;
 }) {
   const cover = images && images.length ? images[0] : null;
-  const src = cover ? crmImageUrl(cover.storage_path) : '';
+  const src = cover ? catalogImageUrl(cover.storage_path) : '';
 
   return (
     <div className={`relative overflow-hidden bg-[#E6DFD0] ${rounded} ${className}`}>

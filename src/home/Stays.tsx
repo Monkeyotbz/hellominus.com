@@ -1,4 +1,4 @@
-import { CITIES, PROPERTIES, formatCop, type StayFilter } from './data';
+import { CITIES, formatCop, type StayFilter } from './data';
 import { Section, SectionHead, ExampleNote } from './Section';
 import { useHomeStore } from './store';
 import styles from './Stays.module.css';
@@ -12,8 +12,9 @@ const FILTERS: { value: StayFilter; label: string }[] = [
 export default function Stays() {
   const filter = useHomeStore((s) => s.stayFilter);
   const setFilter = useHomeStore((s) => s.setStayFilter);
+  const properties = useHomeStore((s) => s.properties);
 
-  const visible = PROPERTIES.filter((p) => {
+  const visible = properties.filter((p) => {
     if (filter === 'todas') return true;
     if (filter === 'trabajo') return p.forWork;
     return p.city === filter;
