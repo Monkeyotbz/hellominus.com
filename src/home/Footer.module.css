@@ -1,0 +1,198 @@
+.footer {
+  padding: 0 var(--gutter) 28px;
+  border-top: 1px solid var(--color-line);
+}
+
+.hand {
+  margin: 0 0 var(--space-1);
+  color: var(--color-leaf);
+  font-family: var(--font-hand);
+  font-size: 1.35rem;
+  font-weight: 600;
+}
+
+.srOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+.news {
+  padding: var(--space-6) 0 30px;
+  border-bottom: 1px solid var(--color-line);
+  text-align: center;
+}
+
+.news .hand {
+  font-size: 1.3rem;
+}
+
+.news form {
+  display: flex;
+  justify-content: center;
+  max-width: 520px;
+  margin: 12px auto 0;
+}
+
+.news input {
+  flex: 1;
+  min-width: 0;
+  height: 54px;
+  padding: 0 18px;
+  border: 1px solid var(--color-ink);
+  border-right: 0;
+  border-radius: 0;
+  background: var(--color-card);
+  color: var(--color-ink);
+  font: 400 1rem var(--font-body);
+}
+
+.news input:focus-visible {
+  outline: 2px solid var(--color-leaf);
+  outline-offset: -2px;
+}
+
+.news form button {
+  height: 54px;
+  padding: 0 26px;
+}
+
+.message {
+  min-height: 1.4em;
+  margin: 12px 0 0;
+  color: var(--color-ink-2);
+  font-size: 0.88rem;
+}
+
+.cols {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: var(--space-4) 28px;
+  padding: var(--space-5) 0 36px;
+  border-bottom: 1px solid var(--color-line);
+}
+
+.cols a {
+  display: block;
+  padding: 5px 0;
+  color: var(--color-ink-2);
+  font-size: 0.96rem;
+  text-decoration: none;
+}
+
+.cols a:hover {
+  color: var(--color-ink);
+}
+
+.cols a:focus-visible,
+.social a:focus-visible,
+.wordmark:focus-visible {
+  outline: 2px solid var(--color-leaf);
+  outline-offset: 3px;
+}
+
+.row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+  align-items: center;
+  gap: 20px 32px;
+  padding-top: 34px;
+}
+
+.wordmark {
+  justify-self: start;
+  padding-left: 0.3em;
+  color: var(--color-ink);
+  font-family: var(--font-title);
+  font-size: 1.5rem;
+  font-weight: 300;
+  letter-spacing: 0.3em;
+  text-decoration: none;
+  text-transform: uppercase;
+}
+
+.social {
+  display: flex;
+  align-items: center;
+  gap: clamp(18px, 2.4vw, 36px);
+}
+
+.follow {
+  margin-right: 6px;
+  font-family: var(--font-title);
+  font-size: 1rem;
+}
+
+.social a {
+  display: inline-grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  color: var(--color-ink);
+}
+
+.social a:hover {
+  color: var(--color-leaf);
+}
+
+.social svg {
+  width: 32px;
+  height: 32px;
+}
+
+.copy {
+  justify-self: end;
+  font-family: var(--font-title);
+  font-size: 0.98rem;
+  text-align: right;
+}
+
+.note {
+  display: block;
+  margin-top: 22px;
+  color: var(--color-ink-2);
+  font-size: 0.8rem;
+}
+
+@media (max-width: 900px) {
+  .cols {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .row {
+    grid-template-columns: 1fr;
+    justify-items: center;
+    text-align: center;
+  }
+
+  .wordmark,
+  .copy {
+    justify-self: center;
+    text-align: center;
+  }
+
+  .social {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .note {
+    text-align: center;
+  }
+}
+
+@media (max-width: 560px) {
+  .news form {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .news input {
+    flex: none;
+    width: 100%;
+    border-right: 1px solid var(--color-ink);
+  }
+}

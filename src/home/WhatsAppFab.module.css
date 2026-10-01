@@ -1,0 +1,52 @@
+.fab {
+  position: fixed;
+  right: clamp(14px, 2vw, 28px);
+  bottom: clamp(14px, 2vw, 28px);
+  z-index: 70;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 48px;
+  padding: 13px 22px 13px 18px;
+  border-radius: var(--radius-pill);
+  background: var(--color-leaf);
+  box-shadow: 0 14px 30px -12px rgba(0, 0, 0, 0.5);
+  color: #fff;
+  font-size: 0.95rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: background-color 0.25s ease;
+}
+
+.fab:hover {
+  background: var(--color-leaf-2);
+}
+
+.fab:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: 2px;
+  box-shadow:
+    0 0 0 4px var(--color-leaf),
+    0 14px 30px -12px rgba(0, 0, 0, 0.5);
+}
+
+.fab svg {
+  width: 22px;
+  height: 22px;
+}
+
+@media (max-width: 560px) {
+  .fab span {
+    display: none;
+  }
+
+  .fab {
+    padding: 14px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .fab {
+    transition: none;
+  }
+}

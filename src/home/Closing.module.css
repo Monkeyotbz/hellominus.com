@@ -1,0 +1,16 @@
+.wrap {
+  padding: clamp(80px, 11vw, 160px) var(--gutter);
+  border-top: 1px solid var(--color-line);
+  text-align: center;
+}
+
+.title {
+  max-width: 18ch;
+  margin: 0 auto var(--space-3);
+  font-family: var(--font-title);
+  font-size: clamp(2.2rem, 1.4rem + 3vw, 4.2rem);
+  font-weight: 300;
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+  text-wrap: balance;
+}

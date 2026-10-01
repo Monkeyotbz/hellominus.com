@@ -1,0 +1,29 @@
+.strip {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px var(--space-3);
+  padding: 22px var(--gutter);
+  border-top: 1px solid var(--color-line);
+  background: var(--color-card);
+}
+
+.strip p {
+  margin: 0;
+  color: var(--color-ink-2);
+}
+
+.strip a {
+  font-weight: 600;
+  text-underline-offset: 5px;
+}
+
+.strip a:hover {
+  color: var(--color-leaf);
+}
+
+.strip a:focus-visible {
+  outline: 2px solid var(--color-leaf);
+  outline-offset: 3px;
+}
