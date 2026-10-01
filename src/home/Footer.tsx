@@ -1,6 +1,7 @@
 import { useState, type FormEvent } from 'react';
 import { Link } from 'react-router-dom';
 import Button from './Button';
+import { subscribeNewsletter } from '../lib/queries';
 import { useSettings } from '../site/SettingsContext';
 import { useHomeStore } from './store';
 import { FacebookIcon, InstagramIcon, TikTokIcon, WhatsAppIcon, YouTubeIcon } from './Icons';
@@ -15,6 +16,7 @@ export default function Footer() {
   const setCompleteTab = useHomeStore((s) => s.setCompleteTab);
   const [email, setEmail] = useState('');
   const [message, setMessage] = useState('');
+  const [sending, setSending] = useState(false);
 
   const cityLink = (city: City) => (
     <a href="#estadia" onClick={() => setStayFilter(city)}>
@@ -22,9 +24,22 @@ export default function Footer() {
     </a>
   );
 
-  const onSubmit = (event: FormEvent) => {
+  const onSubmit = async (event: FormEvent) => {
     event.preventDefault();
-    setMessage(EMAIL_PATTERN.test(email.trim()) ? 'Maqueta de diseño: el correo no se guarda.' : 'Escribe un correo válido.');
+    if (!EMAIL_PATTERN.test(email.trim())) {
+      setMessage('Escribe un correo válido.');
+      return;
+    }
+    setSending(true);
+    setMessage('');
+    const { error } = await subscribeNewsletter(email.trim().toLowerCase(), 'es');
+    setSending(false);
+    if (error) {
+      setMessage('No pudimos guardar tu correo. Inténtalo de nuevo en un momento.');
+      return;
+    }
+    setEmail('');
+    setMessage('Listo, te escribiremos pronto.');
   };
 
   const networks = [
@@ -43,8 +58,8 @@ export default function Footer() {
             Tu correo
           </label>
           <input id="footer-email" type="email" autoComplete="email" placeholder="Tu correo" value={email} onChange={(e) => setEmail(e.target.value)} />
-          <Button type="submit" variant="ghost">
-            Suscribirme
+          <Button type="submit" variant="ghost" loading={sending}>
+            {sending ? 'Enviando…' : 'Suscribirme'}
           </Button>
         </form>
         <p className={styles.message} role="status">
@@ -84,7 +99,7 @@ export default function Footer() {
           <a href="#comofunciona">Cómo funciona</a>
           <a href="#cancelacion">Cancelación</a>
           <a href="#faq">Preguntas</a>
-          <a href="#anfitriones">Publicar mi casa</a>
+          <Link to="/anfitriones">Publicar mi casa</Link>
         </div>
       </div>
 
@@ -107,7 +122,7 @@ export default function Footer() {
         </div>
         <span className={styles.copy}>© {new Date().getFullYear()} Hellominus</span>
       </div>
-      <small className={styles.note}>Maqueta de diseño: fotos del proyecto; cifras, precios, reseñas y artículos de ejemplo.</small>
+      <small className={styles.note}>Fotos del proyecto. Cifras, precios, reseñas y artículos son de ejemplo.</small>
     </footer>
   );
 }

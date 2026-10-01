@@ -1,0 +1,224 @@
+.top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2);
+  height: 72px;
+  padding: 0 var(--header-pad);
+  border-bottom: 1px solid var(--color-hline);
+}
+
+.wordmark {
+  color: var(--color-ink);
+  font-family: var(--font-title);
+  font-size: clamp(1rem, 0.6rem + 1.3vw, 1.5rem);
+  font-weight: 300;
+  letter-spacing: 0.3em;
+  text-decoration: none;
+  text-transform: uppercase;
+}
+
+.back {
+  color: var(--color-ink);
+  font-size: 0.98rem;
+  text-underline-offset: 5px;
+}
+
+.wordmark:focus-visible,
+.back:focus-visible {
+  outline: 2px solid var(--color-leaf);
+  outline-offset: 3px;
+}
+
+.hero {
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+  min-height: clamp(460px, 62vh, 680px);
+  overflow: hidden;
+  background: #3a3a36;
+  color: #fff;
+}
+
+.photo {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: linear-gradient(180deg, rgba(20, 20, 18, 0.2), rgba(20, 20, 18, 0.72));
+}
+
+.copy {
+  position: relative;
+  z-index: 2;
+  padding: clamp(40px, 6vw, 80px) var(--gutter);
+}
+
+.hand {
+  margin: 0;
+  color: var(--color-leaf);
+  font-family: var(--font-hand);
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+
+.copy .hand {
+  color: #fff;
+}
+
+.copy h1 {
+  max-width: 14ch;
+  margin: 0 0 var(--space-2);
+  font-family: var(--font-title);
+  font-size: clamp(2.6rem, 1.4rem + 4.6vw, 5.2rem);
+  font-weight: 300;
+  line-height: 1.02;
+  letter-spacing: -0.02em;
+  text-wrap: balance;
+}
+
+.sub {
+  max-width: 46ch;
+  margin: 0 0 var(--space-4);
+  font-size: 1.12rem;
+}
+
+.block {
+  padding: var(--section-y) var(--gutter);
+  border-top: 1px solid var(--color-line);
+}
+
+.block h2,
+.formIntro h2 {
+  max-width: 20ch;
+  margin: 0 0 clamp(28px, 4vw, 48px);
+  font-family: var(--font-title);
+  font-size: clamp(2rem, 1.3rem + 2.2vw, 3.2rem);
+  font-weight: 300;
+  line-height: 1.05;
+  letter-spacing: -0.015em;
+  text-wrap: balance;
+}
+
+.alt {
+  background: var(--color-card);
+}
+
+.benefits,
+.steps {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: clamp(20px, 3vw, 40px);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.benefits li {
+  padding-top: var(--space-3);
+  border-top: 1px solid var(--color-ink);
+}
+
+.icon {
+  display: grid;
+  place-items: center;
+  width: 52px;
+  height: 52px;
+  margin-bottom: var(--space-2);
+  border-radius: 50%;
+  background: var(--color-leaf-tint);
+  color: var(--color-leaf);
+}
+
+.icon svg {
+  width: 26px;
+  height: 26px;
+}
+
+.benefits h3,
+.steps h3 {
+  margin: 0 0 var(--space-1);
+  font-family: var(--font-title);
+  font-size: 1.6rem;
+  font-weight: 400;
+  letter-spacing: 0;
+}
+
+.benefits p,
+.steps p {
+  max-width: 34ch;
+  margin: 0;
+  color: var(--color-ink-2);
+}
+
+.steps li {
+  padding-top: var(--space-3);
+  border-top: 1px solid var(--color-line);
+}
+
+.steps b {
+  display: block;
+  color: var(--color-leaf);
+  font-family: var(--font-title);
+  font-size: clamp(3rem, 2rem + 3vw, 4.6rem);
+  font-weight: 300;
+  line-height: 0.95;
+}
+
+.example {
+  margin: var(--space-4) 0 0;
+  color: var(--color-ink-2);
+  font-size: 0.8rem;
+}
+
+.formWrap {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr);
+  gap: clamp(28px, 6vw, 96px);
+  align-items: start;
+  padding: var(--section-y) var(--gutter);
+  border-top: 1px solid var(--color-line);
+}
+
+.formIntro p:last-child {
+  max-width: 36ch;
+  color: var(--color-ink-2);
+}
+
+.foot {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2);
+  padding: var(--space-5) var(--gutter);
+  border-top: 1px solid var(--color-line);
+  color: var(--color-ink-2);
+  font-family: var(--font-title);
+}
+
+@media (max-width: 900px) {
+  .benefits,
+  .steps {
+    grid-template-columns: 1fr;
+  }
+
+  .formWrap {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 400px) {
+  .wordmark {
+    font-size: 0.9rem;
+    letter-spacing: 0.14em;
+  }
+}

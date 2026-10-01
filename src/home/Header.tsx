@@ -124,9 +124,9 @@ export default function Header() {
           <Link className={styles.small} to="/nosotros">
             Nosotros
           </Link>
-          <a className={styles.small} href="#anfitriones">
+          <Link className={styles.small} to="/anfitriones">
             Publicar mi casa
-          </a>
+          </Link>
           <Link className={styles.small} to="/login">
             Iniciar sesión
           </Link>

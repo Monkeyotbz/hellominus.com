@@ -7,6 +7,7 @@ import AdminApp from './admin/AdminApp';
 
 import SiteLayout from './site/SiteLayout';
 import HomePage from './home/HomePage';
+import HostsPage from './home/hosts/HostsPage';
 import ToursPage from './site/pages/ToursPage';
 import TourDetailPage from './site/pages/TourDetailPage';
 import StaysPage from './site/pages/StaysPage';
@@ -30,6 +31,7 @@ function App() {
           <Routes>
             {/* Portada nueva: lleva su propio encabezado y pie (src/home). */}
             <Route path="/" element={<HomePage />} />
+            <Route path="/anfitriones" element={<HostsPage />} />
 
             <Route element={<SiteLayout />}>
               <Route path="/tours" element={<ToursPage />} />

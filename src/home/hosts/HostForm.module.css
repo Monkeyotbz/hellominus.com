@@ -1,0 +1,108 @@
+.form {
+  display: grid;
+  gap: var(--space-3);
+  padding: clamp(24px, 3vw, 40px);
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-lg);
+  background: var(--color-card);
+  box-shadow: var(--shadow-card);
+}
+
+.group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 0;
+}
+
+.pair {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-3);
+}
+
+.group label {
+  color: var(--color-ink-2);
+  font: 600 0.78rem var(--font-body);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.group input,
+.group select,
+.group textarea {
+  width: 100%;
+  min-height: 48px;
+  padding: 10px 14px;
+  border: 1px solid var(--color-hline);
+  border-radius: 0;
+  background: var(--color-bg);
+  color: var(--color-ink);
+  font: 400 1rem var(--font-body);
+}
+
+.group textarea {
+  resize: vertical;
+}
+
+.group input:focus-visible,
+.group select:focus-visible,
+.group textarea:focus-visible {
+  border-color: var(--color-leaf);
+  outline: 2px solid var(--color-leaf);
+  outline-offset: 1px;
+}
+
+.group input[aria-invalid='true'] {
+  border-color: #9b2c1f;
+}
+
+.error,
+.fail {
+  color: #9b2c1f;
+  font-size: 0.88rem;
+}
+
+.fail {
+  margin: 0;
+}
+
+.fine {
+  margin: 0;
+  color: var(--color-ink-2);
+  font-size: 0.85rem;
+}
+
+.done {
+  padding: clamp(32px, 4vw, 56px);
+  border: 1px solid var(--color-leaf);
+  border-radius: var(--radius-lg);
+  background: var(--color-leaf-tint);
+  text-align: center;
+}
+
+.done .hand {
+  margin: 0;
+  color: var(--color-leaf);
+  font-family: var(--font-hand);
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+
+.done h3 {
+  margin: 0 0 var(--space-1);
+  font-family: var(--font-title);
+  font-size: 2rem;
+  font-weight: 400;
+}
+
+.done p:last-child {
+  max-width: 44ch;
+  margin: 0 auto;
+}
+
+@media (max-width: 560px) {
+  .pair {
+    grid-template-columns: 1fr;
+  }
+}
