@@ -3,7 +3,7 @@ import { Link, useParams } from 'react-router-dom';
 import { ArrowLeft, Check, Clock, MapPin, MessageCircle, Users, X } from 'lucide-react';
 import { useLocale } from '../../lib/locale';
 import { getTourBySlug, type TourWithMedia } from '../../lib/queries';
-import { crmImageUrl } from '../../lib/crm';
+import { catalogImageUrl } from '../../lib/supabase';
 import { Container, Money, Stars, Button, buttonClasses } from '../ui';
 import { useLeadDialog } from '../LeadDialog';
 import { useSettings } from '../SettingsContext';
@@ -61,7 +61,7 @@ export default function TourDetailPage() {
                 i === 0 ? 'sm:col-span-2 sm:row-span-2' : 'hidden sm:block'
               }`}
             >
-              <img src={crmImageUrl(im.storage_path)} alt="" className="h-full w-full object-cover" />
+              <img src={catalogImageUrl(im.storage_path)} alt="" className="h-full w-full object-cover" />
             </div>
           ))
         ) : (

@@ -1,0 +1,41 @@
+.trust {
+  padding: clamp(40px, 5vw, 64px) var(--gutter) 28px;
+  border-bottom: 1px solid var(--color-line);
+}
+
+.trust ul {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--space-3);
+  max-width: 980px;
+  margin: 0 auto;
+  padding: 0;
+  list-style: none;
+  text-align: center;
+}
+
+.trust b {
+  display: block;
+  font-family: var(--font-title);
+  font-size: clamp(2rem, 1.4rem + 1.6vw, 2.8rem);
+  font-weight: 300;
+  line-height: 1.1;
+}
+
+.trust span {
+  color: var(--color-ink-2);
+  font-size: 0.95rem;
+}
+
+.example {
+  margin: var(--space-2) 0 0;
+  color: var(--color-ink-2);
+  font-size: 0.8rem;
+  text-align: center;
+}
+
+@media (max-width: 560px) {
+  .trust ul {
+    grid-template-columns: 1fr;
+  }
+}

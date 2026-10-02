@@ -22,7 +22,7 @@ export const supabase = createClient<Database>(url, anonKey, {
 /** URL pública de un archivo del bucket de catálogo. */
 export function catalogImageUrl(path: string | null | undefined): string {
   if (!path) return '';
-  if (/^https?:\/\//.test(path)) return path; // ya es URL absoluta (contenido migrado)
+  if (/^https?:\/\//.test(path) || path.startsWith('/')) return path; // URL absoluta o archivo público del sitio (datos de muestra)
   return supabase.storage.from('catalog').getPublicUrl(path).data.publicUrl;
 }
 

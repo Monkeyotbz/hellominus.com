@@ -6,7 +6,8 @@ import AdminRoute from './components/AdminRoute';
 import AdminApp from './admin/AdminApp';
 
 import SiteLayout from './site/SiteLayout';
-import HomePage from './site/pages/HomePage';
+import HomePage from './home/HomePage';
+import HostsPage from './home/hosts/HostsPage';
 import ToursPage from './site/pages/ToursPage';
 import TourDetailPage from './site/pages/TourDetailPage';
 import StaysPage from './site/pages/StaysPage';
@@ -28,8 +29,11 @@ function App() {
         <AuthProvider>
           <ScrollToTop />
           <Routes>
+            {/* Portada nueva: lleva su propio encabezado y pie (src/home). */}
+            <Route path="/" element={<HomePage />} />
+            <Route path="/anfitriones" element={<HostsPage />} />
+
             <Route element={<SiteLayout />}>
-              <Route path="/" element={<HomePage />} />
               <Route path="/tours" element={<ToursPage />} />
               <Route path="/tours/:slug" element={<TourDetailPage />} />
               <Route path="/hospedajes" element={<StaysPage />} />
