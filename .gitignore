@@ -26,3 +26,10 @@ dist-ssr
 
 # Caché de compilación de TypeScript (tsc -b)
 *.tsbuildinfo
+
+# Documentos internos (estrategia comercial, precios, equipo, clientes):
+# este repo es público, se quedan solo en local.
+docs/roadmap-estrategico.*
+docs/alineacion-tecnica.md
+docs/img/
+/Roadmap*.pdf

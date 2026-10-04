@@ -42,13 +42,6 @@ Catálogo actual: **de muestra** (3 destinos, 6 hospedajes, 7 planes en Cartagen
 - **Eventos**
 - **Propiedades en venta/arriendo** (real estate)
 
-## Documentos
-
-| Documento | Para qué sirve |
-|---|---|
-| [Roadmap estratégico](docs/roadmap-estrategico.md) | La propuesta comercial: qué le vendemos a una red de turismo local, modelo de cobro, fases y métricas. |
-| [Alineación técnica](docs/alineacion-tecnica.md) | El contraste contra el código real: qué está construido, qué falta, y las decisiones de arquitectura abiertas. |
-
 ## Estado
 
 Producto en reconstrucción activa post-pivote (dejó de ser una consultora de IA para convertirse en este marketplace). El catálogo de contenido real vive en `catalog/` (fuente de verdad `catalog.json`) y se siembra a la base vía `catalog/build-sql.mjs` + `catalog/upload-images.mjs`.
