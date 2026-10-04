@@ -24,13 +24,13 @@ create policy "site_settings_staff_write" on public.site_settings
 -- --- Semillas -------------------------------------------------------------
 insert into public.site_settings (key, value) values
   ('contact', jsonb_build_object(
-    'whatsapp_number', '573145284548',
+    'whatsapp_number', '',
     'whatsapp_default_text', jsonb_build_object(
-      'es', 'Hola, quiero información sobre Turismo Colombia',
-      'en', 'Hi, I''d like information about Turismo Colombia'
+      'es', 'Hola, quiero información sobre Hellominus',
+      'en', 'Hi, I''d like information about Hellominus'
     ),
-    'email', 'reservas@turismocolombia.fit',
-    'phone', '3145284548',
+    'email', 'contacto@hellominus.com',
+    'phone', '',
     'office_hours', jsonb_build_object('es', 'Cita previa', 'en', 'By appointment')
   )),
   ('social', jsonb_build_object(
@@ -40,15 +40,12 @@ insert into public.site_settings (key, value) values
     'youtube', ''
   )),
   ('announcement_bar', jsonb_build_object(
-    'enabled', true,
-    'text', jsonb_build_object(
-      'es', 'Vive Colombia: tours, hospedajes y experiencias inolvidables',
-      'en', 'Experience Colombia: tours, stays and unforgettable experiences'
-    )
+    'enabled', false,
+    'text', '{}'::jsonb
   )),
   ('featured_offer', jsonb_build_object(
     'enabled', false,
-    'title', jsonb_build_object('es', 'Ruta en Helicóptero — Jardín', 'en', 'Helicopter Route — Jardín'),
+    'title', '{}'::jsonb,
     'href', '',
     'image_path', ''
   )),
@@ -57,6 +54,6 @@ insert into public.site_settings (key, value) values
     'active_locales', jsonb_build_array('es', 'en')
   )),
   ('brand', jsonb_build_object(
-    'name', 'Turismo Colombia',
-    'domain', 'turismocolombia.fit'
+    'name', 'Hellominus',
+    'domain', 'hellominus.com'
   ));

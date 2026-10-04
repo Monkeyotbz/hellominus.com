@@ -1,12 +1,11 @@
-# Supabase — Turismo Colombia
+# Supabase — Hellominus
 
-Esquema del proyecto **nuevo** de Supabase. Ver el diseño completo en [`ESQUEMA.md`](./ESQUEMA.md).
+Esquema del proyecto `hellominus-web`.
 
 ## Contenido
 
 ```
 supabase/
-├─ ESQUEMA.md              Diseño y decisiones (leer primero)
 ├─ migrations/             Migraciones SQL en orden
 │  ├─ 20260901120001_foundation.sql        extensiones, helpers, locales
 │  ├─ 20260901120002_profiles.sql          profiles + is_staff()/is_admin()
@@ -16,8 +15,11 @@ supabase/
 │  ├─ 20260901120006_leads_newsletter.sql  captura de leads + newsletter
 │  ├─ 20260901120007_bookings.sql          espejo de reservas + tracking
 │  ├─ 20260901120008_site_settings.sql     configuración clave/valor
-│  └─ 20260901120009_storage.sql           buckets de Storage
-└─ seed.sql                (pendiente) carga inicial del catálogo
+│  ├─ 20260901120009_storage.sql           buckets de Storage
+│  ├─ 20260901120010_fix_role_trigger.sql  corrige el trigger de roles
+│  ├─ 20261002120011_campos_nomadas_hospedajes.sql  wifi_mbps, min_nights, work_ready
+│  └─ 20261002120012_ajustes_marca_hellominus.sql   contacto y marca de Hellominus
+└─ seed-demo.sql           catálogo de muestra (slugs demo-*, fotos en Storage)
 ```
 
 ## Cómo aplicarlo
@@ -44,7 +46,7 @@ Ejecutar el contenido de cada archivo de `migrations/` **en orden numérico**.
    VITE_SUPABASE_ANON_KEY=<anon key>
    ```
 3. Revisar/ajustar las semillas de `site_settings` (WhatsApp, email, redes).
-4. Sembrar el catálogo (`seed.sql`, pendiente de generar a partir del contenido actual).
+4. Sembrar el catálogo de muestra con `seed-demo.sql` (SQL Editor).
 
 ## Notas
 

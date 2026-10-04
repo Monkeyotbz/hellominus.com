@@ -21,11 +21,7 @@ El producto está pensado para ser usable por cualquiera, no solo por "viajeros 
 | **Hospedajes** | Hoteles, apartamentos, casas, cabañas, fincas y glamping |
 | **Destinos** | Guías por región para descubrir qué hacer en cada lugar |
 
-Catálogo actual (operador base "Turismo Colombia"):
-
-- **7 destinos**: Cartagena, Medellín, Jardín, Jericó, Guatapé, San Jerónimo, Huila
-- **14 hospedajes**
-- **32 tours** (15 en Cartagena, 9 en Medellín, 8 en Jardín)
+Catálogo actual: **de muestra** (3 destinos, 6 hospedajes, 7 planes en Cartagena, Medellín y Jardín), cargado con `supabase/seed-demo.sql` y fotos de stock libre en Storage.
 
 ### Cómo se diferencia
 
@@ -37,8 +33,7 @@ Catálogo actual (operador base "Turismo Colombia"):
 ## Cómo está construido
 
 - **Frontend**: React + Vite + Tailwind, sitio bilingüe (ES/EN).
-- **Backend de catálogo**: Supabase separado ("candyCRM") con arquitectura **multitenant** — el catálogo (destinos, hospedajes, tours, eventos, propiedades) vive por `tenant_id`, pensado para poder alojar más de un operador turístico a futuro. Hoy el sitio público sirve un único tenant (Turismo Colombia).
-- **Backend de plataforma**: Supabase propio del sitio para cuentas de usuario, leads, newsletter y configuración (`site_settings`).
+- **Backend**: un solo proyecto de Supabase (`hellominus-web`) con el catálogo (destinos, hospedajes, tours, eventos), cuentas de usuario, leads, newsletter y configuración (`site_settings`). Las fotos viven en Storage (bucket `catalog`).
 - **Panel admin** (`/admin`): CRUD completo para destinos, hospedajes, tours, eventos, propiedades (venta/arriendo), testimonios y blog — con carga de imágenes por ítem.
 - **Captura de leads**: formulario de WhatsApp integrado en el sitio para quien prefiere que le arme el plan un asesor en vez de reservar solo.
 

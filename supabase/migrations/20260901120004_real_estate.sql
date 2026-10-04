@@ -1,6 +1,6 @@
 -- =============================================================================
 -- 20260901120004_real_estate.sql
--- Catálogo inmobiliario de Turismo Colombia ("Propiedades a la venta").
+-- Catálogo inmobiliario ("Propiedades a la venta").
 -- Campos ricos para búsqueda; los filtros de UI se construyen después.
 -- =============================================================================
 
