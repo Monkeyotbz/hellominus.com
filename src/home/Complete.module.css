@@ -98,3 +98,21 @@
     grid-template-columns: 1fr;
   }
 }
+
+/* En celular la miniatura y el botón se achican para que el nombre del plan respire. */
+@media (max-width: 560px) {
+  .row img,
+  .swatch {
+    width: 56px;
+    height: 56px;
+  }
+
+  .info b {
+    font-size: 1.1rem;
+  }
+
+  .row button {
+    height: 40px;
+    padding: 0 14px;
+  }
+}

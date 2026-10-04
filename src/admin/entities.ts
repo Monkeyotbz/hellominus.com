@@ -13,8 +13,8 @@ const seo = (): EntityConfig['fields'] => [
 
 const publishFields = (): EntityConfig['fields'] => [
   { name: 'status', label: 'Estado', type: 'select', options: STATUS_OPTIONS, group: 'Publicación', required: true },
-  { name: 'featured', label: 'Destacado', type: 'boolean', group: 'Publicación' },
-  { name: 'sort_order', label: 'Orden', type: 'number', group: 'Publicación' },
+  { name: 'featured', label: 'Destacado', type: 'boolean', group: 'Publicación', staffOnly: true },
+  { name: 'sort_order', label: 'Orden', type: 'number', group: 'Publicación', staffOnly: true },
 ];
 
 export const ENTITIES: Record<string, EntityConfig> = {
@@ -33,7 +33,7 @@ export const ENTITIES: Record<string, EntityConfig> = {
     ],
     images: { table: 'destination_images', fk: 'destination_id' },
     fields: [
-      { name: 'slug', label: 'Slug', type: 'slug', required: true, group: 'General' },
+      { name: 'slug', label: 'Dirección web', type: 'slug', required: true, group: 'General' },
       { name: 'name', label: 'Nombre', type: 'i18n-text', required: true, group: 'General' },
       { name: 'tagline', label: 'Frase corta', type: 'i18n-text', group: 'General' },
       { name: 'description', label: 'Descripción', type: 'i18n-textarea', group: 'General', colSpan: 2 },
@@ -41,8 +41,8 @@ export const ENTITIES: Record<string, EntityConfig> = {
       { name: 'highlights', label: 'Destacados (uno por línea)', type: 'i18n-list', group: 'General', colSpan: 2 },
       { name: 'region', label: 'Región', type: 'text', group: 'Ubicación' },
       { name: 'country', label: 'País', type: 'text', group: 'Ubicación' },
-      { name: 'latitude', label: 'Latitud', type: 'number', group: 'Ubicación' },
-      { name: 'longitude', label: 'Longitud', type: 'number', group: 'Ubicación' },
+      { name: 'latitude', label: 'Latitud', type: 'number', group: 'Ubicación', staffOnly: true },
+      { name: 'longitude', label: 'Longitud', type: 'number', group: 'Ubicación', staffOnly: true },
       ...publishFields(),
       ...seo(),
     ],
@@ -65,7 +65,7 @@ export const ENTITIES: Record<string, EntityConfig> = {
     ],
     images: { table: 'accommodation_images', fk: 'accommodation_id' },
     fields: [
-      { name: 'slug', label: 'Slug', type: 'slug', required: true, group: 'General' },
+      { name: 'slug', label: 'Dirección web', type: 'slug', required: true, group: 'General', prefix: '/hospedajes/' },
       { name: 'name', label: 'Nombre', type: 'i18n-text', required: true, group: 'General' },
       {
         name: 'type', label: 'Tipo', type: 'select', group: 'General', options: [
@@ -85,8 +85,8 @@ export const ENTITIES: Record<string, EntityConfig> = {
       { name: 'city', label: 'Ciudad', type: 'text', group: 'Ubicación' },
       { name: 'region', label: 'Región', type: 'text', group: 'Ubicación' },
       { name: 'address', label: 'Dirección', type: 'text', group: 'Ubicación', colSpan: 2 },
-      { name: 'latitude', label: 'Latitud', type: 'number', group: 'Ubicación' },
-      { name: 'longitude', label: 'Longitud', type: 'number', group: 'Ubicación' },
+      { name: 'latitude', label: 'Latitud', type: 'number', group: 'Ubicación', staffOnly: true },
+      { name: 'longitude', label: 'Longitud', type: 'number', group: 'Ubicación', staffOnly: true },
       { name: 'price_from', label: 'Precio desde', type: 'number', group: 'Precio y capacidad' },
       { name: 'currency', label: 'Moneda', type: 'text', group: 'Precio y capacidad' },
       { name: 'max_guests', label: 'Huéspedes máx.', type: 'number', group: 'Precio y capacidad' },
@@ -95,9 +95,12 @@ export const ENTITIES: Record<string, EntityConfig> = {
       { name: 'bathrooms', label: 'Baños', type: 'number', group: 'Precio y capacidad' },
       { name: 'check_in_time', label: 'Check-in', type: 'text', group: 'Precio y capacidad' },
       { name: 'check_out_time', label: 'Check-out', type: 'text', group: 'Precio y capacidad' },
-      { name: 'external_booking_url', label: 'URL de reserva externa', type: 'text', group: 'Enlaces', colSpan: 2 },
+      { name: 'wifi_mbps', label: 'Wi-Fi medido (Mbps)', type: 'number', group: 'Para nómadas' },
+      { name: 'min_nights', label: 'Noches mínimas', type: 'number', group: 'Para nómadas' },
+      { name: 'work_ready', label: 'Apto para trabajar (escritorio y silla)', type: 'boolean', group: 'Para nómadas' },
+      { name: 'external_booking_url', label: 'URL de reserva externa', type: 'text', group: 'Enlaces', colSpan: 2, staffOnly: true },
       {
-        name: 'external_platform', label: 'Plataforma', type: 'select', group: 'Enlaces', options: [
+        name: 'external_platform', label: 'Plataforma', type: 'select', group: 'Enlaces', staffOnly: true, options: [
           { value: '', label: '—' },
           { value: 'booking', label: 'Booking' },
           { value: 'airbnb', label: 'Airbnb' },
@@ -127,7 +130,7 @@ export const ENTITIES: Record<string, EntityConfig> = {
     ],
     images: { table: 'tour_images', fk: 'tour_id' },
     fields: [
-      { name: 'slug', label: 'Slug', type: 'slug', required: true, group: 'General' },
+      { name: 'slug', label: 'Dirección web', type: 'slug', required: true, group: 'General', prefix: '/tours/' },
       { name: 'name', label: 'Nombre', type: 'i18n-text', required: true, group: 'General' },
       { name: 'summary', label: 'Resumen', type: 'i18n-textarea', group: 'General', colSpan: 2 },
       { name: 'description', label: 'Descripción', type: 'i18n-textarea', group: 'General', colSpan: 2 },
@@ -175,7 +178,7 @@ export const ENTITIES: Record<string, EntityConfig> = {
     ],
     images: { table: 'event_images', fk: 'event_id' },
     fields: [
-      { name: 'slug', label: 'Slug', type: 'slug', required: true, group: 'General' },
+      { name: 'slug', label: 'Dirección web', type: 'slug', required: true, group: 'General' },
       { name: 'name', label: 'Nombre', type: 'i18n-text', required: true, group: 'General' },
       { name: 'description', label: 'Descripción', type: 'i18n-textarea', group: 'General', colSpan: 2 },
       { name: 'month_label', label: 'Mes (texto)', type: 'i18n-text', group: 'General' },
@@ -211,7 +214,7 @@ export const ENTITIES: Record<string, EntityConfig> = {
     ],
     images: { table: 'real_estate_listing_images', fk: 'listing_id' },
     fields: [
-      { name: 'slug', label: 'Slug', type: 'slug', required: true, group: 'General' },
+      { name: 'slug', label: 'Dirección web', type: 'slug', required: true, group: 'General' },
       { name: 'reference_code', label: 'Código interno', type: 'text', group: 'General' },
       { name: 'title', label: 'Título', type: 'i18n-text', required: true, group: 'General' },
       { name: 'description', label: 'Descripción', type: 'i18n-textarea', group: 'General', colSpan: 2 },
@@ -315,7 +318,7 @@ export const ENTITIES: Record<string, EntityConfig> = {
       { field: 'featured', label: 'Destacado', kind: 'bool' },
     ],
     fields: [
-      { name: 'slug', label: 'Slug', type: 'slug', required: true, group: 'General' },
+      { name: 'slug', label: 'Dirección web', type: 'slug', required: true, group: 'General' },
       { name: 'title', label: 'Título', type: 'i18n-text', required: true, group: 'General' },
       { name: 'category_id', label: 'Categoría', type: 'ref', refTable: 'blog_categories', group: 'General' },
       { name: 'excerpt', label: 'Extracto', type: 'i18n-textarea', group: 'General', colSpan: 2 },
@@ -327,6 +330,36 @@ export const ENTITIES: Record<string, EntityConfig> = {
     ],
     defaults: { status: 'draft' },
   },
+
+  products: {
+    key: 'products',
+    table: 'products',
+    labelSingular: 'Producto',
+    labelPlural: 'Mercado',
+    icon: 'ShoppingBag',
+    titleField: 'name',
+    listColumns: [
+      { field: 'name', label: 'Nombre', kind: 'i18n' },
+      { field: 'category', label: 'Categoría', kind: 'text' },
+      { field: 'price', label: 'Precio', kind: 'money' },
+      { field: 'stock', label: 'Existencias', kind: 'text' },
+      { field: 'status', label: 'Estado', kind: 'status' },
+    ],
+    images: { table: 'product_images', fk: 'product_id' },
+    fields: [
+      { name: 'slug', label: 'Dirección web', type: 'slug', required: true, group: 'General' },
+      { name: 'name', label: 'Nombre', type: 'i18n-text', required: true, group: 'General' },
+      { name: 'category', label: 'Categoría (café, tejido, cerámica…)', type: 'text', group: 'General' },
+      { name: 'summary', label: 'Resumen', type: 'i18n-textarea', group: 'General', colSpan: 2 },
+      { name: 'description', label: 'Descripción', type: 'i18n-textarea', group: 'General', colSpan: 2 },
+      { name: 'price', label: 'Precio', type: 'number', group: 'Precio e inventario' },
+      { name: 'currency', label: 'Moneda', type: 'text', group: 'Precio e inventario' },
+      { name: 'stock', label: 'Existencias (vacío = sin control)', type: 'number', group: 'Precio e inventario' },
+      { name: 'sku', label: 'Referencia (SKU)', type: 'text', group: 'Precio e inventario' },
+      ...publishFields(),
+    ],
+    defaults: { status: 'draft', currency: 'COP' },
+  },
 };
 
 export const ENTITY_ORDER: (keyof typeof ENTITIES)[] = [
@@ -337,4 +370,5 @@ export const ENTITY_ORDER: (keyof typeof ENTITIES)[] = [
   'real_estate_listings',
   'testimonials',
   'blog_posts',
+  'products',
 ];

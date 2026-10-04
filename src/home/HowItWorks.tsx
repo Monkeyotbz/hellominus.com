@@ -17,8 +17,8 @@ const STEPS: Step[] = [
     id: 'elige',
     icon: <HomeIcon />,
     title: 'Elige',
-    lead: 'Casas verificadas, con Wi-Fi medido.',
-    points: ['Visitamos cada casa', 'Fotos reales, sin retoques', 'Wi-Fi medido en cada una'],
+    lead: 'Hospedajes verificados, con Wi-Fi medido.',
+    points: ['Visitamos cada hospedaje', 'Fotos reales, sin retoques', 'Wi-Fi medido en cada uno'],
   },
   {
     id: 'reserva',
@@ -38,7 +38,7 @@ const STEPS: Step[] = [
 
 export default function HowItWorks() {
   return (
-    <section id="comofunciona" className={styles.how} aria-label="Cómo funciona">
+    <section id="comofunciona" className={`${styles.how} tone-stone`} aria-label="Cómo funciona">
       <div className={styles.head}>
         <p className={styles.hand}>cómo funciona</p>
         <h2 className={styles.title}>Reservar es así de simple</h2>

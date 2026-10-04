@@ -11,7 +11,7 @@ export default function Nomads() {
       <h2 className={styles.title}>Trabaja desde donde tu día se sienta mejor</h2>
       <p className={styles.facts}>Wi-Fi medido · Escritorio y silla · Tarifa mensual</p>
       <Button variant="light" href="#estadia" onClick={() => setStayFilter('trabajo')}>
-        Ver casas para trabajar
+        Ver hospedajes para trabajar
       </Button>
     </section>
   );

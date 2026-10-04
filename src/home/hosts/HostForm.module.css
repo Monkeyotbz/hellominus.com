@@ -106,3 +106,37 @@
     grid-template-columns: 1fr;
   }
 }
+
+/* Casillas de "¿Qué vas a publicar?" */
+fieldset.group {
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+fieldset.group legend {
+  margin-bottom: 6px;
+  color: var(--color-ink-2);
+  font: 600 0.78rem var(--font-body);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.group label.check {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 40px;
+  color: var(--color-ink);
+  font: 400 1rem var(--font-body);
+  letter-spacing: 0;
+  text-transform: none;
+  cursor: pointer;
+}
+
+.group label.check input {
+  width: 20px;
+  min-height: 0;
+  height: 20px;
+  accent-color: var(--color-leaf);
+}

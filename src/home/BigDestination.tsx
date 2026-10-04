@@ -1,19 +1,26 @@
 import Button from './Button';
+import { useLazyVideo } from './hooks';
 import { useHomeStore } from './store';
 import styles from './BigDestination.module.css';
 
 export default function BigDestination() {
   const setCompleteTab = useHomeStore((s) => s.setCompleteTab);
+  const video = useLazyVideo();
 
   return (
     <section id="destino" className={styles.wrap} aria-label="Destino destacado">
-      <img
+      {/* Decorativo: se descarga al acercarse a la sección (ver useLazyVideo). */}
+      <video
+        ref={video.ref}
         className={styles.photo}
-        src="/home/dest-rosario.jpg"
-        alt="Isla de las Islas del Rosario rodeada de aguas turquesa."
-        width={1472}
-        height={669}
-        loading="lazy"
+        src={video.load ? '/destino/rosario.mp4' : undefined}
+        poster="/destino/rosario.jpg"
+        autoPlay
+        muted
+        loop
+        playsInline
+        preload="none"
+        aria-hidden="true"
       />
       <div className={styles.copy}>
         <p className={styles.hand}>destino del mes</p>

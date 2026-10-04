@@ -1,38 +1,90 @@
 import { useId, useState, type FormEvent } from 'react';
+import { useNavigate } from 'react-router-dom';
 import Button from '../Button';
-import { submitLead } from '../../lib/queries';
+import { supabase } from '../../lib/supabase';
+import { useAuth } from '../../contexts/AuthContext';
 import { CITIES } from '../data';
 import styles from './HostForm.module.css';
 
-type Status = 'idle' | 'sending' | 'done' | 'error';
+type Status = 'idle' | 'sending' | 'error';
+type Kind = 'hospedaje' | 'tours' | 'mercado';
+
+const KINDS: { value: Kind; label: string }[] = [
+  { value: 'hospedaje', label: 'Hospedajes' },
+  { value: 'tours', label: 'Tours y planes' },
+  { value: 'mercado', label: 'Productos (mercado)' },
+];
 
 interface FormState {
   name: string;
   whatsapp: string;
-  email: string;
   city: string;
-  properties: string;
-  message: string;
+  kinds: Kind[];
 }
 
-const EMPTY: FormState = { name: '', whatsapp: '', email: '', city: CITIES[0], properties: '', message: '' };
-const EMAIL_PATTERN = /^\S+@\S+\.\S+$/;
+/** "Casa Mar & Sol" → "casa-mar-sol" (dirección pública del espacio). */
+function slugify(text: string): string {
+  return text
+    .normalize('NFD')
+    .replace(/[̀-ͯ]/g, '')
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-+|-+$/g, '')
+    .slice(0, 48);
+}
 
+/**
+ * Alta de propietario: crea su espacio (queda en revisión) y lo lleva a su
+ * panel. Sin sesión, primero se crea la cuenta y se vuelve aquí.
+ */
 export default function HostForm() {
   const uid = useId();
-  const [form, setForm] = useState<FormState>(EMPTY);
+  const navigate = useNavigate();
+  const { user, memberships, refreshMemberships, loading } = useAuth();
+  const [form, setForm] = useState<FormState>({ name: '', whatsapp: '', city: CITIES[0], kinds: ['hospedaje'] });
   const [status, setStatus] = useState<Status>('idle');
+  const [failure, setFailure] = useState('');
   const [errors, setErrors] = useState<Partial<Record<keyof FormState, string>>>({});
 
-  const set = (key: keyof FormState, value: string) => setForm((current) => ({ ...current, [key]: value }));
+  if (loading) return null;
+
+  if (!user) {
+    const back = { from: { pathname: '/anfitriones' } };
+    return (
+      <div className={styles.done}>
+        <p className={styles.hand}>primero, tu cuenta</p>
+        <h3>Crea tu cuenta para abrir tu espacio</h3>
+        <p>Con ella administras tus hospedajes, tours o productos desde tu panel.</p>
+        <div className={styles.pair}>
+          <Button onClick={() => navigate('/registro', { state: back })}>Crear cuenta</Button>
+          <Button variant="ghost" onClick={() => navigate('/login', { state: back })}>
+            Ya tengo cuenta
+          </Button>
+        </div>
+      </div>
+    );
+  }
+
+  if (memberships.length > 0) {
+    return (
+      <div className={styles.done}>
+        <p className={styles.hand}>ya estás dentro</p>
+        <h3>Ya tienes el espacio {memberships[0].tenant.name}</h3>
+        <p>Administra tu catálogo, tu información y tus reservas desde tu panel.</p>
+        <Button href="/panel">Ir a mi panel</Button>
+      </div>
+    );
+  }
+
+  const set = <K extends keyof FormState>(key: K, value: FormState[K]) => setForm((current) => ({ ...current, [key]: value }));
+  const toggleKind = (kind: Kind) =>
+    set('kinds', form.kinds.includes(kind) ? form.kinds.filter((k) => k !== kind) : [...form.kinds, kind]);
 
   const validate = (): boolean => {
     const next: Partial<Record<keyof FormState, string>> = {};
-    if (!form.name.trim()) next.name = 'Cuéntanos tu nombre.';
+    if (form.name.trim().length < 3) next.name = 'Escribe el nombre de tu espacio (mínimo 3 letras).';
     if (form.whatsapp.replace(/\D/g, '').length < 7) next.whatsapp = 'Escribe un WhatsApp con indicativo, por ejemplo +57 300 123 4567.';
-    if (form.email.trim() && !EMAIL_PATTERN.test(form.email.trim())) next.email = 'Escribe un correo válido o déjalo vacío.';
-    const count = Number(form.properties);
-    if (!form.properties || !Number.isInteger(count) || count < 1) next.properties = 'Indica cuántas propiedades tienes (un número).';
+    if (form.kinds.length === 0) next.kinds = 'Elige al menos una opción.';
     setErrors(next);
     return Object.keys(next).length === 0;
   };
@@ -41,26 +93,28 @@ export default function HostForm() {
     event.preventDefault();
     if (!validate()) return;
     setStatus('sending');
-    const { error } = await submitLead({
-      type: 'general',
-      name: form.name.trim(),
-      whatsapp: form.whatsapp.trim(),
-      email: form.email.trim() || undefined,
-      locale: 'es',
-      message: `Anfitrión · Ciudad: ${form.city} · Propiedades: ${form.properties}${form.message.trim() ? ` · ${form.message.trim()}` : ''}`,
-    });
-    setStatus(error ? 'error' : 'done');
+    const base = slugify(form.name) || 'espacio';
+    // Si la dirección ya existe, se prueba con un sufijo corto.
+    for (const slug of [base, `${base}-${Math.random().toString(36).slice(2, 6)}`]) {
+      const { error } = await supabase.rpc('create_tenant', {
+        p_name: form.name.trim(),
+        p_slug: slug,
+        p_kinds: form.kinds,
+        p_city: form.city === 'Otra' ? undefined : form.city,
+        p_contact_whatsapp: form.whatsapp.trim(),
+      });
+      if (!error) {
+        await refreshMemberships();
+        navigate('/panel');
+        return;
+      }
+      if (error.code !== '23505') {
+        setFailure(error.message);
+        break;
+      }
+    }
+    setStatus('error');
   };
-
-  if (status === 'done') {
-    return (
-      <div className={styles.done} role="status">
-        <p className={styles.hand}>recibido</p>
-        <h3>Gracias, {form.name.trim().split(' ')[0]}.</h3>
-        <p>Recibimos tu solicitud. Una persona de Hellominus te escribirá por WhatsApp para coordinar la visita a tus casas.</p>
-      </div>
-    );
-  }
 
   const field = (key: keyof FormState) => ({
     id: `${uid}-${key}`,
@@ -77,20 +131,19 @@ export default function HostForm() {
   return (
     <form className={styles.form} onSubmit={onSubmit} noValidate>
       <div className={styles.group}>
-        <label htmlFor={`${uid}-name`}>Tu nombre</label>
-        <input {...field('name')} autoComplete="name" value={form.name} onChange={(e) => set('name', e.target.value)} />
+        <label htmlFor={`${uid}-name`}>Nombre de tu espacio</label>
+        <input {...field('name')} placeholder="Ej.: Casas del Laguito" value={form.name} onChange={(e) => set('name', e.target.value)} />
         {error('name')}
       </div>
-      <div className={styles.group}>
-        <label htmlFor={`${uid}-whatsapp`}>WhatsApp</label>
-        <input {...field('whatsapp')} type="tel" autoComplete="tel" placeholder="+57 300 123 4567" value={form.whatsapp} onChange={(e) => set('whatsapp', e.target.value)} />
-        {error('whatsapp')}
-      </div>
-      <div className={styles.group}>
-        <label htmlFor={`${uid}-email`}>Correo (opcional)</label>
-        <input {...field('email')} type="email" autoComplete="email" value={form.email} onChange={(e) => set('email', e.target.value)} />
-        {error('email')}
-      </div>
+      <fieldset className={styles.group} aria-describedby={errors.kinds ? `${uid}-kinds-error` : undefined}>
+        <legend>¿Qué vas a publicar?</legend>
+        {KINDS.map((k) => (
+          <label key={k.value} className={styles.check}>
+            <input type="checkbox" checked={form.kinds.includes(k.value)} onChange={() => toggleKind(k.value)} /> {k.label}
+          </label>
+        ))}
+        {error('kinds')}
+      </fieldset>
       <div className={styles.pair}>
         <div className={styles.group}>
           <label htmlFor={`${uid}-city`}>Ciudad principal</label>
@@ -104,25 +157,21 @@ export default function HostForm() {
           </select>
         </div>
         <div className={styles.group}>
-          <label htmlFor={`${uid}-properties`}>¿Cuántas propiedades tienes?</label>
-          <input {...field('properties')} type="number" inputMode="numeric" min={1} value={form.properties} onChange={(e) => set('properties', e.target.value)} />
-          {error('properties')}
+          <label htmlFor={`${uid}-whatsapp`}>WhatsApp</label>
+          <input {...field('whatsapp')} type="tel" autoComplete="tel" placeholder="+57 300 123 4567" value={form.whatsapp} onChange={(e) => set('whatsapp', e.target.value)} />
+          {error('whatsapp')}
         </div>
-      </div>
-      <div className={styles.group}>
-        <label htmlFor={`${uid}-message`}>Algo más que quieras contarnos (opcional)</label>
-        <textarea id={`${uid}-message`} rows={3} value={form.message} onChange={(e) => set('message', e.target.value)} />
       </div>
 
       {status === 'error' && (
         <p className={styles.fail} role="alert">
-          No pudimos enviar tu solicitud. Inténtalo de nuevo en un momento.
+          No pudimos crear tu espacio{failure ? `: ${failure}` : ''}. Inténtalo de nuevo en un momento.
         </p>
       )}
       <Button type="submit" loading={status === 'sending'}>
-        {status === 'sending' ? 'Enviando…' : 'Quiero publicar mis casas'}
+        {status === 'sending' ? 'Creando…' : 'Crear mi espacio'}
       </Button>
-      <p className={styles.fine}>No se cobra nada. Solo cobramos una comisión por cada reserva confirmada.</p>
+      <p className={styles.fine}>Revisamos cada espacio antes de mostrarlo en Hellominus. Mientras tanto ya puedes preparar tu catálogo.</p>
     </form>
   );
 }

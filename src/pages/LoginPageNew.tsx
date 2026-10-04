@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
-import { supabase } from '../supabaseClient';
 import { buttonClasses } from '../site/ui';
+import Wordmark from '../site/Wordmark';
 
 export default function LoginPage() {
   const [email, setEmail] = useState('');
@@ -13,7 +13,9 @@ export default function LoginPage() {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const from = (location.state as any)?.from?.pathname || '/';
+  const from = (location.state as { from?: { pathname?: string } } | null)?.from?.pathname || '/';
+  // Aviso que deja el registro (p. ej. "confirma tu correo").
+  const notice = (location.state as { message?: string } | null)?.message;
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -21,37 +23,26 @@ export default function LoginPage() {
     setLoading(true);
 
     try {
-      const { error } = await signIn(email, password);
+      const { error, home } = await signIn(email, password);
 
       if (error) {
         console.error('Error de login:', error);
+        const msg = (error as { message?: string }).message ?? '';
 
         // Mensajes de error más específicos
-        if (error.message?.includes('Invalid login credentials')) {
+        if (msg.includes('Invalid login credentials')) {
           setError('Email o contraseña incorrectos');
-        } else if (error.message?.includes('Email not confirmed')) {
+        } else if (msg.includes('Email not confirmed')) {
           setError('Por favor confirma tu email antes de iniciar sesión');
-        } else if (error.message?.includes('User not found')) {
+        } else if (msg.includes('User not found')) {
           setError('No existe una cuenta con ese email');
         } else {
-          setError(`Error: ${error.message || 'Intenta de nuevo'}`);
+          setError(`Error: ${msg || 'Intenta de nuevo'}`);
         }
         setLoading(false);
       } else {
-        // Redirigir a /admin si es staff (editor/admin)
-        const { data: { user } } = await supabase.auth.getUser();
-        if (user) {
-          const { data: prof } = await supabase
-            .from('profiles')
-            .select('role')
-            .eq('id', user.id)
-            .maybeSingle();
-          if (prof?.role === 'admin' || prof?.role === 'editor') {
-            navigate('/admin');
-            return;
-          }
-        }
-        navigate(from, { replace: true });
+        // Vuelve a la página que pidió el login; si no había, a su inicio (/admin, /panel o /cuenta).
+        navigate(from !== '/' ? from : home ?? '/cuenta', { replace: true });
       }
     } catch (err) {
       console.error('Error inesperado:', err);
@@ -63,7 +54,7 @@ export default function LoginPage() {
   return (
     <div className="relative flex min-h-screen items-center justify-center overflow-hidden px-4 py-10 sm:px-6">
       <img
-        src="/brand/login-bg.jpg"
+        src="/portada/hero.jpg"
         alt=""
         className="absolute inset-0 h-full w-full object-cover"
       />
@@ -71,7 +62,7 @@ export default function LoginPage() {
 
       <div className="relative w-full max-w-md">
         <Link to="/" className="mb-6 flex justify-center">
-          <img src="/brand/logo.svg" alt="Hellominus" className="h-11 w-auto" />
+          <Wordmark light className="text-2xl" />
         </Link>
 
         <form
@@ -83,6 +74,11 @@ export default function LoginPage() {
             <p className="mt-1.5 text-sm text-muted">Iniciá sesión para gestionar tus reservas</p>
           </div>
 
+          {notice && !error && (
+            <div className="rounded-xl border border-brand/25 bg-brand-tint px-4 py-2.5 text-sm text-brand" role="status">
+              {notice}
+            </div>
+          )}
           {error && (
             <div className="rounded-xl border border-alert/25 bg-alert/10 px-4 py-2.5 text-sm text-alert">
               {error}
@@ -136,7 +132,7 @@ export default function LoginPage() {
 
           <p className="text-center text-sm text-muted">
             ¿No tenés cuenta?{' '}
-            <Link to="/registro" className="font-semibold text-brand hover:text-brand-hover">
+            <Link to="/registro" state={{ from: (location.state as { from?: unknown } | null)?.from }} className="font-semibold text-brand hover:text-brand-hover">
               Registrate acá
             </Link>
           </p>

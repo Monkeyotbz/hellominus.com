@@ -185,6 +185,12 @@
 }
 
 @media (max-width: 560px) {
+  .follow {
+    flex-basis: 100%;
+    margin-right: 0;
+    text-align: center;
+  }
+
   .news form {
     flex-direction: column;
     gap: 10px;

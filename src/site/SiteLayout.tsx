@@ -6,13 +6,17 @@ import SiteHeader from './SiteHeader';
 import SiteFooter from './SiteFooter';
 
 function Ribbon() {
-  const { announcement, whatsappHref } = useSettings();
+  const { announcement, whatsappHref, hasWhatsapp } = useSettings();
   if (!announcement.enabled) return null;
   return (
     <div className="bg-brand-deep px-4 py-2.5 text-center text-body-sm font-medium text-white">
-      <a href={whatsappHref()} target="_blank" rel="noopener noreferrer" className="underline-offset-2 hover:underline">
-        {announcement.text}
-      </a>
+      {hasWhatsapp ? (
+        <a href={whatsappHref()} target="_blank" rel="noopener noreferrer" className="underline-offset-2 hover:underline">
+          {announcement.text}
+        </a>
+      ) : (
+        announcement.text
+      )}
     </div>
   );
 }

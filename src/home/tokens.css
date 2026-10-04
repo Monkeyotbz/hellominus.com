@@ -1,7 +1,6 @@
 /*
- * Tokens de la portada nueva. Viven bajo `.home-root` para no afectar al resto
- * del sitio (que sigue con la paleta coral y Manrope hasta que se decida
- * extender este diseño a las demás páginas).
+ * Tokens de la portada. Viven bajo `.home-root`; el resto del sitio usa los
+ * mismos colores y fuentes desde tailwind.config.js.
  */
 .home-root {
   color-scheme: light;
@@ -17,6 +16,8 @@
   --color-leaf-tint: #e6ece3;
   --color-leaf-soft: #cfdcc7;
   --color-on-leaf: #eef1e9;
+  /* Gris cálido para alternar bandas: 5,5:1 con --color-ink-2 (AA). */
+  --color-stone: #e9e5dd;
 
   --font-title: 'Newsreader', Georgia, serif;
   --font-body: 'Figtree', 'Helvetica Neue', Arial, sans-serif;
@@ -50,6 +51,19 @@
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
   scroll-padding-top: 150px;
+}
+
+/*
+ * Tonos de banda para que el cambio de sección se note: `tone-light` baja del
+ * blanco al crema y `tone-stone` es gris cálido plano. Se alternan de modo que
+ * en cada borde cambie el color (ver HomePage.tsx).
+ */
+.home-root .tone-light {
+  background: linear-gradient(180deg, #ffffff 0%, var(--color-bg) 100%);
+}
+
+.home-root .tone-stone {
+  background: var(--color-stone);
 }
 
 .home-root img {

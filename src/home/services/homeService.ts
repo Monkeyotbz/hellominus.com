@@ -34,13 +34,14 @@ function toProperty(row: StayRow): Property | null {
   const images = [...(row.images ?? [])].sort((a, b) => Number(b.is_cover) - Number(a.is_cover) || a.sort_order - b.sort_order);
   const cover = images[0];
   const features = (row.accommodation_features ?? []).map((f) => f.features?.slug).filter((s): s is string => Boolean(s));
-  const tag = TAGS.find(([slug]) => features.includes(slug))?.[1] ?? 'Casa verificada';
+  const tag = TAGS.find(([slug]) => features.includes(slug))?.[1] ?? 'Hospedaje verificado';
   const title = pickText(row.name as never, 'es');
   if (!title || !cover) return null;
 
   return {
     // Las casas de muestra llevan el prefijo "demo-"; se quita para identificarlas igual que en data.ts.
     id: row.slug.replace(/^demo-/, ''),
+    slug: row.slug,
     city: row.city,
     area: pickText(row.location_note as never, 'es') || row.city,
     title,

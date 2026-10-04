@@ -23,7 +23,7 @@ export default function AdminDashboard() {
             <Link
               key={key}
               to={`/admin/${key}`}
-              className="rounded-xl border border-gray-200 bg-white p-5 transition hover:border-blue-300 hover:shadow-sm"
+              className="rounded-xl border border-gray-200 bg-white p-5 transition hover:border-brand hover:shadow-sm"
             >
               <div className="text-3xl font-bold text-gray-900">
                 {counts[key] === undefined ? '…' : counts[key]}

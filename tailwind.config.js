@@ -4,43 +4,50 @@ export default {
   theme: {
     extend: {
       colors: {
-        // Énfasis principal — del pin del isotipo (public/brand/mark.svg).
-        // DEFAULT es una versión más profunda que el coral real del logo
-        // (#F06C5F, ver brand.logo): ese tono puro da solo 2.99:1 sobre
-        // blanco, insuficiente para texto/botones. DEFAULT en cambio pasa
-        // AA (>= 4.5:1) — se usa para todo lo interactivo (botones, links,
-        // foco); brand.logo se reserva para el isotipo en sí.
+        // Paleta de Hellominus, la misma de la portada (src/home/tokens.css).
+        // `brand` es el verde hoja: enlaces, chips activos, etiquetas y foco
+        // (8,7:1 sobre crema). Los botones principales van en tinta (`ink`).
         brand: {
-          DEFAULT: '#D1402C',
-          hover: '#B8371F',
-          deep: '#7A2415',
-          tint: '#FCEEEA',
-          logo: '#F06C5F',
+          DEFAULT: '#2F4B37',
+          hover: '#243A2A',
+          deep: '#1B2B20',
+          tint: '#E6ECE3',
+          logo: '#2F4B37',
+          // Texto sobre fondo verde (barra del panel de anfitrión): 8,4:1 y 5,4:1.
+          on: '#EEF1E9',
+          'on-muted': '#B9C7B5',
         },
-        // Acento secundario, para destacar sin gritar. Cálido/frío con el
-        // coral principal a propósito.
+        // Acento neutro, para destacar sin competir con el verde.
         accent: {
-          DEFAULT: '#0E7490',
-          hover: '#155E75',
-          tint: '#ECFEFF',
+          DEFAULT: '#22211E',
+          hover: '#243A2A',
+          tint: '#F6F3EC',
         },
         // Errores y avisos. El rojo acá es convención de accesibilidad, no marca.
         alert: {
           DEFAULT: '#B91C1C',
           tint: '#FEF2F2',
         },
-        surface: '#F8FAFC',
-        ink: '#333F47',
-        muted: '#5B6B74',
-        line: '#E2E8F0',
+        surface: '#F6F3EC',
+        stone: '#E9E5DD',
+        ink: '#22211E',
+        muted: '#5E5A53',
+        line: '#E1DBD0',
         success: {
           DEFAULT: '#047857',
           tint: '#ECFDF5',
         },
+        // Estados pendientes ("en revisión", "pendiente de pago"): 5,8:1 sobre su tinte.
+        warn: {
+          DEFAULT: '#7A5212',
+          tint: '#F5EAD3',
+        },
       },
       fontFamily: {
-        sans: ['Manrope', 'system-ui', '-apple-system', 'Segoe UI', 'Roboto', 'sans-serif'],
-        serif: ['Manrope', 'system-ui', 'sans-serif'],
+        sans: ['Figtree', 'Helvetica Neue', 'Arial', 'sans-serif'],
+        serif: ['Newsreader', 'Georgia', 'serif'],
+        // Manuscrita de la marca (los "hand" verdes de la portada).
+        hand: ['Caveat', 'Segoe Print', 'cursive'],
       },
       // Escala subida respecto del diseño anterior: el cuerpo arranca en 16px
       // para que el sitio se lea sin esfuerzo a cualquier edad.
@@ -49,13 +56,13 @@ export default {
         caption: ['0.875rem', { lineHeight: '1.25rem' }],
         'body-sm': ['0.9375rem', { lineHeight: '1.5rem' }],
         body: ['1rem', { lineHeight: '1.65rem' }],
-        h3: ['1.375rem', { lineHeight: '1.9rem', letterSpacing: '-0.01em', fontWeight: '700' }],
-        h2: ['2rem', { lineHeight: '2.4rem', letterSpacing: '-0.015em', fontWeight: '700' }],
-        h1: ['2.75rem', { lineHeight: '3rem', letterSpacing: '-0.02em', fontWeight: '800' }],
-        display: ['3.75rem', { lineHeight: '3.9rem', letterSpacing: '-0.025em', fontWeight: '800' }],
+        h3: ['1.5rem', { lineHeight: '1.9rem', letterSpacing: '-0.005em', fontWeight: '400' }],
+        h2: ['2.4rem', { lineHeight: '2.6rem', letterSpacing: '-0.015em', fontWeight: '300' }],
+        h1: ['3.2rem', { lineHeight: '3.4rem', letterSpacing: '-0.015em', fontWeight: '300' }],
+        display: ['4.2rem', { lineHeight: '4.3rem', letterSpacing: '-0.02em', fontWeight: '300' }],
       },
       borderRadius: {
-        card: '16px',
+        card: '14px',
         pill: '999px',
       },
       // Altura mínima de los objetivos táctiles (WCAG 2.5.5).

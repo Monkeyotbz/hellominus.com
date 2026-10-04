@@ -18,14 +18,50 @@
   text-transform: uppercase;
 }
 
-.back {
+.actions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.account {
   color: var(--color-ink);
-  font-size: 0.98rem;
-  text-underline-offset: 5px;
+  font: 500 0.98rem var(--font-body);
+  letter-spacing: 0.03em;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.account:hover {
+  color: var(--color-leaf);
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+/* Mismo botón oscuro y recto que "Reservar" en la portada. */
+.cta {
+  display: inline-flex;
+  align-items: center;
+  height: 44px;
+  padding: 0 22px;
+  border: 1px solid var(--color-ink);
+  background: var(--color-ink);
+  color: var(--color-bg);
+  font: 500 0.95rem var(--font-body);
+  letter-spacing: 0.04em;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: background-color 0.25s ease, border-color 0.25s ease;
+}
+
+.cta:hover {
+  background: var(--color-leaf-2);
+  border-color: var(--color-leaf-2);
 }
 
 .wordmark:focus-visible,
-.back:focus-visible {
+.account:focus-visible,
+.cta:focus-visible {
   outline: 2px solid var(--color-leaf);
   outline-offset: 3px;
 }
@@ -213,6 +249,13 @@
 
   .formWrap {
     grid-template-columns: 1fr;
+  }
+}
+
+/* En celulares angostos el atajo sobra: el botón grande del inicio hace lo mismo. */
+@media (max-width: 480px) {
+  .cta {
+    display: none;
   }
 }
 

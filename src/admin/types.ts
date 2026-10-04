@@ -7,7 +7,8 @@ export type EntityKey =
   | 'events'
   | 'real_estate_listings'
   | 'testimonials'
-  | 'blog_posts';
+  | 'blog_posts'
+  | 'products';
 
 export type FieldType =
   | 'text'
@@ -31,6 +32,10 @@ export interface FieldDef {
   refTable?: 'destinations' | 'blog_categories'; // para 'ref'
   group?: string; // agrupa campos en el formulario
   colSpan?: 1 | 2;
+  /** Para 'slug': ruta pública que antecede la dirección (p. ej. '/hospedajes/'). */
+  prefix?: string;
+  /** Solo lo ve el equipo de Hellominus (no los propietarios en /panel). */
+  staffOnly?: boolean;
 }
 
 export interface ImageConfig {

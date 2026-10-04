@@ -7,10 +7,12 @@ import { useHomeStore } from './store';
 import { FacebookIcon, InstagramIcon, TikTokIcon, WhatsAppIcon, YouTubeIcon } from './Icons';
 import type { City } from './data';
 import styles from './Footer.module.css';
+import { accountLabel, useAuth } from '../contexts/AuthContext';
 
 const EMAIL_PATTERN = /^\S+@\S+\.\S+$/;
 
 export default function Footer() {
+  const { user, homePath } = useAuth();
   const { social, hasWhatsapp, whatsappHref } = useSettings();
   const setStayFilter = useHomeStore((s) => s.setStayFilter);
   const setCompleteTab = useHomeStore((s) => s.setCompleteTab);
@@ -48,6 +50,7 @@ export default function Footer() {
     { key: 'tiktok', label: 'TikTok', icon: <TikTokIcon /> },
     { key: 'youtube', label: 'YouTube', icon: <YouTubeIcon /> },
   ];
+  const activeNetworks = networks.filter((network) => social[network.key]);
 
   return (
     <footer className={styles.footer}>
@@ -69,13 +72,14 @@ export default function Footer() {
 
       <div className={styles.cols}>
         <div>
-          <p className={styles.hand}>casas</p>
+          <p className={styles.hand}>hospedajes</p>
           {cityLink('Cartagena')}
           {cityLink('Medellín')}
           {cityLink('Jardín')}
           <a href="#nomadas" onClick={() => setStayFilter('trabajo')}>
             Para trabajar
           </a>
+          <Link to="/hospedajes">Todos los hospedajes</Link>
         </div>
         <div>
           <p className={styles.hand}>planes</p>
@@ -84,6 +88,7 @@ export default function Footer() {
               {name}
             </a>
           ))}
+          <Link to="/tours">Todos los tours</Link>
         </div>
         <div>
           <p className={styles.hand}>mercado</p>
@@ -99,7 +104,8 @@ export default function Footer() {
           <a href="#comofunciona">Cómo funciona</a>
           <a href="#cancelacion">Cancelación</a>
           <a href="#faq">Preguntas</a>
-          <Link to="/anfitriones">Publicar mi casa</Link>
+          <Link to="/anfitriones">Publicar mi hospedaje</Link>
+          <Link to={user ? homePath : '/login'}>{user ? accountLabel(homePath) : 'Iniciar sesión'}</Link>
         </div>
       </div>
 
@@ -107,22 +113,25 @@ export default function Footer() {
         <a className={styles.wordmark} href="#inicio">
           Hellominus
         </a>
-        <div className={styles.social}>
-          <span className={styles.follow}>Síguenos en:</span>
-          {networks.map((network) => (
-            <a key={network.key} href={social[network.key] || '#inicio'} aria-label={network.label} {...(social[network.key] ? { target: '_blank', rel: 'noopener noreferrer' } : {})}>
-              {network.icon}
-            </a>
-          ))}
-          {hasWhatsapp && (
-            <a href={whatsappHref()} aria-label="WhatsApp" target="_blank" rel="noopener noreferrer">
-              <WhatsAppIcon />
-            </a>
-          )}
-        </div>
+        {/* Solo las redes con dirección configurada en site_settings (social). */}
+        {(activeNetworks.length > 0 || hasWhatsapp) && (
+          <div className={styles.social}>
+            <span className={styles.follow}>Síguenos en:</span>
+            {activeNetworks.map((network) => (
+              <a key={network.key} href={social[network.key]} aria-label={network.label} target="_blank" rel="noopener noreferrer">
+                {network.icon}
+              </a>
+            ))}
+            {hasWhatsapp && (
+              <a href={whatsappHref()} aria-label="WhatsApp" target="_blank" rel="noopener noreferrer">
+                <WhatsAppIcon />
+              </a>
+            )}
+          </div>
+        )}
         <span className={styles.copy}>© {new Date().getFullYear()} Hellominus</span>
       </div>
-      <small className={styles.note}>Fotos del proyecto. Cifras, precios, reseñas y artículos son de ejemplo.</small>
+      <small className={styles.note}>Fotos de stock libre. Cifras, precios, reseñas y artículos son de ejemplo.</small>
     </footer>
   );
 }

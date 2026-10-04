@@ -52,13 +52,10 @@ export function SettingsProvider({ children }: { children: React.ReactNode }) {
       contactEmail: (contact.email as string) || FALLBACK.email,
       contactPhone: (contact.phone as string) || FALLBACK.phone,
       whatsappHref: (text?: string) => buildWhatsappLink(whatsappNumber, text || defaultText),
+      // La franja solo aparece si se activa en site_settings y tiene texto.
       announcement: {
-        enabled: ann.enabled !== false,
-        text:
-          pickText(ann.text as never, locale) ||
-          (locale === 'en'
-            ? 'Access hundreds of deals – 20% OFF your first booking'
-            : 'Accedé a cientos de ofertas – 20% OFF en tu primera reserva'),
+        enabled: ann.enabled === true && Boolean(pickText(ann.text as never, locale)),
+        text: pickText(ann.text as never, locale),
       },
       social: (raw.social ?? {}) as Record<string, string>,
     };
@@ -78,7 +75,7 @@ export function useSettings(): SettingsValue {
       contactEmail: FALLBACK.email,
       contactPhone: FALLBACK.phone,
       whatsappHref: (t?: string) => buildWhatsappLink(FALLBACK.whatsapp, t || 'Hola'),
-      announcement: { enabled: true, text: '' },
+      announcement: { enabled: false, text: '' },
       social: {},
     };
   }

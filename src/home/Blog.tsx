@@ -3,7 +3,7 @@ import styles from './Blog.module.css';
 
 export default function Blog() {
   return (
-    <section id="blog" className={styles.wrap} aria-label="Blog">
+    <section id="blog" className={`${styles.wrap} tone-stone`} aria-label="Blog">
       <div className={styles.head}>
         <p className={styles.hand}>desde la comunidad</p>
         <h2 className={styles.title}>Blog</h2>

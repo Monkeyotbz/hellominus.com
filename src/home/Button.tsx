@@ -1,4 +1,5 @@
 import type { AnchorHTMLAttributes, ButtonHTMLAttributes, ReactNode } from 'react';
+import { Link } from 'react-router-dom';
 import styles from './Button.module.css';
 
 type Variant = 'primary' | 'ghost' | 'light';
@@ -19,11 +20,22 @@ function classes({ variant = 'primary', size = 'md', className }: CommonProps): 
   return [styles.btn, styles[variant], size === 'sm' ? styles.sm : '', className ?? ''].filter(Boolean).join(' ');
 }
 
-/** Botón rectangular del diseño. Es un enlace si recibe `href`, un botón si no. */
+/**
+ * Botón rectangular del diseño. Es un enlace si recibe `href` (una ruta interna
+ * como "/hospedajes/x" navega sin recargar), un botón si no.
+ */
 export default function Button(props: LinkProps | NativeProps) {
   if (props.href !== undefined) {
     const { variant, size, loading, className, children, ...rest } = props;
     void loading;
+    if (rest.href.startsWith('/')) {
+      const { href, ...anchor } = rest;
+      return (
+        <Link to={href} className={classes({ variant, size, className, children })} {...anchor}>
+          {children}
+        </Link>
+      );
+    }
     return (
       <a className={classes({ variant, size, className, children })} {...rest}>
         {children}

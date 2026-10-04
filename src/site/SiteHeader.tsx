@@ -1,9 +1,10 @@
 import { useState } from 'react';
+import Wordmark from './Wordmark';
 import { Link, NavLink } from 'react-router-dom';
 import { Menu, X } from 'lucide-react';
 import { useLocale } from '../lib/locale';
 import { LOCALES } from '../lib/i18n';
-import { useAuth } from '../contexts/AuthContext';
+import { accountLabel, useAuth } from '../contexts/AuthContext';
 import { useLeadDialog } from './LeadDialog';
 import { Container, Button } from './ui';
 
@@ -16,7 +17,7 @@ const NAV = [
 
 export default function SiteHeader() {
   const { locale, setLocale } = useLocale();
-  const { user, isStaff } = useAuth();
+  const { user, homePath } = useAuth();
   const { open } = useLeadDialog();
   const [mobile, setMobile] = useState(false);
   const es = locale === 'es';
@@ -30,11 +31,7 @@ export default function SiteHeader() {
     <header className="sticky top-0 z-40 border-b border-line bg-surface/95 backdrop-blur">
       <Container className="flex items-center justify-between py-4">
         <Link to="/" aria-label="Hellominus">
-          <img
-            src="/brand/logo.svg"
-            alt="Hellominus"
-            className="h-[25px] w-auto sm:h-[31px]"
-          />
+          <Wordmark className="text-lg sm:text-2xl" />
         </Link>
 
         <nav className="hidden items-center gap-7 lg:flex">
@@ -61,11 +58,8 @@ export default function SiteHeader() {
             ))}
           </div>
           {user ? (
-            <Link
-              to={isStaff ? '/admin' : '/perfil'}
-              className="hidden text-sm font-semibold text-ink hover:text-brand sm:block"
-            >
-              {isStaff ? 'Panel' : es ? 'Mi cuenta' : 'Account'}
+            <Link to={homePath} className="hidden text-sm font-semibold text-ink hover:text-brand sm:block">
+              {accountLabel(homePath, es)}
             </Link>
           ) : (
             <Link to="/login" className="hidden text-sm font-semibold text-ink hover:text-brand sm:block">
@@ -100,11 +94,11 @@ export default function SiteHeader() {
               </NavLink>
             ))}
             <Link
-              to="/login"
+              to={user ? homePath : '/login'}
               onClick={() => setMobile(false)}
               className="rounded-lg px-2 py-2.5 text-[15px] font-medium text-ink hover:bg-brand-tint"
             >
-              {es ? 'Ingresar' : 'Sign in'}
+              {user ? accountLabel(homePath, es) : es ? 'Ingresar' : 'Sign in'}
             </Link>
             <Button
               onClick={() => {

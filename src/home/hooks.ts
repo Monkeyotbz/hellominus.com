@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 /** Devuelve el id de la sección que está en la zona central de la pantalla. */
 export function useScrollSpy(ids: readonly string[]): string | null {
@@ -42,6 +42,36 @@ export function useDismiss(active: boolean, containerId: string, onDismiss: () =
       document.removeEventListener('click', onClick);
     };
   }, [active, containerId, onDismiss]);
+}
+
+/**
+ * Video de fondo que solo se descarga cuando su sección se acerca a la
+ * pantalla, y se pausa al salir de ella. Con "reducir movimiento" no se carga:
+ * queda el póster.
+ */
+export function useLazyVideo() {
+  const ref = useRef<HTMLVideoElement>(null);
+  const [src, setSrc] = useState(false);
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    const io = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setSrc(true);
+          if (el.currentSrc) el.play().catch(() => {});
+        } else {
+          el.pause();
+        }
+      },
+      { rootMargin: '200px 0px' },
+    );
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
+
+  return { ref, load: src };
 }
 
 export function scrollToId(id: string): void {

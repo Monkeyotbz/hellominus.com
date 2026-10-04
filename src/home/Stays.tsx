@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import { CITIES, formatCop, type StayFilter } from './data';
 import { Section, SectionHead, ExampleNote } from './Section';
 import { useHomeStore } from './store';
@@ -21,9 +22,9 @@ export default function Stays() {
   });
 
   return (
-    <Section id="estadia">
-      <SectionHead hand="casas para quedarte" title="Casas listas para vivir, por noches o por meses" />
-      <div className={styles.chips} role="group" aria-label="Filtrar casas">
+    <Section id="estadia" className="tone-stone">
+      <SectionHead hand="hospedajes para quedarte" title="Hospedajes listos para vivir, por noches o por meses" />
+      <div className={styles.chips} role="group" aria-label="Filtrar hospedajes">
         {FILTERS.map((item) => (
           <button key={item.value} type="button" className={styles.chip} aria-pressed={filter === item.value} onClick={() => setFilter(item.value)}>
             {item.label}
@@ -33,12 +34,12 @@ export default function Stays() {
 
       {visible.length === 0 ? (
         <p className={styles.empty} role="status">
-          No hay casas con ese filtro todavía.
+          No hay hospedajes con ese filtro todavía.
         </p>
       ) : (
         <div className={styles.grid}>
           {visible.map((p) => (
-            <a key={p.id} className={styles.card} href="#estadia">
+            <Link key={p.id} className={styles.card} to={`/hospedajes/${p.slug}`}>
               <div className={styles.photo}>
                 <img src={p.image} alt={p.alt} width={900} height={675} loading="lazy" />
                 <span className={styles.tag}>{p.tag}</span>
@@ -53,11 +54,11 @@ export default function Stays() {
               <span className={styles.price}>
                 Desde <b>{formatCop(p.pricePerNight)}</b> por noche
               </span>
-            </a>
+            </Link>
           ))}
         </div>
       )}
-      <ExampleNote>Fotos del proyecto. Nombres, precios y conexiones de ejemplo.</ExampleNote>
+      <ExampleNote>Fotos de stock libre. Nombres, precios y conexiones de ejemplo.</ExampleNote>
     </Section>
   );
 }

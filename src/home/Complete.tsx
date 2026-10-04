@@ -30,7 +30,7 @@ export default function Complete() {
   );
 
   return (
-    <Section id="completa">
+    <Section id="completa" className="tone-light">
       <SectionHead hand="suma a tu reserva" title="Completa tu estadía" />
       <div className={styles.tabs} role="tablist" aria-label="Planes y mercado">
         {TABS.map((item) => (

@@ -1,38 +1,56 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useId, useState, type ReactNode } from 'react';
 import { supabase } from '../lib/supabase';
 import { LOCALES, LOCALE_LABEL, type Locale } from '../lib/i18n';
+import { inputCls } from '../dash/fields';
 import type { FieldDef } from './types';
 
 type Val = unknown;
 type OnChange = (name: string, value: Val) => void;
 
-const inputCls =
-  'w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500';
+/** "Casa Mar & Sol" → "casa-mar-sol". */
+export function slugify(text: string): string {
+  return text
+    .toLowerCase()
+    .normalize('NFD')
+    .replace(/[̀-ͯ]/g, '')
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-+|-+$/g, '')
+    .slice(0, 80);
+}
 
-function Label({ field }: { field: FieldDef }) {
+function Label({ field, htmlFor, aside }: { field: FieldDef; htmlFor: string; aside?: ReactNode }) {
   return (
-    <label className="mb-1 block text-sm font-medium text-gray-700">
-      {field.label}
-      {field.required && <span className="text-red-500"> *</span>}
-    </label>
+    <div className="mb-1.5 flex items-end justify-between gap-3">
+      <label htmlFor={htmlFor} className="block text-sm font-medium text-ink">
+        {field.label}
+        {field.required && <span className="text-alert"> *</span>}
+      </label>
+      {aside}
+    </div>
   );
+}
+
+function Help({ children }: { children?: ReactNode }) {
+  return children ? <p className="mt-1.5 text-xs text-muted">{children}</p> : null;
 }
 
 /* ---------- i18n ---------- */
 
-function LocaleTabs({ active, onChange }: { active: Locale; onChange: (l: Locale) => void }) {
+function LocaleTabs({ active, onChange, filled }: { active: Locale; onChange: (l: Locale) => void; filled: Record<string, boolean> }) {
   return (
-    <div className="mb-1.5 flex gap-1">
+    <div className="flex gap-1" role="group" aria-label="Idioma del texto">
       {LOCALES.map((l) => (
         <button
           key={l}
           type="button"
+          aria-pressed={active === l}
           onClick={() => onChange(l)}
-          className={`rounded-md px-2 py-0.5 text-xs font-semibold ${
-            active === l ? 'bg-blue-600 text-white' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+          className={`min-h-[30px] rounded-full px-3 text-xs font-semibold transition ${
+            active === l ? 'bg-ink text-surface' : 'bg-stone text-muted hover:text-ink'
           }`}
         >
           {LOCALE_LABEL[l]}
+          {!filled[l] && active !== l && <span className="sr-only"> (vacío)</span>}
         </button>
       ))}
     </div>
@@ -50,20 +68,21 @@ export function I18nInput({
   onChange: OnChange;
   textarea?: boolean;
 }) {
+  const id = useId();
   const [loc, setLoc] = useState<Locale>('es');
   const map = (value ?? {}) as Record<string, string>;
   const set = (v: string) => onChange(field.name, { ...map, [loc]: v });
+  const filled = Object.fromEntries(LOCALES.map((l) => [l, Boolean(map[l]?.trim())]));
 
   return (
     <div>
-      <Label field={field} />
-      <LocaleTabs active={loc} onChange={setLoc} />
+      <Label field={field} htmlFor={id} aside={<LocaleTabs active={loc} onChange={setLoc} filled={filled} />} />
       {textarea ? (
-        <textarea rows={4} className={inputCls} value={map[loc] ?? ''} onChange={(e) => set(e.target.value)} />
+        <textarea id={id} rows={5} className={`${inputCls} leading-relaxed`} value={map[loc] ?? ''} onChange={(e) => set(e.target.value)} />
       ) : (
-        <input className={inputCls} value={map[loc] ?? ''} onChange={(e) => set(e.target.value)} />
+        <input id={id} className={inputCls} value={map[loc] ?? ''} onChange={(e) => set(e.target.value)} />
       )}
-      {field.help && <p className="mt-1 text-xs text-gray-500">{field.help}</p>}
+      <Help>{field.help ?? (loc !== 'es' && !map[loc] ? 'Opcional: si lo dejas vacío se muestra el texto en español.' : undefined)}</Help>
     </div>
   );
 }
@@ -77,17 +96,18 @@ export function I18nListInput({
   value: Record<string, string[]> | null | undefined;
   onChange: OnChange;
 }) {
+  const id = useId();
   const [loc, setLoc] = useState<Locale>('es');
   const map = (value ?? {}) as Record<string, string[]>;
   const text = (map[loc] ?? []).join('\n');
-  const set = (v: string) =>
-    onChange(field.name, { ...map, [loc]: v.split('\n').map((s) => s.trim()).filter(Boolean) });
+  const set = (v: string) => onChange(field.name, { ...map, [loc]: v.split('\n').map((s) => s.trim()).filter(Boolean) });
+  const filled = Object.fromEntries(LOCALES.map((l) => [l, Boolean(map[l]?.length)]));
 
   return (
     <div>
-      <Label field={field} />
-      <LocaleTabs active={loc} onChange={setLoc} />
-      <textarea rows={4} className={inputCls} value={text} onChange={(e) => set(e.target.value)} />
+      <Label field={field} htmlFor={id} aside={<LocaleTabs active={loc} onChange={setLoc} filled={filled} />} />
+      <textarea id={id} rows={4} className={inputCls} value={text} onChange={(e) => set(e.target.value)} />
+      <Help>{field.help ?? 'Un elemento por línea.'}</Help>
     </div>
   );
 }
@@ -95,106 +115,101 @@ export function I18nListInput({
 /* ---------- escalares ---------- */
 
 export function TextField({ field, value, onChange }: { field: FieldDef; value: Val; onChange: OnChange }) {
+  const id = useId();
   return (
     <div>
-      <Label field={field} />
-      <input
-        className={inputCls}
-        value={(value as string) ?? ''}
-        onChange={(e) => onChange(field.name, e.target.value === '' ? null : e.target.value)}
-      />
-      {field.help && <p className="mt-1 text-xs text-gray-500">{field.help}</p>}
+      <Label field={field} htmlFor={id} />
+      <input id={id} className={inputCls} value={(value as string) ?? ''} onChange={(e) => onChange(field.name, e.target.value === '' ? null : e.target.value)} />
+      <Help>{field.help}</Help>
     </div>
   );
 }
 
 export function NumberField({ field, value, onChange }: { field: FieldDef; value: Val; onChange: OnChange }) {
+  const id = useId();
   return (
     <div>
-      <Label field={field} />
+      <Label field={field} htmlFor={id} />
       <input
+        id={id}
         type="number"
+        inputMode="decimal"
         className={inputCls}
         value={value === null || value === undefined ? '' : (value as number)}
         onChange={(e) => onChange(field.name, e.target.value === '' ? null : Number(e.target.value))}
       />
+      <Help>{field.help}</Help>
     </div>
   );
 }
 
+/** Sí/no como interruptor. */
 export function BoolField({ field, value, onChange }: { field: FieldDef; value: Val; onChange: OnChange }) {
+  const id = useId();
   return (
-    <label className="flex cursor-pointer items-center gap-2 pt-6">
-      <input
-        type="checkbox"
-        className="h-4 w-4 rounded border-gray-300"
-        checked={Boolean(value)}
-        onChange={(e) => onChange(field.name, e.target.checked)}
-      />
-      <span className="text-sm font-medium text-gray-700">{field.label}</span>
+    <label htmlFor={id} className="flex cursor-pointer items-start justify-between gap-4 py-1">
+      <span>
+        <span className="block text-sm font-medium text-ink">{field.label}</span>
+        {field.help && <span className="block text-xs text-muted">{field.help}</span>}
+      </span>
+      <span className="relative mt-0.5 inline-flex shrink-0">
+        <input id={id} type="checkbox" role="switch" className="peer sr-only" checked={Boolean(value)} onChange={(e) => onChange(field.name, e.target.checked)} />
+        <span className="h-6 w-11 rounded-full bg-line transition peer-checked:bg-brand peer-focus-visible:ring-2 peer-focus-visible:ring-brand/40" />
+        <span className="absolute left-0.5 top-0.5 h-5 w-5 rounded-full bg-white shadow transition peer-checked:translate-x-5" />
+      </span>
     </label>
   );
 }
 
 export function SelectField({ field, value, onChange }: { field: FieldDef; value: Val; onChange: OnChange }) {
+  const id = useId();
   return (
     <div>
-      <Label field={field} />
-      <select
-        className={inputCls}
-        value={(value as string) ?? ''}
-        onChange={(e) => onChange(field.name, e.target.value === '' ? null : e.target.value)}
-      >
+      <Label field={field} htmlFor={id} />
+      <select id={id} className={inputCls} value={(value as string) ?? ''} onChange={(e) => onChange(field.name, e.target.value === '' ? null : e.target.value)}>
         {(field.options ?? []).map((o) => (
           <option key={o.value} value={o.value}>
             {o.label}
           </option>
         ))}
       </select>
+      <Help>{field.help}</Help>
     </div>
   );
 }
 
+/** Dirección web: se normaliza al escribir y muestra cómo queda la URL. */
 export function SlugField({ field, value, onChange }: { field: FieldDef; value: Val; onChange: OnChange }) {
+  const id = useId();
+  const slug = (value as string) ?? '';
   return (
     <div>
-      <Label field={field} />
-      <input
-        className={`${inputCls} font-mono`}
-        value={(value as string) ?? ''}
-        onChange={(e) =>
-          onChange(
-            field.name,
-            e.target.value
-              .toLowerCase()
-              .normalize('NFD')
-              .replace(/[̀-ͯ]/g, '')
-              .replace(/[^a-z0-9]+/g, '-')
-              .replace(/^-+|-+$/g, '')
-          )
-        }
-      />
-      <p className="mt-1 text-xs text-gray-500">Identificador en la URL. Solo minúsculas, números y guiones.</p>
+      <Label field={field} htmlFor={id} />
+      <div className="flex items-stretch">
+        {field.prefix && (
+          <span className="hidden items-center border border-r-0 border-line bg-surface px-3 text-sm text-muted sm:flex">hellominus.com{field.prefix}</span>
+        )}
+        <input id={id} className={`${inputCls} font-mono text-sm`} value={slug} onChange={(e) => onChange(field.name, slugify(e.target.value))} />
+      </div>
+      <Help>{field.help ?? 'Se arma sola a partir del nombre. Solo minúsculas, números y guiones.'}</Help>
     </div>
   );
 }
 
 export function DateField({ field, value, onChange }: { field: FieldDef; value: Val; onChange: OnChange }) {
+  const id = useId();
   const v = value ? String(value).slice(0, 10) : '';
   return (
     <div>
-      <Label field={field} />
-      <input
-        type="date"
-        className={inputCls}
-        value={v}
-        onChange={(e) => onChange(field.name, e.target.value === '' ? null : e.target.value)}
-      />
+      <Label field={field} htmlFor={id} />
+      <input id={id} type="date" className={inputCls} value={v} onChange={(e) => onChange(field.name, e.target.value === '' ? null : e.target.value)} />
+      <Help>{field.help}</Help>
     </div>
   );
 }
 
 export function RefField({ field, value, onChange }: { field: FieldDef; value: Val; onChange: OnChange }) {
+  const id = useId();
   const [opts, setOpts] = useState<{ id: string; label: string }[]>([]);
   useEffect(() => {
     if (!field.refTable) return;
@@ -206,19 +221,15 @@ export function RefField({ field, value, onChange }: { field: FieldDef; value: V
           (data ?? []).map((r: Record<string, unknown>) => {
             const name = r.name as Record<string, string> | null;
             return { id: r.id as string, label: name?.es || name?.en || (r.slug as string) };
-          })
+          }),
         );
       });
   }, [field.refTable]);
 
   return (
     <div>
-      <Label field={field} />
-      <select
-        className={inputCls}
-        value={(value as string) ?? ''}
-        onChange={(e) => onChange(field.name, e.target.value === '' ? null : e.target.value)}
-      >
+      <Label field={field} htmlFor={id} />
+      <select id={id} className={inputCls} value={(value as string) ?? ''} onChange={(e) => onChange(field.name, e.target.value === '' ? null : e.target.value)}>
         <option value="">—</option>
         {opts.map((o) => (
           <option key={o.id} value={o.id}>
@@ -226,6 +237,7 @@ export function RefField({ field, value, onChange }: { field: FieldDef; value: V
           </option>
         ))}
       </select>
+      <Help>{field.help}</Help>
     </div>
   );
 }

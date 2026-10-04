@@ -10,12 +10,13 @@
     @apply overflow-x-hidden;
   }
   body {
-    @apply bg-white text-ink font-sans antialiased;
+    @apply bg-surface text-ink font-sans antialiased;
     font-size: 1rem;
     line-height: 1.65;
   }
+  /* Títulos en Newsreader liviano, como la portada. */
   h1, h2, h3, h4 {
-    @apply font-sans font-bold tracking-[-0.015em];
+    @apply font-serif font-light tracking-[-0.015em];
   }
   /* Foco siempre visible y con buen contraste: es la única pista de navegación
      para quien se mueve por teclado. */
@@ -92,7 +93,7 @@
 }
 
 .rbc-today {
-  background-color: #FCEEEA;
+  background-color: #E6ECE3;
 }
 
 .rbc-off-range-bg {
@@ -117,12 +118,12 @@
 }
 
 .rbc-toolbar button.rbc-active {
-  background-color: #D1402C;
+  background-color: #2F4B37;
   color: white;
 }
 
 .rbc-toolbar button.rbc-active:hover {
-  background-color: #B8371F;
+  background-color: #243A2A;
 }
 
 /* Custom DatePicker Styles */
@@ -134,7 +135,7 @@
 }
 
 .react-datepicker__header {
-  background-color: #D1402C;
+  background-color: #2F4B37;
   border-bottom: none;
   border-radius: 0.75rem 0.75rem 0 0;
   padding-top: 1rem;
@@ -163,7 +164,7 @@
 }
 
 .react-datepicker__day--selected {
-  background-color: #D1402C;
+  background-color: #2F4B37;
   color: white;
   font-weight: 600;
 }

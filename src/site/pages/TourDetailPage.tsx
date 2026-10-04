@@ -4,7 +4,7 @@ import { ArrowLeft, Check, Clock, MapPin, MessageCircle, Users, X } from 'lucide
 import { useLocale } from '../../lib/locale';
 import { getTourBySlug, type TourWithMedia } from '../../lib/queries';
 import { catalogImageUrl } from '../../lib/supabase';
-import { Container, Money, Stars, Button, buttonClasses } from '../ui';
+import { Container, Money, Button, buttonClasses } from '../ui';
 import { useLeadDialog } from '../LeadDialog';
 import { useSettings } from '../SettingsContext';
 
@@ -13,7 +13,7 @@ export default function TourDetailPage() {
   const { locale, t, tList } = useLocale();
   const es = locale === 'es';
   const { open } = useLeadDialog();
-  const { whatsappHref } = useSettings();
+  const { whatsappHref, hasWhatsapp } = useSettings();
   const [tour, setTour] = useState<TourWithMedia | null | undefined>(undefined);
 
   useEffect(() => {
@@ -44,8 +44,6 @@ export default function TourDetailPage() {
 
       <h1 className="mt-3 font-serif text-3xl text-ink sm:text-4xl">{t(tour.name)}</h1>
       <div className="mt-2 flex flex-wrap items-center gap-x-4 gap-y-1 text-sm text-[#3A362E]">
-        <Stars rating={4.9} count={0} />
-        <span className="text-muted">·</span>
         <span className="inline-flex items-center gap-1">
           <MapPin className="h-3.5 w-3.5 text-muted" /> {[tour.city, tour.region].filter(Boolean).join(', ')}
         </span>
@@ -74,7 +72,7 @@ export default function TourDetailPage() {
       {/* Cuerpo */}
       <div className="mt-8 grid gap-12 pb-16 lg:grid-cols-[1fr_360px]">
         <div>
-          <div className="grid grid-cols-2 gap-5 border-b border-line pb-7">
+          <div className="grid grid-cols-1 gap-5 border-b border-line pb-7 sm:grid-cols-3">
             <Fact icon={<Clock className="h-5 w-5 text-brand" />} label={t(tour.duration_label) || (tour.duration_hours ? `${tour.duration_hours} h` : '—')} sub={t(tour.schedule_label)} />
             <Fact icon={<Users className="h-5 w-5 text-brand" />} label={es ? 'Grupo pequeño' : 'Small group'} sub={tour.max_pax ? `Máx. ${tour.max_pax}` : ''} />
             <Fact icon={<MapPin className="h-5 w-5 text-brand" />} label={es ? 'Punto de encuentro' : 'Meeting point'} sub={tour.meeting_point ?? ''} />
@@ -137,19 +135,22 @@ export default function TourDetailPage() {
             </div>
             <Button
               size="lg"
-              className="mt-4 w-full !rounded-xl"
+              className="mt-4 w-full"
               onClick={() => open({ type: 'tour', related_type: 'tour', related_id: tour.id, itemTitle: t(tour.name) })}
             >
               {es ? 'Solicitar reserva' : 'Request booking'}
             </Button>
-            <a
-              href={whatsappHref(`Hola, quiero info del tour "${t(tour.name)}"`)}
-              target="_blank"
-              rel="noopener noreferrer"
-              className={buttonClasses('outline', 'lg', 'mt-2.5 w-full !rounded-xl')}
-            >
-              <MessageCircle className="h-4 w-4" /> {es ? 'Preguntar por WhatsApp' : 'Ask on WhatsApp'}
-            </a>
+            {/* Sin número propio el canal se oculta (queda reservado para Zuhay). */}
+            {hasWhatsapp && (
+              <a
+                href={whatsappHref(`Hola, quiero info del tour "${t(tour.name)}"`)}
+                target="_blank"
+                rel="noopener noreferrer"
+                className={buttonClasses('outline', 'lg', 'mt-2.5 w-full')}
+              >
+                <MessageCircle className="h-4 w-4" /> {es ? 'Preguntar por WhatsApp' : 'Ask on WhatsApp'}
+              </a>
+            )}
             <p className="mt-3 text-center text-[12px] text-muted">
               {es ? 'No se cobra nada ahora.' : 'Nothing charged now.'}
             </p>

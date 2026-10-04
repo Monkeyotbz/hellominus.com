@@ -3,7 +3,7 @@ import styles from './Faq.module.css';
 
 export default function Faq() {
   return (
-    <section id="faq" className={styles.wrap} aria-label="Preguntas frecuentes">
+    <section id="faq" className={`${styles.wrap} tone-light`} aria-label="Preguntas frecuentes">
       <div className={styles.head}>
         <p className={styles.hand}>preguntas frecuentes</p>
         <h2 className={styles.title}>Antes de reservar</h2>

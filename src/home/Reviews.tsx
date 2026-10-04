@@ -3,7 +3,7 @@ import styles from './Reviews.module.css';
 
 export default function Reviews() {
   return (
-    <section id="resenas" className={styles.wrap} aria-label="Reseñas">
+    <section id="resenas" className={`${styles.wrap} tone-light`} aria-label="Reseñas">
       {REVIEWS.map((review) => (
         <figure key={review.id} className={styles.quote}>
           <span className={styles.stars} role="img" aria-label="5 de 5 estrellas">

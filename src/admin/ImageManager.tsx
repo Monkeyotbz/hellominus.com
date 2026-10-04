@@ -1,6 +1,7 @@
-import { useEffect, useRef, useState } from 'react';
-import { Loader2, Star, Trash2, Upload } from 'lucide-react';
+import { useEffect, useId, useState, type DragEvent } from 'react';
+import { ImagePlus, Loader2, Star, Trash2 } from 'lucide-react';
 import { supabase, sb, catalogImageUrl } from '../lib/supabase';
+import { shrinkImage } from '../dash/images';
 import type { ImageConfig } from './types';
 
 interface ImgRow {
@@ -10,6 +11,10 @@ interface ImgRow {
   is_cover: boolean;
 }
 
+/**
+ * Fotos de un ítem del catálogo. Se arrastran o se eligen, se reducen antes de
+ * subir y cada una tiene sus acciones siempre visibles (también en celular).
+ */
 export default function ImageManager({
   config,
   parentId,
@@ -19,18 +24,17 @@ export default function ImageManager({
   parentId: string | null;
   bucketFolder: string;
 }) {
+  const inputId = useId();
   const [images, setImages] = useState<ImgRow[]>([]);
-  const [busy, setBusy] = useState(false);
-  const fileRef = useRef<HTMLInputElement>(null);
+  const [busy, setBusy] = useState<string | null>(null);
+  const [dragging, setDragging] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   const load = async () => {
     if (!parentId) return;
-    const { data } = await sb
-      .from(config.table)
-      .select('id, storage_path, sort_order, is_cover')
-      .eq(config.fk, parentId)
-      .order('sort_order');
-    setImages((data as ImgRow[]) ?? []);
+    const { data } = await sb.from(config.table).select('id, storage_path, sort_order, is_cover').eq(config.fk, parentId).order('sort_order');
+    const rows = (data as ImgRow[]) ?? [];
+    setImages([...rows].sort((a, b) => Number(b.is_cover) - Number(a.is_cover) || a.sort_order - b.sort_order));
   };
 
   useEffect(() => {
@@ -40,106 +44,127 @@ export default function ImageManager({
 
   if (!parentId) {
     return (
-      <div className="rounded-lg border border-dashed border-gray-300 bg-gray-50 p-6 text-center text-sm text-gray-500">
-        Guarda primero para poder subir imágenes.
+      <div className="rounded-lg border border-dashed border-line bg-surface p-6 text-center text-sm text-muted">
+        Guarda primero y luego podrás subir las fotos.
       </div>
     );
   }
 
-  const upload = async (files: FileList | null) => {
-    if (!files?.length) return;
-    setBusy(true);
-    try {
-      let order = images.length;
-      for (const file of Array.from(files)) {
-        if (!file.type.startsWith('image/')) continue;
-        const ext = file.name.split('.').pop() || 'jpg';
-        const path = `${bucketFolder}/${parentId}/${Date.now()}-${Math.random().toString(36).slice(2)}.${ext}`;
-        const up = await supabase.storage.from('catalog').upload(path, file, { upsert: false });
-        if (up.error) {
-          alert(`Error subiendo ${file.name}: ${up.error.message}`);
-          continue;
-        }
-        const ins = await sb
-          .from(config.table)
-          .insert({ [config.fk]: parentId, storage_path: path, sort_order: order, is_cover: order === 0 });
-        if (ins.error) alert(`Error guardando ${file.name}: ${ins.error.message}`);
-        order++;
+  const upload = async (files: FileList | File[] | null) => {
+    const list = Array.from(files ?? []).filter((f) => f.type.startsWith('image/'));
+    if (!list.length) return;
+    setError(null);
+    let order = images.length;
+    const fallos: string[] = [];
+    for (const [i, original] of list.entries()) {
+      setBusy(`Subiendo ${i + 1} de ${list.length}…`);
+      const file = await shrinkImage(original);
+      const ext = file.name.split('.').pop()?.toLowerCase() || 'jpg';
+      const path = `${bucketFolder}/${parentId}/${Date.now()}-${Math.random().toString(36).slice(2)}.${ext}`;
+      const up = await supabase.storage.from('catalog').upload(path, file, { upsert: false, contentType: file.type });
+      if (up.error) {
+        fallos.push(original.name);
+        continue;
       }
-      await load();
-    } finally {
-      setBusy(false);
-      if (fileRef.current) fileRef.current.value = '';
+      const ins = await sb.from(config.table).insert({ [config.fk]: parentId, storage_path: path, sort_order: order, is_cover: order === 0 });
+      if (ins.error) fallos.push(original.name);
+      else order++;
     }
+    setBusy(null);
+    if (fallos.length) setError(`No se pudieron subir: ${fallos.join(', ')}`);
+    await load();
   };
 
   const remove = async (img: ImgRow) => {
-    if (!confirm('¿Eliminar esta imagen?')) return;
+    if (!confirm('¿Eliminar esta foto?')) return;
+    setBusy('Eliminando…');
     await supabase.storage.from('catalog').remove([img.storage_path]);
     await sb.from(config.table).delete().eq('id', img.id);
+    // Si era la portada, la siguiente pasa a serlo.
+    const rest = images.filter((x) => x.id !== img.id);
+    if (img.is_cover && rest[0]) await sb.from(config.table).update({ is_cover: true }).eq('id', rest[0].id);
+    setBusy(null);
     await load();
   };
 
   const makeCover = async (img: ImgRow) => {
+    setBusy('Actualizando portada…');
     await sb.from(config.table).update({ is_cover: false }).eq(config.fk, parentId);
     await sb.from(config.table).update({ is_cover: true, sort_order: 0 }).eq('id', img.id);
+    setBusy(null);
     await load();
+  };
+
+  const onDrop = (e: DragEvent) => {
+    e.preventDefault();
+    setDragging(false);
+    upload(e.dataTransfer.files);
   };
 
   return (
     <div className="space-y-3">
-      <div>
-        <input
-          ref={fileRef}
-          type="file"
-          multiple
-          accept="image/*"
-          className="hidden"
-          id="img-mgr-input"
-          onChange={(e) => upload(e.target.files)}
-        />
-        <label
-          htmlFor="img-mgr-input"
-          className="inline-flex cursor-pointer items-center gap-2 rounded-lg border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50"
-        >
-          {busy ? <Loader2 className="h-4 w-4 animate-spin" /> : <Upload className="h-4 w-4" />}
-          Subir imágenes
-        </label>
-      </div>
+      <label
+        htmlFor={inputId}
+        onDragOver={(e) => {
+          e.preventDefault();
+          setDragging(true);
+        }}
+        onDragLeave={() => setDragging(false)}
+        onDrop={onDrop}
+        className={`flex cursor-pointer flex-col items-center justify-center gap-1.5 rounded-lg border border-dashed px-4 py-6 text-center transition ${
+          dragging ? 'border-brand bg-brand-tint' : 'border-line bg-surface hover:border-brand/50'
+        }`}
+      >
+        {busy ? <Loader2 className="h-6 w-6 animate-spin text-brand" /> : <ImagePlus className="h-6 w-6 text-brand" />}
+        <span className="text-sm font-medium text-ink">{busy ?? 'Arrastra tus fotos o toca para elegir'}</span>
+        <span className="text-xs text-muted">JPG o PNG. Las reducimos automáticamente.</span>
+        <input id={inputId} type="file" multiple accept="image/*" className="sr-only" disabled={Boolean(busy)} onChange={(e) => upload(e.target.files)} />
+      </label>
+
+      {error && (
+        <p className="text-xs text-alert" role="alert">
+          {error}
+        </p>
+      )}
 
       {images.length > 0 && (
-        <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4">
+        <ul className="grid grid-cols-2 gap-3">
           {images.map((img) => (
-            <div key={img.id} className="group relative aspect-square overflow-hidden rounded-lg bg-gray-100">
-              <img src={catalogImageUrl(img.storage_path)} alt="" className="h-full w-full object-cover" />
-              {img.is_cover && (
-                <span className="absolute left-1.5 top-1.5 rounded-full bg-yellow-500 px-2 py-0.5 text-[10px] font-bold text-white">
-                  Portada
-                </span>
-              )}
-              <div className="absolute inset-0 flex items-center justify-center gap-2 bg-black/0 transition group-hover:bg-black/40">
-                {!img.is_cover && (
+            <li key={img.id} className="overflow-hidden rounded-lg border border-line bg-white">
+              <div className="relative aspect-[4/3] bg-stone">
+                <img src={catalogImageUrl(img.storage_path)} alt="" className="h-full w-full object-cover" />
+                {img.is_cover && <span className="absolute left-2 top-2 rounded-full bg-ink px-2 py-0.5 text-[11px] font-semibold text-surface">Portada</span>}
+              </div>
+              <div className="flex items-center justify-between gap-1 px-1.5 py-1">
+                {img.is_cover ? (
+                  <span className="inline-flex min-h-[36px] items-center gap-1 px-1.5 text-xs text-brand">
+                    <Star className="h-3.5 w-3.5 fill-current" aria-hidden="true" /> Portada
+                  </span>
+                ) : (
                   <button
                     type="button"
                     onClick={() => makeCover(img)}
-                    title="Poner de portada"
-                    className="rounded-full bg-white/90 p-2 opacity-0 transition group-hover:opacity-100"
+                    disabled={Boolean(busy)}
+                    aria-label="Usar de portada"
+                    title="Usar de portada"
+                    className="inline-flex min-h-[36px] items-center gap-1 rounded px-1.5 text-xs text-muted hover:text-brand disabled:opacity-40"
                   >
-                    <Star className="h-4 w-4 text-yellow-600" />
+                    <Star className="h-4 w-4" aria-hidden="true" /> Portada
                   </button>
                 )}
                 <button
                   type="button"
                   onClick={() => remove(img)}
-                  title="Eliminar"
-                  className="rounded-full bg-white/90 p-2 opacity-0 transition group-hover:opacity-100"
+                  disabled={Boolean(busy)}
+                  aria-label="Eliminar foto"
+                  className="inline-flex min-h-[36px] items-center rounded px-1.5 text-muted hover:text-alert disabled:opacity-40"
                 >
-                  <Trash2 className="h-4 w-4 text-red-600" />
+                  <Trash2 className="h-4 w-4" />
                 </button>
               </div>
-            </div>
+            </li>
           ))}
-        </div>
+        </ul>
       )}
     </div>
   );

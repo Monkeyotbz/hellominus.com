@@ -27,16 +27,17 @@ type Size = 'md' | 'lg';
 // Botones grandes a propósito: objetivos táctiles cómodos y etiqueta legible
 // sin forzar la vista.
 const btnBase =
-  'inline-flex min-h-touch items-center justify-center gap-2 rounded-full font-semibold transition-colors disabled:opacity-60';
+  'inline-flex min-h-touch items-center justify-center gap-2 rounded-none border font-medium tracking-[0.05em] transition-colors disabled:opacity-60';
 const btnSize: Record<Size, string> = {
   md: 'px-6 py-3 text-body',
   lg: 'px-8 py-4 text-[1.0625rem]',
 };
 const btnVariant: Record<Variant, string> = {
-  primary: 'bg-brand text-white hover:bg-brand-hover',
-  accent: 'bg-accent text-white hover:bg-accent-hover',
-  outline: 'border-2 border-ink text-ink hover:bg-ink hover:text-white',
-  white: 'bg-white text-ink hover:bg-surface',
+  // Igual que los botones de la portada (src/home/Button.module.css): rectos, en tinta.
+  primary: 'border-ink bg-ink text-surface hover:border-brand-hover hover:bg-brand-hover',
+  accent: 'border-brand bg-brand text-surface hover:border-brand-hover hover:bg-brand-hover',
+  outline: 'border-ink bg-transparent text-ink hover:bg-ink hover:text-surface',
+  white: 'border-white bg-white text-ink hover:bg-surface',
 };
 
 export function buttonClasses(variant: Variant = 'primary', size: Size = 'md', className = '') {

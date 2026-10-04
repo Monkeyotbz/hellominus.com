@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useSearchParams, useNavigate } from 'react-router-dom';
+import Wordmark from '../site/Wordmark';
 
 const ConfirmarCorreo: React.FC = () => {
   const [mensaje, setMensaje] = useState('Confirmando tu correo...');
@@ -27,14 +28,12 @@ const ConfirmarCorreo: React.FC = () => {
   }, [searchParams, navigate]);
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-100 via-white to-green-100">
+    <div className="min-h-screen flex items-center justify-center bg-surface">
       <div className="bg-white p-10 rounded-2xl shadow-2xl text-center max-w-md w-full">
-        <img
-          src="/brand/logo.svg"
-          alt="Logo Hellominus"
-          className="mx-auto mb-6 w-24 h-24 object-contain"
-        />
-        <h2 className="text-2xl font-extrabold text-green-700 mb-2">¡Bienvenido a Hellominus!</h2>
+        <div className="mb-6 flex justify-center">
+          <Wordmark className="text-2xl" />
+        </div>
+        <h2 className="text-2xl font-extrabold text-brand mb-2">¡Bienvenido a Hellominus!</h2>
         <p className="text-gray-700 mb-6">
           {mensaje}
         </p>

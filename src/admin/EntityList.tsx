@@ -4,6 +4,7 @@ import { Loader2, Plus, Trash2 } from 'lucide-react';
 import { sb } from '../lib/supabase';
 import { pickText } from '../lib/i18n';
 import { ENTITIES } from './entities';
+import { useEntityScope } from './scope';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 type AnyRow = Record<string, any>;
@@ -17,15 +18,17 @@ const STATUS_STYLE: Record<string, string> = {
 export default function EntityList() {
   const { entity = '' } = useParams();
   const cfg = ENTITIES[entity];
+  const { basePath, tenantId } = useEntityScope();
   const [rows, setRows] = useState<AnyRow[]>([]);
   const [loading, setLoading] = useState(true);
 
   const load = async () => {
     if (!cfg) return;
     setLoading(true);
-    const { data, error } = await sb
-      .from(cfg.table)
-      .select('*')
+    let q = sb.from(cfg.table).select('*');
+    // En /panel solo lo del espacio activo.
+    if (tenantId) q = q.eq('tenant_id', tenantId);
+    const { data, error } = await q
       .order('sort_order', { ascending: true })
       .order('created_at', { ascending: false });
     if (error) console.error(error);
@@ -35,7 +38,7 @@ export default function EntityList() {
 
   useEffect(() => {
     load();
-  }, [entity]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [entity, tenantId]); // eslint-disable-line react-hooks/exhaustive-deps
 
   if (!cfg) return <p className="text-red-600">Entidad desconocida: {entity}</p>;
 
@@ -70,15 +73,15 @@ export default function EntityList() {
       <div className="flex items-center justify-between">
         <h1 className="text-2xl font-bold text-gray-900">{cfg.labelPlural}</h1>
         <Link
-          to={`/admin/${entity}/new`}
-          className="inline-flex items-center gap-2 rounded-lg bg-blue-600 px-4 py-2 text-sm font-semibold text-white hover:bg-blue-700"
+          to={`${basePath}/${entity}/new`}
+          className="inline-flex items-center gap-2 rounded-lg bg-ink px-4 py-2 text-sm font-semibold text-white hover:bg-brand-hover"
         >
           <Plus className="h-4 w-4" /> Nuevo
         </Link>
       </div>
 
       {loading ? (
-        <Loader2 className="h-6 w-6 animate-spin text-blue-600" />
+        <Loader2 className="h-6 w-6 animate-spin text-brand" />
       ) : rows.length === 0 ? (
         <div className="rounded-xl border border-dashed border-gray-300 bg-white p-10 text-center text-gray-500">
           Aún no hay {cfg.labelPlural.toLowerCase()}. Crea el primero.
@@ -102,7 +105,7 @@ export default function EntityList() {
                   {cfg.listColumns.map((c, i) => (
                     <td key={c.field} className="px-4 py-3">
                       {i === 0 ? (
-                        <Link to={`/admin/${entity}/${row.id}`} className="font-medium text-blue-700 hover:underline">
+                        <Link to={`${basePath}/${entity}/${row.id}`} className="font-medium text-brand hover:underline">
                           {renderCell(row, c)}
                         </Link>
                       ) : (

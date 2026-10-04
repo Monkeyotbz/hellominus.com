@@ -1,7 +1,8 @@
 import { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import { buttonClasses } from '../site/ui';
+import Wordmark from '../site/Wordmark';
 
 export default function SignupPageNew() {
   const [formData, setFormData] = useState({
@@ -14,6 +15,9 @@ export default function SignupPageNew() {
   const [loading, setLoading] = useState(false);
   const { signUp } = useAuth();
   const navigate = useNavigate();
+  const location = useLocation();
+  // Página que mandó a registrarse (p. ej. /anfitriones); se pasa también al login.
+  const from = (location.state as { from?: { pathname: string } } | null)?.from;
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({
@@ -44,19 +48,21 @@ export default function SignupPageNew() {
 
     setLoading(true);
 
-    const { error } = await signUp(formData.email, formData.password, formData.fullName);
+    const { error, hasSession } = await signUp(formData.email, formData.password, formData.fullName);
 
     if (error) {
       setError(
-        error.message === 'User already registered'
+        (error as { message?: string }).message === 'User already registered'
           ? 'Este email ya está registrado'
           : 'Error al crear la cuenta. Intenta de nuevo.'
       );
       setLoading(false);
+    } else if (hasSession) {
+      // Sin confirmación de correo: ya tiene sesión, sigue a donde iba.
+      navigate(from?.pathname ?? '/cuenta', { replace: true });
     } else {
-      // Redirigir al login o mostrar mensaje de confirmación de email
       navigate('/login', {
-        state: { message: 'Cuenta creada exitosamente. Por favor inicia sesión.' },
+        state: { message: 'Te enviamos un correo para confirmar tu cuenta. Después inicia sesión aquí.', from },
       });
     }
   };
@@ -67,12 +73,12 @@ export default function SignupPageNew() {
 
   return (
     <div className="relative flex min-h-screen items-center justify-center overflow-hidden px-4 py-10 sm:px-6">
-      <img src="/brand/login-bg.jpg" alt="" className="absolute inset-0 h-full w-full object-cover" />
+      <img src="/portada/hero.jpg" alt="" className="absolute inset-0 h-full w-full object-cover" />
       <div className="absolute inset-0 bg-gradient-to-b from-black/45 via-black/20 to-black/55" />
 
       <div className="relative w-full max-w-md">
         <Link to="/" className="mb-6 flex justify-center">
-          <img src="/brand/logo.svg" alt="Hellominus" className="h-11 w-auto" />
+          <Wordmark light className="text-2xl" />
         </Link>
 
         <form
@@ -176,7 +182,7 @@ export default function SignupPageNew() {
 
           <p className="text-center text-sm text-muted">
             ¿Ya tenés cuenta?{' '}
-            <Link to="/login" className="font-semibold text-brand hover:text-brand-hover">
+            <Link to="/login" state={{ from }} className="font-semibold text-brand hover:text-brand-hover">
               Iniciá sesión acá
             </Link>
           </p>

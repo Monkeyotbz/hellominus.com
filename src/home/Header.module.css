@@ -24,10 +24,32 @@
   display: flex;
   align-items: center;
   justify-content: flex-end;
+  gap: var(--space-3);
 }
 
+.account {
+  color: var(--color-ink);
+  font: 500 0.98rem var(--font-body);
+  letter-spacing: 0.03em;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.account:hover {
+  color: var(--color-leaf);
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+.account:focus-visible {
+  outline: 2px solid var(--color-leaf);
+  outline-offset: 3px;
+}
+
+/* En escritorio la barra de secciones ya muestra todo: el botón Menú solo
+   aparece cuando esa barra se oculta (≤ 900 px, móvil y tablet vertical). */
 .menuBtn {
-  display: inline-flex;
+  display: none;
   align-items: center;
   gap: 22px;
   min-height: 44px;
@@ -286,6 +308,14 @@
     height: 68px;
   }
 
+  .menuBtn {
+    display: inline-flex;
+  }
+
+  .subnavWrap {
+    display: none;
+  }
+
   .subnav {
     height: 46px;
     gap: var(--space-3);
@@ -310,6 +340,10 @@
 }
 
 @media (max-width: 560px) {
+  .account {
+    display: none;
+  }
+
   .topRow {
     height: 60px;
     gap: var(--space-1);

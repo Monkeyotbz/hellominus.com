@@ -21,7 +21,7 @@ import TrustFigures from './TrustFigures';
 import WhatsAppFab from './WhatsAppFab';
 import './tokens.css';
 
-const PAGE_TITLE = 'Hellominus — Casas, planes y mercado en Colombia';
+const PAGE_TITLE = 'Hellominus — Hospedajes, planes y mercado en Colombia';
 
 /** Portada nueva de Hellominus. Datos de ejemplo (ver data.ts). */
 export default function HomePage() {

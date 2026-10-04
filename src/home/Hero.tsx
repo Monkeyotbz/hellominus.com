@@ -23,6 +23,8 @@ function addDays(date: Date, days: number): Date {
 export default function Hero() {
   const ids = { dest: useId(), arrival: useId(), departure: useId() };
   const today = useMemo(() => new Date(), []);
+  // Con "reducir movimiento" activo se muestra solo el póster, sin reproducir.
+  const reduceMotion = useMemo(() => window.matchMedia('(prefers-reduced-motion: reduce)').matches, []);
   const [destination, setDestination] = useState<'todas' | City>('todas');
   const [arrival, setArrival] = useState(() => toIsoDate(addDays(today, 7)));
   const [departure, setDeparture] = useState(() => toIsoDate(addDays(today, 12)));
@@ -41,7 +43,7 @@ export default function Hero() {
     setStayFilter(destination);
     const shown = destination === 'todas' ? properties.length : properties.filter((p) => p.city === destination).length;
     setNote(
-      `Maqueta: mostramos ${shown} ${shown === 1 ? 'casa' : 'casas'} de ejemplo para ${guests} ${
+      `Maqueta: mostramos ${shown} ${shown === 1 ? 'hospedaje' : 'hospedajes'} de ejemplo para ${guests} ${
         guests === 1 ? 'huésped' : 'huéspedes'
       }, del ${arrival} al ${departure}. La disponibilidad real aún no se consulta.`,
     );
@@ -50,18 +52,23 @@ export default function Hero() {
 
   return (
     <section className={styles.hero} aria-label="Portada">
-      <img
+      {/* Video decorativo: el mensaje está en el texto, por eso va oculto a lectores de pantalla. */}
+      <video
         className={styles.photo}
-        src="/home/hero-atardecer.jpg"
-        alt="Atardecer sobre el mar desde una piscina en terraza, Cartagena."
-        width={1200}
-        height={800}
+        src="/portada/hero.mp4"
+        poster="/portada/hero.jpg"
+        autoPlay={!reduceMotion}
+        muted
+        loop
+        playsInline
+        preload="auto"
+        aria-hidden="true"
       />
       <div className={styles.copy}>
         <p className={styles.hand}>para nómadas digitales y para todos</p>
         <h1 className={styles.title}>Quédate el tiempo que el lugar te pida.</h1>
         <p className={styles.sub}>
-          Casas por noches o por meses en Colombia, con planes y mercado local. Para <b>quienes trabajan mientras viajan</b> y para todos.
+          Hospedajes por noches o por meses en Colombia, con planes y mercado local. Para <b>quienes trabajan mientras viajan</b> y para todos.
         </p>
       </div>
 

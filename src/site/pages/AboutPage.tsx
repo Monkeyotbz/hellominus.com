@@ -5,7 +5,7 @@ import { Users, Wallet, MessageCircle } from 'lucide-react';
 
 export default function AboutPage() {
   const { locale } = useLocale();
-  const { whatsappHref } = useSettings();
+  const { whatsappHref, hasWhatsapp, contactEmail } = useSettings();
   const es = locale === 'es';
 
   return (
@@ -89,13 +89,14 @@ export default function AboutPage() {
           <div className="text-h2 leading-tight text-white">
             {es ? '¿Tenés una duda antes de reservar?' : 'Any questions before you book?'}
           </div>
+          {/* Sin WhatsApp propio, el contacto va por correo. */}
           <a
-            href={whatsappHref()}
-            target="_blank"
-            rel="noopener noreferrer"
+            href={hasWhatsapp ? whatsappHref() : `mailto:${contactEmail}`}
+            target={hasWhatsapp ? '_blank' : undefined}
+            rel={hasWhatsapp ? 'noopener noreferrer' : undefined}
             className={buttonClasses('white', 'lg', 'shrink-0')}
           >
-            {es ? 'Escribinos por WhatsApp' : 'Message us on WhatsApp'}
+            {hasWhatsapp ? (es ? 'Escribinos por WhatsApp' : 'Message us on WhatsApp') : es ? 'Escríbenos' : 'Write to us'}
           </a>
         </div>
       </Container>

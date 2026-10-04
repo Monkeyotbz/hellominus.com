@@ -3,7 +3,7 @@ import styles from './TrustFigures.module.css';
 
 export default function TrustFigures() {
   return (
-    <section className={styles.trust} aria-label="Hellominus en cifras">
+    <section className={`${styles.trust} tone-light`} aria-label="Hellominus en cifras">
       <ul>
         {TRUST_FIGURES.map((figure) => (
           <li key={figure.id}>

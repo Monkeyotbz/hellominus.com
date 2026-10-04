@@ -22,7 +22,10 @@
   position: absolute;
   inset: 0;
   z-index: 1;
-  background: linear-gradient(180deg, rgba(20, 20, 18, 0.18) 0%, rgba(20, 20, 18, 0.18) 35%, rgba(20, 20, 18, 0.7) 100%);
+  /* El video es claro (atardecer): sombra a la izquierda, donde va el texto, y abajo para la barra. */
+  background:
+    linear-gradient(90deg, rgba(20, 20, 18, 0.55) 0%, rgba(20, 20, 18, 0.25) 45%, rgba(20, 20, 18, 0) 75%),
+    linear-gradient(180deg, rgba(20, 20, 18, 0.2) 0%, rgba(20, 20, 18, 0.2) 35%, rgba(20, 20, 18, 0.72) 100%);
 }
 
 .copy {
@@ -184,7 +187,24 @@
   font-weight: 700;
 }
 
-@media (max-width: 960px) {
+/* Entre 1001 y 1200 px la barra sigue en una fila: campos más compactos para
+   que el destino y las fechas no se corten. */
+@media (min-width: 1001px) and (max-width: 1200px) {
+  .field {
+    padding-inline: var(--space-2);
+  }
+
+  .select,
+  .date {
+    font-size: 1.1rem;
+  }
+
+  .go {
+    padding: 0 28px;
+  }
+}
+
+@media (max-width: 1000px) {
   .bar {
     grid-template-columns: 1fr 1fr;
   }
@@ -206,6 +226,11 @@
 @media (max-width: 560px) {
   .hero {
     min-height: auto;
+  }
+
+  /* En móvil el texto ocupa todo el ancho y cae sobre el cielo claro: sombra pareja. */
+  .hero::before {
+    background: linear-gradient(180deg, rgba(20, 20, 18, 0.5) 0%, rgba(20, 20, 18, 0.45) 45%, rgba(20, 20, 18, 0.75) 100%);
   }
 
   .copy {

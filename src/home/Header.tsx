@@ -5,6 +5,7 @@ import { useHomeStore } from './store';
 import { useDismiss, useScrollSpy } from './hooks';
 import { ChevronRightIcon, MenuIcon, SearchIcon } from './Icons';
 import styles from './Header.module.css';
+import { accountLabel, useAuth } from '../contexts/AuthContext';
 
 type Panel = 'menu' | 'search' | null;
 
@@ -17,7 +18,7 @@ const SEARCH_HITS: { label: string; href: string; city?: City }[] = [
   { label: 'Jardín, Antioquia', href: '#estadia', city: 'Jardín' },
   { label: 'Islas del Rosario', href: '#completa' },
   { label: 'Isla Cholón', href: '#completa' },
-  { label: 'Casas para trabajar', href: '#nomadas' },
+  { label: 'Hospedajes para trabajar', href: '#nomadas' },
 ];
 
 function normalize(text: string): string {
@@ -25,6 +26,7 @@ function normalize(text: string): string {
 }
 
 export default function Header() {
+  const { user, homePath } = useAuth();
   const [panel, setPanel] = useState<Panel>(null);
   const [query, setQuery] = useState('');
   const spy = useScrollSpy(SPY_IDS);
@@ -74,6 +76,10 @@ export default function Header() {
         </a>
 
         <div className={styles.toolsRight}>
+          {/* Acceso a la cuenta (en móvil vive dentro del menú, por espacio). */}
+          <Link className={styles.account} to={user ? homePath : '/login'}>
+            {user ? accountLabel(homePath) : 'Ingresar'}
+          </Link>
           <a className={styles.reserve} href="#estadia">
             Reservar
           </a>
@@ -116,7 +122,7 @@ export default function Header() {
           <a href="#nomadas">Para nómadas</a>
           <a href="#blog">Blog</a>
           <Link className={styles.small} to="/hospedajes">
-            Todas las casas
+            Todos los hospedajes
           </Link>
           <Link className={styles.small} to="/tours">
             Todos los tours
@@ -125,10 +131,10 @@ export default function Header() {
             Nosotros
           </Link>
           <Link className={styles.small} to="/anfitriones">
-            Publicar mi casa
+            Publicar mi hospedaje
           </Link>
-          <Link className={styles.small} to="/login">
-            Iniciar sesión
+          <Link className={styles.small} to={user ? homePath : '/login'}>
+            {user ? accountLabel(homePath) : 'Iniciar sesión'}
           </Link>
         </nav>
       )}

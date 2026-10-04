@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import Wordmark from './Wordmark';
 import { useLocale } from '../lib/locale';
 import { useSettings } from './SettingsContext';
 import { Container } from './ui';
@@ -12,7 +13,7 @@ export default function SiteFooter() {
     <footer className="mt-20 border-t border-line">
       <Container className="grid grid-cols-2 gap-10 py-12 md:grid-cols-4">
         <div className="col-span-2 md:col-span-1">
-          <img src="/brand/logo.svg" alt="Hellominus" className="h-10 w-auto" />
+          <Wordmark className="text-2xl" />
         </div>
         <FooterCol title={es ? 'Explorar' : 'Explore'}>
           <Link to="/tours">Tours</Link>

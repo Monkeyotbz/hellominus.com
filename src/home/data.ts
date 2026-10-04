@@ -1,14 +1,22 @@
 /**
  * Datos de EJEMPLO de la portada. Nada de esto es real: precios, cifras,
  * reseñas, políticas y artículos se reemplazan cuando existan los datos
- * verdaderos. Las fotos son las del proyecto (public/home).
+ * verdaderos. Las fotos son de stock libre (CC0) en el bucket `catalog` de
+ * Supabase, carpeta muestra/.
  */
+
+import { catalogImageUrl } from '../lib/supabase';
+
+/** URL pública de una foto de muestra (catalog/muestra/<nombre>.jpg). */
+export const foto = (nombre: string) => catalogImageUrl(`muestra/${nombre}.jpg`);
 
 export type City = 'Cartagena' | 'Medellín' | 'Jardín';
 export type StayFilter = 'todas' | City | 'trabajo';
 
 export interface Property {
   id: string;
+  /** Slug de la ficha: /hospedajes/<slug>. */
+  slug: string;
   city: City;
   area: string;
   title: string;
@@ -66,11 +74,12 @@ export const CITIES: City[] = ['Cartagena', 'Medellín', 'Jardín'];
 export const PROPERTIES: Property[] = [
   {
     id: 'laguito',
+    slug: 'demo-laguito',
     city: 'Cartagena',
     area: 'El Laguito',
     title: 'Apartamento con terraza sobre la laguna',
-    image: '/home/p-laguito.jpg',
-    alt: 'Terraza con hamaca y vista a la laguna del Laguito.',
+    image: foto('sala-vista-agua'),
+    alt: 'Sala con ventanales y vista al agua.',
     tag: 'Vista a la laguna',
     wifiMbps: 150,
     minNights: 3,
@@ -79,11 +88,12 @@ export const PROPERTIES: Property[] = [
   },
   {
     id: 'torres',
+    slug: 'demo-torres',
     city: 'Cartagena',
     area: 'Torres del Lago',
     title: 'Balcón frente al agua',
-    image: '/home/p-torres.jpg',
-    alt: 'Balcón con piscina y vista a la bahía.',
+    image: foto('balcon-caleta'),
+    alt: 'Caleta de agua turquesa vista desde un balcón.',
     tag: 'Piscina del edificio',
     wifiMbps: 120,
     minNights: 2,
@@ -92,11 +102,12 @@ export const PROPERTIES: Property[] = [
   },
   {
     id: 'bocagrande',
+    slug: 'demo-bocagrande',
     city: 'Cartagena',
     area: 'Bocagrande',
     title: 'Apartamento con piscina en la terraza',
-    image: '/home/p-palmetto.jpg',
-    alt: 'Piscina con cascada y vista al mar.',
+    image: foto('piscinas-aereas'),
+    alt: 'Vista aérea de casas con piscina.',
     tag: 'Piscina',
     wifiMbps: 100,
     minNights: 2,
@@ -105,11 +116,12 @@ export const PROPERTIES: Property[] = [
   },
   {
     id: 'conquistador',
+    slug: 'demo-conquistador',
     city: 'Cartagena',
     area: 'Nuevo Conquistador',
     title: 'Terraza con vista al mar',
-    image: '/home/p-conquistador.jpg',
-    alt: 'Terraza amplia con vista al mar y al horizonte.',
+    image: foto('mar-atardecer'),
+    alt: 'Atardecer naranja sobre el mar con veleros.',
     tag: 'Frente al mar',
     wifiMbps: 100,
     minNights: 3,
@@ -118,11 +130,12 @@ export const PROPERTIES: Property[] = [
   },
   {
     id: 'poblado',
+    slug: 'demo-poblado',
     city: 'Medellín',
     area: 'El Poblado',
     title: 'Penthouse con piscina cubierta',
-    image: '/home/p-medellin.jpg',
-    alt: 'Penthouse amplio con piscina cubierta y zonas de trabajo.',
+    image: foto('comedor-ciudad'),
+    alt: 'Comedor luminoso con ventanales a la ciudad.',
     tag: 'Piscina cubierta',
     wifiMbps: 300,
     minNights: 5,
@@ -131,11 +144,12 @@ export const PROPERTIES: Property[] = [
   },
   {
     id: 'jardin',
+    slug: 'demo-jardin-finca',
     city: 'Jardín',
     area: 'Antioquia',
     title: 'Casa de campo con vista a las montañas',
-    image: '/home/p-jardin.jpg',
-    alt: 'Casa de campo entre café y montañas.',
+    image: foto('finca-corredor'),
+    alt: 'Corredor de finca con plantas y vista al jardín.',
     tag: 'Montaña',
     wifiMbps: 50,
     minNights: 2,
@@ -147,10 +161,10 @@ export const PROPERTIES: Property[] = [
 export const FEATURED_PROPERTY_ID = 'poblado';
 
 export const PLANS: Plan[] = [
-  { id: 'cholon', title: 'Isla Cholón', detail: 'Día de playa', price: 180000, image: '/home/t-cholon.jpg', alt: 'Isla Cholón, aguas turquesa y botes.' },
-  { id: 'rosario', title: 'Islas del Rosario', detail: 'Cuatro islas', price: 240000, image: '/home/t-rosario.jpg', alt: 'Isla de las Islas del Rosario con arrecife turquesa.' },
-  { id: 'bora', title: 'Bora Bora Beach Club', detail: 'Club de playa', price: 220000, image: '/home/t-bora.jpg', alt: 'Club de playa con sombrillas de colores.' },
-  { id: 'tranquila', title: 'Playa Tranquila', detail: 'Descanso', price: 160000, image: '/home/t-tranquila.jpg', alt: 'Playa Tranquila con arena blanca.' },
+  { id: 'cholon', title: 'Isla Cholón', detail: 'Día de playa', price: 180000, image: foto('playa-palmeras'), alt: 'Playa de arena blanca bajo las palmeras.' },
+  { id: 'rosario', title: 'Islas del Rosario', detail: 'Cuatro islas', price: 240000, image: foto('playa-palma-turquesa'), alt: 'Palmera inclinada sobre agua turquesa.' },
+  { id: 'bora', title: 'Bora Bora Beach Club', detail: 'Club de playa', price: 220000, image: foto('playa-club'), alt: 'Playa con sillas a la sombra y lanchas en el agua.' },
+  { id: 'tranquila', title: 'Playa Tranquila', detail: 'Descanso', price: 160000, image: foto('playa-arena-blanca'), alt: 'Playa de arena blanca al amanecer.' },
 ];
 
 export const PRODUCTS: Product[] = [
@@ -162,7 +176,7 @@ export const PRODUCTS: Product[] = [
 
 export const REVIEWS: Review[] = [
   { id: 'r1', quote: 'Trabajé cinco semanas desde la terraza. La conexión nunca se cayó en una reunión.', author: 'Lucas, desarrollador de software' },
-  { id: 'r2', quote: 'Reservé la casa y el plan a las islas en un solo paso.', author: 'Marta, de visita desde Bogotá' },
+  { id: 'r2', quote: 'Reservé el hospedaje y el plan a las islas en un solo paso.', author: 'Marta, de visita desde Bogotá' },
   { id: 'r3', quote: 'Llegué por una semana y me quedé un mes.', author: 'Ana, diseñadora' },
 ];
 
@@ -173,8 +187,8 @@ export const POSTS: Post[] = [
     minutes: 7,
     title: 'Medellín o Cartagena: dónde trabajar según tu ritmo',
     excerpt: 'Clima, señal y precio por noche, ciudad por ciudad.',
-    image: '/home/nota-trabajo.jpg',
-    alt: 'Vista nocturna de Medellín con un edificio y montañas al fondo.',
+    image: foto('trabajo-portatil'),
+    alt: 'Portátil sobre una mesa junto a una planta.',
     position: '50% 50%',
   },
   {
@@ -183,8 +197,8 @@ export const POSTS: Post[] = [
     minutes: 5,
     title: 'Tres días en Cartagena sin repetir calle',
     excerpt: 'Centro y Getsemaní, para caminar después del trabajo.',
-    image: '/home/nota-barrios.jpg',
-    alt: 'Fachada colonial blanca con balcones cubiertos de buganvilias en Cartagena.',
+    image: foto('cartagena-centro'),
+    alt: 'Calle colonial con balcones de colores en Cartagena.',
     position: '50% 62%',
   },
   {
@@ -193,14 +207,14 @@ export const POSTS: Post[] = [
     minutes: 4,
     title: 'Un fin de semana en la montaña, con café incluido',
     excerpt: 'Cabañas y miradores a pocas horas de la ciudad.',
-    image: '/home/nota-escapada.jpg',
-    alt: 'Cabaña de madera con techo rojo entre jardines y montañas.',
+    image: foto('jardin-campo'),
+    alt: 'Casa de campo entre árboles y potreros verdes.',
     position: '54% 50%',
   },
 ];
 
 export const FAQ: FaqItem[] = [
-  { id: 'fotos', question: '¿Cómo sé que la casa es como en las fotos?', answer: 'Visitamos cada casa y revisamos al anfitrión antes de publicarla.' },
+  { id: 'fotos', question: '¿Cómo sé que el hospedaje es como en las fotos?', answer: 'Visitamos cada hospedaje y revisamos al anfitrión antes de publicarlo.' },
   { id: 'cancelacion', question: '¿Puedo cancelar?', answer: 'Sí, sin costo hasta 5 días antes de la llegada.' },
   { id: 'pago', question: '¿Cómo pago?', answer: 'En línea y de forma segura. El anfitrión recibe el dinero cuando llegas.' },
   { id: 'duracion', question: '¿Cuánto puedo quedarme?', answer: 'Desde 2 noches. Desde 28 noches hay tarifa mensual.' },
@@ -208,12 +222,12 @@ export const FAQ: FaqItem[] = [
 ];
 
 export const TRUST_FIGURES = [
-  { id: 'casas', value: '120+', label: 'casas en 3 destinos' },
+  { id: 'casas', value: '120+', label: 'hospedajes en 3 destinos' },
   { id: 'nota', value: '4,8', label: 'calificación promedio' },
-  { id: 'wifi', value: '100 Mbps', label: 'Wi-Fi medido en cada casa' },
+  { id: 'wifi', value: '100 Mbps', label: 'Wi-Fi medido en cada hospedaje' },
 ];
 
-export const HERO_ASSURANCES = ['Casas verificadas', 'Pago seguro', 'Cancelación flexible'];
+export const HERO_ASSURANCES = ['Hospedajes verificados', 'Pago seguro', 'Cancelación flexible'];
 
 export const copFormat = new Intl.NumberFormat('es-CO');
 export const formatCop = (value: number): string => `$${copFormat.format(value)}`;

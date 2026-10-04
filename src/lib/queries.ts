@@ -188,3 +188,50 @@ export async function subscribeNewsletter(email: string, locale = 'es'): Promise
   if (error && error.code === '23505') return { error: null };
   return { error: error?.message ?? null };
 }
+
+/* ------------------------------------------------------------ espacios (tenants) */
+
+export type ProductWithMedia = Row<'products'> & { images: ImageRow[] };
+export type BlogPostRow = Pick<Row<'blog_posts'>, 'id' | 'slug' | 'title' | 'excerpt' | 'cover_image_path' | 'published_at' | 'reading_minutes'>;
+
+export interface TenantPage {
+  tenant: Row<'tenants'>;
+  stays: StayWithMedia[];
+  tours: TourWithMedia[];
+  products: ProductWithMedia[];
+  posts: BlogPostRow[];
+}
+
+/**
+ * Página pública de un propietario (/anfitrion/:slug). RLS solo deja ver
+ * espacios activos y lo que está publicado en ellos.
+ */
+export async function getTenantPage(slug: string): Promise<TenantPage | null> {
+  const { data: tenant, error } = await supabase.from('tenants').select('*').eq('slug', slug).eq('status', 'active').maybeSingle();
+  if (error) console.error('getTenantPage', error.message);
+  if (!tenant) return null;
+
+  const [stays, tours, products, posts] = await Promise.all([
+    supabase.from('accommodations').select(STAY_SELECT).eq('tenant_id', tenant.id).eq('status', 'published').order('sort_order'),
+    supabase.from('tours').select(TOUR_SELECT).eq('tenant_id', tenant.id).eq('status', 'published').order('sort_order'),
+    supabase
+      .from('products')
+      .select('*, images:product_images(storage_path, sort_order, is_cover, alt)')
+      .eq('tenant_id', tenant.id)
+      .eq('status', 'published')
+      .order('sort_order'),
+    supabase
+      .from('blog_posts')
+      .select('id, slug, title, excerpt, cover_image_path, published_at, reading_minutes')
+      .eq('tenant_id', tenant.id)
+      .eq('status', 'published')
+      .order('published_at', { ascending: false }),
+  ]);
+  return {
+    tenant,
+    stays: (stays.data ?? []) as unknown as StayWithMedia[],
+    tours: (tours.data ?? []) as unknown as TourWithMedia[],
+    products: (products.data ?? []) as unknown as ProductWithMedia[],
+    posts: posts.data ?? [],
+  };
+}

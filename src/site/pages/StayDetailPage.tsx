@@ -13,7 +13,7 @@ export default function StayDetailPage() {
   const { locale, t } = useLocale();
   const es = locale === 'es';
   const { open } = useLeadDialog();
-  const { whatsappHref } = useSettings();
+  const { whatsappHref, hasWhatsapp } = useSettings();
   const [stay, setStay] = useState<StayWithMedia | null | undefined>(undefined);
 
   useEffect(() => {
@@ -105,21 +105,24 @@ export default function StayDetailPage() {
             </div>
             <Button
               size="lg"
-              className="mt-4 w-full !rounded-xl"
+              className="mt-4 w-full"
               onClick={() =>
                 open({ type: 'accommodation', related_type: 'accommodation', related_id: stay.id, itemTitle: t(stay.name) })
               }
             >
               {es ? 'Solicitar reserva' : 'Request booking'}
             </Button>
-            <a
-              href={whatsappHref(`Hola, quiero info del hospedaje "${t(stay.name)}"`)}
-              target="_blank"
-              rel="noopener noreferrer"
-              className={buttonClasses('outline', 'lg', 'mt-2.5 w-full !rounded-xl')}
-            >
-              <MessageCircle className="h-4 w-4" /> WhatsApp
-            </a>
+            {/* Sin número propio el canal se oculta (queda reservado para Zuhay). */}
+            {hasWhatsapp && (
+              <a
+                href={whatsappHref(`Hola, quiero info del hospedaje "${t(stay.name)}"`)}
+                target="_blank"
+                rel="noopener noreferrer"
+                className={buttonClasses('outline', 'lg', 'mt-2.5 w-full')}
+              >
+                <MessageCircle className="h-4 w-4" /> WhatsApp
+              </a>
+            )}
             {stay.external_booking_url && (
               <a
                 href={stay.external_booking_url}
