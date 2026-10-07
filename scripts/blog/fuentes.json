@@ -1,0 +1,4 @@
+{
+  "_nota": "Lista de fuentes autorizadas. Vacía a propósito: una fuente solo se agrega después de revisar sus términos de uso. Formato de cada fuente: {\"id\": \"nombre-corto\", \"nombre\": \"Nombre legible\", \"tipo\": \"rss\", \"url\": \"https://...\", \"licencia\": \"qué permiten\", \"revisada\": \"2026-10-07\"}",
+  "fuentes": []
+}
