@@ -1,4 +1,4 @@
-import { useEffect, type ReactNode } from 'react';
+import type { ReactNode } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { SettingsProvider } from '../site/SettingsContext';
 import Footer from '../home/Footer';
@@ -8,6 +8,7 @@ import BlogHeader from './BlogHeader';
 import { AUTHOR, AUTHOR_NOTE, CATEGORIES, UI, formatDate, hasTranslation, pick } from './data';
 import { useBlogStore } from './store';
 import { useBlogData } from './useBlogData';
+import { useMeta } from './useMeta';
 import styles from './PostPage.module.css';
 
 /** Muestra el cuerpo (Markdown simple): párrafos, títulos "## " y listas "- ". */
@@ -40,13 +41,12 @@ export default function PostPage() {
   const t = UI[lang];
   const post = posts.find((p) => p.slug === slug);
 
-  useEffect(() => {
-    const previous = document.title;
-    document.title = post ? `${pick(post.title, lang)} — Blog Hellominus` : 'Blog — Hellominus';
-    return () => {
-      document.title = previous;
-    };
-  }, [post, lang]);
+  useMeta({
+    title: post ? `${pick(post.title, lang)} — Blog Hellominus` : 'Blog — Hellominus',
+    description: post ? pick(post.excerpt, lang) : '',
+    path: `/blog/${slug ?? ''}`,
+    image: post?.image,
+  });
 
   const category = post ? CATEGORIES.find((c) => c.slug === post.category) : undefined;
 

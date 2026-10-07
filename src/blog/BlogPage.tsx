@@ -1,4 +1,4 @@
-import { useEffect, useMemo } from 'react';
+import { useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import { SettingsProvider } from '../site/SettingsContext';
 import Footer from '../home/Footer';
@@ -8,6 +8,7 @@ import BlogHeader from './BlogHeader';
 import { AUTHOR, AUTHOR_NOTE, CATEGORIES, UI, formatDate, hasTranslation, pick, type BlogPost, type Lang } from './data';
 import { useBlogStore } from './store';
 import { normalize, useBlogData } from './useBlogData';
+import { useMeta } from './useMeta';
 import styles from './BlogPage.module.css';
 
 const categoryName = (slug: string, lang: Lang) => {
@@ -52,13 +53,11 @@ export default function BlogPage() {
   const source = useBlogStore((s) => s.source);
   const t = UI[lang];
 
-  useEffect(() => {
-    const previous = document.title;
-    document.title = 'Blog — Hellominus';
-    return () => {
-      document.title = previous;
-    };
-  }, []);
+  useMeta({
+    title: 'Blog — Hellominus',
+    description: 'Destinos en Colombia, consejos para viajar y para cuidar el presupuesto, escritos para quien viaja con un portátil en la maleta.',
+    path: '/blog',
+  });
 
   const visible = useMemo(() => {
     const q = normalize(query.trim());
