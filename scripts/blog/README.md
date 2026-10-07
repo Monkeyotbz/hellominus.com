@@ -26,12 +26,14 @@ cd scripts\blog
 
 ## Estado y resultado medible
 
-- `fuentes.json` está **vacío a propósito**: una fuente se agrega solo después de revisar sus términos de uso y anotar su licencia.
-- Con `--ejemplo` el pipeline procesa 6 registros de ejemplo: 5 limpios, 4 únicos, 3 temas puntuados. Los datos de ejemplo están rotulados y no son reales.
-- Medida de la fase: registros procesados por semana (se registra cuando haya fuentes reales).
+- `fuentes.json` tiene 2 fuentes revisadas el 7 de octubre de 2026: el consejo de viaje a Colombia del Reino Unido (Open Government Licence v3.0) y las alertas del Departamento de Estado de EE. UU. (dominio público; filtradas por "Colombia" en el título). Cada una lleva su licencia anotada.
+- Descartada: la Cancillería de Colombia, porque sus términos prohíben copiar o recopilar su contenido sin consentimiento escrito.
+- Primera corrida real: 2 registros, 2 únicos, 2 temas puntuados. Es poco: son fuentes de seguridad y trámites, no de volumen. La medida "registros por semana" empieza a tener sentido al sumar datos.gov.co y medios como señal de tema.
+- Con `--ejemplo` el pipeline procesa 6 registros de ejemplo rotulados (no son reales).
 
 ## Pendiente
 
-- Definir y revisar las fuentes autorizadas.
+- Conector para datos.gov.co (API Socrata; licencia abierta con cita "Fuente: Portal de Datos Abiertos www.datos.gov.co"). Elegir qué conjuntos de datos usar.
+- Decidir si El Tiempo, El Colombiano y Portafolio entran como señal de tema (título y enlace, sin copiar texto); sus términos no están revisados.
 - Guardar los registros en Postgres (hoy salen a CSV local).
 - Programar la corrida (GitHub Actions, fase 6).

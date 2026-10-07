@@ -1,5 +1,6 @@
 """Recolección de fuentes autorizadas (RSS). Respeta robots.txt y no usa IA."""
 import json
+import re
 import urllib.robotparser
 from pathlib import Path
 from urllib.parse import urlparse
@@ -50,7 +51,17 @@ def leer_rss(fuente: dict) -> pd.DataFrame:
         "resumen": e.get("summary", ""),
         "publicado": e.get("published", e.get("updated", "")),
     } for e in feed.entries]
-    return pd.DataFrame(filas)
+    return pd.DataFrame(filas).pipe(filtrar, fuente.get("filtro"), fuente.get("filtro_campo", "ambos"))
+
+
+def filtrar(df: pd.DataFrame, palabras: list[str] | None, campo: str = "ambos") -> pd.DataFrame:
+    """Conserva solo los registros que mencionan alguna de las palabras en el título o, según `campo`, en título y resumen."""
+    if df.empty or not palabras:
+        return df
+    base = df["titulo"].fillna("") if campo == "titulo" else df["titulo"].fillna("") + " " + df["resumen"].fillna("")
+    texto = base.str.lower()
+    patron = "|".join(re.escape(p.lower()) for p in palabras)
+    return df[texto.str.contains(patron)].reset_index(drop=True)
 
 
 def recolectar() -> pd.DataFrame:
