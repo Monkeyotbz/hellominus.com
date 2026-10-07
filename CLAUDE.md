@@ -38,6 +38,7 @@ Comandos: `npm run dev`, `npm run build` (compila y prerenderiza el blog), `npm 
 - Autoría visible: "Redacción Hellominus — escrito con IA y revisado por una persona". Un artículo no se publica sin aprobación humana en el admin.
 - Todo lo de visas, precios, leyes o seguridad lo revisa una persona antes de publicarse.
 - Los agentes del blog (investigador, redactor, revisor) y el pipeline de datos en Python no viven en este repositorio de la web: son un proyecto aparte, con su propia raíz. Cuando una tarea llame a Claude, es un agente; si no, es un script determinista.
+- Flujo: recolección (script) → Investigador → Redactor → Revisor → borrador `draft` → aprobación humana en el admin → publicación → prerender.
 - Plan completo y fases: `planes/blog-hello-minus-plan.md`.
 
 ## Deuda conocida (no la arregles de paso)
