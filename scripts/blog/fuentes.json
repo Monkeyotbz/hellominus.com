@@ -1,4 +1,38 @@
 {
-  "_nota": "Lista de fuentes autorizadas. Vacía a propósito: una fuente solo se agrega después de revisar sus términos de uso. Formato de cada fuente: {\"id\": \"nombre-corto\", \"nombre\": \"Nombre legible\", \"tipo\": \"rss\", \"url\": \"https://...\", \"licencia\": \"qué permiten\", \"revisada\": \"2026-10-07\"}",
-  "fuentes": []
+  "_nota": "Fuentes autorizadas. Una fuente solo entra después de revisar sus términos de uso. Campos: id, nombre, tipo (rss o socrata; socrata pide además dataset, orden y campo_fecha), url, licencia, revisada y, opcional, filtro (palabras: solo se guardan los registros que las mencionen) y filtro_campo (\"titulo\" o \"ambos\").",
+  "fuentes": [
+    {
+      "id": "uk-fcdo-colombia",
+      "nombre": "UK Foreign Office: consejos de viaje a Colombia",
+      "tipo": "rss",
+      "url": "https://www.gov.uk/foreign-travel-advice/colombia.atom",
+      "licencia": "Open Government Licence v3.0 (reutilización con atribución a GOV.UK)",
+      "revisada": "2026-10-07"
+    },
+    {
+      "id": "us-state-alertas",
+      "nombre": "US Department of State: alertas de viaje",
+      "tipo": "rss",
+      "url": "https://travel.state.gov/_res/rss/TAsTWs.xml",
+      "licencia": "Dominio público salvo que se indique copyright; se agradece citar a la Oficina de Asuntos Consulares",
+      "revisada": "2026-10-07",
+      "filtro": [
+        "colombia"
+      ],
+      "filtro_campo": "titulo"
+    },
+    {
+      "id": "datos-gov-trm",
+      "nombre": "Tasa de Cambio Representativa del Mercado (TRM)",
+      "tipo": "socrata",
+      "dataset": "32sa-8pi3",
+      "orden": "vigenciadesde DESC",
+      "campo_fecha": "vigenciadesde",
+      "licencia": "CC BY-SA 4.0. Citar: Superintendencia Financiera de Colombia, vía Portal de Datos Abiertos www.datos.gov.co. Lo derivado debe ofrecerse bajo la misma licencia",
+      "revisada": "2026-10-07"
+    }
+  ],
+  "_descartadas": {
+    "cancilleria": "Sus términos prohíben copiar o recopilar el contenido sin consentimiento escrito del Ministerio (revisado 2026-10-07)."
+  }
 }

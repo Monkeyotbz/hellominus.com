@@ -26,12 +26,15 @@ cd scripts\blog
 
 ## Estado y resultado medible
 
-- `fuentes.json` está **vacío a propósito**: una fuente se agrega solo después de revisar sus términos de uso y anotar su licencia.
-- Con `--ejemplo` el pipeline procesa 6 registros de ejemplo: 5 limpios, 4 únicos, 3 temas puntuados. Los datos de ejemplo están rotulados y no son reales.
-- Medida de la fase: registros procesados por semana (se registra cuando haya fuentes reales).
+- `fuentes.json` tiene 2 fuentes revisadas el 7 de octubre de 2026: el consejo de viaje a Colombia del Reino Unido (Open Government Licence v3.0) y las alertas del Departamento de Estado de EE. UU. (dominio público; filtradas por "Colombia" en el título). Cada una lleva su licencia anotada.
+- datos.gov.co (conector `socrata`): la TRM, con licencia CC BY-SA 4.0 del propio conjunto de datos (citar a la Superintendencia Financiera vía Portal de Datos Abiertos; lo derivado va bajo la misma licencia). La página general de términos dice "uso libre", pero manda la licencia de cada conjunto.
+- Descartada: la Cancillería de Colombia, porque sus términos prohíben copiar o recopilar su contenido sin consentimiento escrito.
+- Primera corrida real: 3 registros, 3 únicos, 3 temas puntuados. Es poco: son fuentes de seguridad y trámites, no de volumen. La medida "registros por semana" empieza a tener sentido al sumar datos.gov.co y medios como señal de tema.
+- Con `--ejemplo` el pipeline procesa 6 registros de ejemplo rotulados (no son reales).
 
 ## Pendiente
 
-- Definir y revisar las fuentes autorizadas.
+- Más conjuntos de datos.gov.co (candidatos: Extranjeros No Residentes `7wm8-w5ad`, Entradas de extranjeros `96sh-4v8d`, países sin visa `g7ps-wzb3`, Registro Nacional de Turismo `thwd-ivmp`); cada uno necesita revisar su licencia y su forma antes de activarlo.
+- Decidir si El Tiempo, El Colombiano y Portafolio entran como señal de tema (título y enlace, sin copiar texto); sus términos no están revisados.
 - Guardar los registros en Postgres (hoy salen a CSV local).
 - Programar la corrida (GitHub Actions, fase 6).

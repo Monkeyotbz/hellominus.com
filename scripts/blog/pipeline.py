@@ -2,6 +2,7 @@
 import json
 import re
 import unicodedata
+from email.utils import parsedate_to_datetime
 from pathlib import Path
 
 import pandas as pd
@@ -17,12 +18,26 @@ def normalizar(texto: str) -> str:
     return " ".join(re.sub(r"[^a-z0-9 ]+", " ", texto).split())
 
 
+def _fecha(valor) -> pd.Timestamp:
+    """Lee fechas ISO y también las de correo/RSS ("Fri, 04 Sep 2026"). NaT si no se entiende."""
+    if pd.isna(valor) or str(valor).strip() == "":
+        return pd.NaT
+    fecha = pd.to_datetime(valor, errors="coerce", utc=True)
+    if not pd.isna(fecha):
+        return fecha
+    try:
+        parseada = parsedate_to_datetime(str(valor))
+    except (TypeError, ValueError):
+        return pd.NaT
+    return pd.Timestamp(parseada).tz_convert("UTC") if parseada.tzinfo else pd.Timestamp(parseada, tz="UTC")
+
+
 def limpiar(df: pd.DataFrame) -> pd.DataFrame:
     """Deja solo las columnas esperadas, descarta registros sin título o URL y fija el formato de fecha."""
     out = df.reindex(columns=COLUMNAS).copy()
     for col in ("titulo", "url", "resumen"):
         out[col] = out[col].fillna("").astype(str).str.strip()
-    out["publicado"] = pd.to_datetime(out["publicado"], errors="coerce", utc=True)
+    out["publicado"] = pd.to_datetime(out["publicado"].map(_fecha), utc=True)
     out = out[(out["titulo"] != "") & (out["url"] != "")]
     return out.reset_index(drop=True)
 
