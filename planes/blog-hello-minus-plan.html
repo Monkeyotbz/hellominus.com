@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Blog Hello Minus</title>
+<style>
+  :root {
+    --ink: #14202B; --paper: #F6F8FA; --card: #FFFFFF; --accent: #2447D6;
+    --accent-soft: #E6ECFB; --muted: #5B6B7A; --line: #D6DEE5;
+    --ok: #1F7A4D; --ok-soft: #E3F4EA; --mid: #A86412; --mid-soft: #FFF4E3; --low: #B23A48; --low-soft: #FBE9EB;
+    --band-bg: #14202B; --band-ink: #FFFFFF; --band-accent: #8FA8FF;
+    --head: "Helvetica Neue", Arial, sans-serif;
+    --body: Georgia, "Times New Roman", serif;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) { --ink: #E6ECF2; --paper: #10171F; --card: #18222D; --accent: #8FA8FF; --accent-soft: #1F2C45; --muted: #9AABBB; --line: #2C3A48; --ok: #6FD39C; --ok-soft: #17301F; --mid: #F0B45C; --mid-soft: #2E2416; --low: #F08A96; --low-soft: #3A1C21; --band-bg: #233247; }
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(--body); font-size: 18px; line-height: 1.6; }
+  main { max-width: 920px; margin: 0 auto; padding: 48px 20px 80px; }
+  h1 { font-family: var(--head); font-weight: 800; font-size: clamp(34px, 6.5vw, 54px); line-height: 1.06; letter-spacing: -0.02em; margin: 0 0 14px; }
+  h2 { font-family: var(--head); font-weight: 700; font-size: 28px; line-height: 1.15; margin: 56px 0 8px; }
+  h3 { font-family: var(--head); font-weight: 700; font-size: 20px; margin: 28px 0 8px; }
+  .lead { color: var(--muted); margin: 0 0 20px; }
+  p { margin: 0 0 14px; }
+  ul, ol { padding-left: 22px; margin: 0 0 14px; }
+  li { margin-bottom: 6px; }
+  code { font-family: ui-monospace, Consolas, monospace; font-size: 0.86em; background: var(--accent-soft); padding: 1px 6px; border-radius: 4px; overflow-wrap: anywhere; }
+  .version { display: inline-block; font-family: var(--head); font-weight: 700; font-size: 15px; background: var(--accent); color: #fff; border-radius: 999px; padding: 2px 14px; margin-right: 10px; }
+  .meta { color: var(--muted); font-family: var(--head); font-size: 16px; }
+  .card { background: var(--card); border: 1px solid var(--line); border-left: 5px solid var(--accent); border-radius: 4px; padding: 6px 22px 12px; margin: 0 0 18px; font-size: 17px; }
+  .card h3 { margin-top: 14px; color: var(--accent); }
+  .table-wrap { overflow-x: auto; margin: 0 0 20px; }
+  table { border-collapse: collapse; width: 100%; font-size: 16px; background: var(--card); }
+  th, td { text-align: left; padding: 10px 12px; border: 1px solid var(--line); vertical-align: top; }
+  th { font-family: var(--head); background: var(--accent-soft); font-size: 15px; }
+  .estado { font-family: var(--head); font-weight: 700; font-size: 14px; white-space: nowrap; border-radius: 999px; padding: 2px 10px; display: inline-block; }
+  .hecho { color: var(--ok); background: var(--ok-soft); }
+  .pend { color: var(--mid); background: var(--mid-soft); }
+  .nuevo { color: var(--low); background: var(--low-soft); }
+  .note { background: var(--accent-soft); border-radius: 4px; padding: 14px 20px; margin: 0 0 20px; font-size: 17px; }
+  .note strong { font-family: var(--head); }
+  .flow { font-family: ui-monospace, Consolas, monospace; font-size: 15px; background: var(--card); border: 1px solid var(--line); border-radius: 4px; padding: 14px 18px; margin: 0 0 18px; overflow-x: auto; white-space: pre-wrap; }
+  footer { color: var(--muted); font-size: 16px; border-top: 1px solid var(--line); padding-top: 18px; margin-top: 64px; }
+</style>
+</head>
+<body>
+<main>
+
+  <header>
+    <h1>Blog Hello Minus</h1>
+    <p><span class="version">Versión 00</span><span class="meta">7 de octubre de 2026</span></p>
+    <p class="lead">Plan para montar en Hellominus un blog para nómadas digitales y viajeros, con información de turismo local e internacional, donde los agentes de IA investigan, redactan y revisan, y una persona aprueba. Este documento es la única guía de desarrollo del blog.</p>
+  </header>
+
+  <nav>
+    <h2>Índice</h2>
+    <ol>
+      <li><a href="#objetivo">Objetivo y decisiones tomadas</a></li>
+      <li><a href="#existe">Qué existe hoy en Hellominus</a></li>
+      <li><a href="#agentes">Agentes y scripts</a></li>
+      <li><a href="#flujo">Flujo de publicación</a></li>
+      <li><a href="#fases">Fases</a></li>
+      <li><a href="#costo">Control de costo</a></li>
+      <li><a href="#verificacion">Verificación</a></li>
+      <li><a href="#pendientes">Pendientes antes de ejecutar</a></li>
+      <li><a href="#versiones">Control de versiones</a></li>
+    </ol>
+  </nav>
+
+  <section id="objetivo">
+    <h2>Objetivo y decisiones tomadas</h2>
+    <p>Un blog dentro de Hellominus con contenido de interés para nómadas digitales y viajeros: turismo local en Colombia e internacional. Los agentes hacen la investigación, la redacción y la revisión; una persona aprueba antes de publicar.</p>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Decisión</th><th>Resultado</th></tr></thead>
+        <tbody>
+          <tr><td>Dónde se construye</td><td>Dentro del repositorio <code>hellominus.com</code>.</td></tr>
+          <tr><td>Quién publica</td><td>Los agentes dejan el post como borrador (<code>draft</code>) y una persona lo aprueba desde el admin que ya existe.</td></tr>
+          <tr><td>Idioma</td><td>Español e inglés, como el resto del sitio (campos <code>{es, en}</code>).</td></tr>
+          <tr><td>Rama de trabajo</td><td>Rama <code>juanse</code>, con pull request hacia <code>main</code>.</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section id="existe">
+    <h2>Qué existe hoy en Hellominus</h2>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Pieza</th><th>Estado</th><th>Detalle y ruta</th></tr></thead>
+        <tbody>
+          <tr><td>Tablas <code>blog_posts</code> y <code>blog_categories</code></td><td><span class="estado hecho">Existe</span></td><td>Slug único, título, extracto y cuerpo en español e inglés, estado draft, published o archived, etiquetas, imagen de portada, <code>meta_title</code> y <code>meta_description</code>. <code>supabase/migrations/20260901120005_content.sql</code></td></tr>
+          <tr><td>Seguridad por fila (RLS)</td><td><span class="estado hecho">Existe</span></td><td>Lectura pública solo de lo publicado; escritura para el equipo. Mismo archivo y <code>20261002120013_multitenant.sql</code></td></tr>
+          <tr><td>Admin con CRUD de blog</td><td><span class="estado hecho">Existe</span></td><td>Es el lugar de aprobación. <code>src/admin/entities.ts</code></td></tr>
+          <tr><td>Consulta de posts publicados</td><td><span class="estado pend">Parcial</span></td><td>Existe, pero solo para la home de anfitriones. <code>src/lib/queries.ts</code></td></tr>
+          <tr><td>Páginas públicas <code>/blog</code> y <code>/blog/:slug</code></td><td><span class="estado nuevo">Falta</span></td><td>Hoy <code>/blog</code> cae en el comodín y muestra la home. <code>src/App.tsx</code></td></tr>
+          <tr><td>Sección "Blog" de la home</td><td><span class="estado nuevo">Falta</span></td><td>Es falsa: datos fijos con enlaces a <code>#blog</code>. <code>src/home/Blog.tsx</code> y <code>src/home/data.ts</code></td></tr>
+          <tr><td>SEO (prerender, sitemap, robots, meta por página)</td><td><span class="estado nuevo">Falta</span></td><td>Es una aplicación de una sola pantalla con Vite; solo tiene meta fijas en <code>index.html</code>. Un blog necesita prerender y sitemap para que lo encuentren los buscadores.</td></tr>
+          <tr><td>Llamadas a modelos de IA</td><td><span class="estado nuevo">Falta</span></td><td>No hay ninguna, ni funciones de Supabase.</td></tr>
+          <tr><td><code>CLAUDE.md</code> del repositorio</td><td><span class="estado nuevo">Falta</span></td><td>No existe; se crea con este diseño.</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="note"><strong>Se reutiliza, no se reescribe:</strong> la tabla, la seguridad por fila y el admin.</div>
+  </section>
+
+  <section id="agentes">
+    <h2>Agentes y scripts</h2>
+    <p>Regla del laboratorio: lo que llama a Claude va en Python y es un agente; lo determinista es un script sin Claude. El agente solo emite juicio con evidencia.</p>
+    <div class="card">
+      <h3>Agente 1: Investigador</h3>
+      <p>Con herramientas y un ciclo de búsqueda. Busca temas y fuentes y entrega una ficha por tema con citas y enlaces. Necesita modelo porque decide qué buscar a continuación.</p>
+    </div>
+    <div class="card">
+      <h3>Agente 2: Redactor</h3>
+      <p>Escribe el post en Markdown, en español e inglés, para nómadas digitales, usando solo lo que trae la ficha del Investigador.</p>
+    </div>
+    <div class="card">
+      <h3>Agente 3: Revisor</h3>
+      <p>Audita el borrador con una rúbrica. Cada afirmación factual debe tener fuente. Todo lo de visas, precios, leyes o seguridad se marca "requiere revisión humana" y nunca pasa solo. Un segundo modelo (por ejemplo Gemini) puede verificar los hechos de forma cruzada.</p>
+    </div>
+    <h3>Scripts, sin Claude</h3>
+    <ul>
+      <li>Recolección de fuentes (RSS y datos abiertos), limpieza, deduplicación y puntaje de temas con pandas.</li>
+      <li>Generación del slug, validación del esquema de <code>blog_posts</code> y carga con <code>status = 'draft'</code>.</li>
+      <li>Prerender de <code>/blog/:slug</code>, <code>sitemap.xml</code> y <code>robots.txt</code>.</li>
+      <li>Métricas del panel y registro de tokens por corrida.</li>
+    </ul>
+  </section>
+
+  <section id="flujo">
+    <h2>Flujo de publicación</h2>
+    <div class="flow">Recolección (script)
+  → Investigador
+  → Redactor
+  → Revisor
+  → borrador en blog_posts
+  → APROBACIÓN HUMANA en el admin
+  → publicación
+  → prerender y sitemap
+  → panel y agente analista</div>
+  </section>
+
+  <section id="fases">
+    <h2>Fases</h2>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Fase</th><th>Qué se hace</th><th>Resultado medible</th><th>Estado</th></tr></thead>
+        <tbody>
+          <tr><td>0. Preparación</td><td>Crear la rama <code>juanse</code>; crear el <code>CLAUDE.md</code> del repositorio con este diseño; confirmar que <code>blog_posts</code> esté aplicada en la base real.</td><td>Rama y migración verificadas</td><td><span class="estado pend">Pendiente</span></td></tr>
+          <tr><td>1. Blog público</td><td>Páginas <code>/blog</code> y <code>/blog/:slug</code>; reemplazar la sección falsa de la home; prerender, sitemap, robots y meta por página.</td><td><code>/blog</code> publicado con un post real y HTML con meta propios</td><td><span class="estado pend">Pendiente</span></td></tr>
+          <tr><td>2. Pipeline de datos</td><td>Python con pandas: recolección, limpieza, deduplicación y puntaje de temas.</td><td>Registros procesados por semana</td><td><span class="estado pend">Pendiente</span></td></tr>
+          <tr><td>3. Agentes</td><td>Investigador, Redactor y Revisor con <code>claude_agent_sdk</code>, con salida validada con Pydantic.</td><td>Una corrida de prueba que deja un borrador con fuentes</td><td><span class="estado pend">Pendiente</span></td></tr>
+          <tr><td>4. Evaluaciones</td><td>Conjunto de 30 a 40 posts calificados por una persona; comparar dos prompts y dos modelos.</td><td>Porcentaje de aceptación por versión</td><td><span class="estado pend">Pendiente</span></td></tr>
+          <tr><td>5. Panel con IA</td><td>Panel del blog con un agente que interpreta los datos y recomienda temas. Se hace cuando ya haya posts publicados.</td><td>Panel con datos reales</td><td><span class="estado pend">Pendiente</span></td></tr>
+          <tr><td>6. Despliegue y pruebas</td><td>GitHub Actions programado, pruebas con <code>pytest</code>, integración continua y URL pública.</td><td>Una corrida programada real</td><td><span class="estado pend">Pendiente</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>Cada fase termina con un README y un resultado medible.</p>
+  </section>
+
+  <section id="costo">
+    <h2>Control de costo</h2>
+    <ul>
+      <li>Modelo barato (Sonnet o Haiku) para el Investigador y el Redactor; el más capaz solo para el Revisor.</li>
+      <li>Tope de tokens por corrida.</li>
+      <li>Ningún lote automático hasta revisar el costo de una corrida de prueba.</li>
+    </ul>
+  </section>
+
+  <section id="verificacion">
+    <h2>Verificación</h2>
+    <ul>
+      <li><strong>Fase 1:</strong> abrir <code>/blog</code> y <code>/blog/&lt;slug&gt;</code> con un post de prueba; ver el código fuente de la página (debe traer título y meta propios); validar <code>sitemap.xml</code>.</li>
+      <li><strong>Fases 2 y 3:</strong> corrida de prueba con un tema; confirmar que queda un borrador, que cada afirmación factual trae fuente y que los temas de visas o precios quedan marcados.</li>
+      <li><strong>Fase 4:</strong> el reporte de evaluaciones da el porcentaje de aceptación por versión de prompt.</li>
+      <li><strong>Fase 6:</strong> una corrida programada real en GitHub Actions y el panel con datos.</li>
+    </ul>
+  </section>
+
+  <section id="pendientes">
+    <h2>Pendientes antes de ejecutar</h2>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>☐</th><th>Pendiente</th><th>Estado</th></tr></thead>
+        <tbody>
+          <tr><td>☐</td><td>Abrir Claude Code desde la carpeta <code>hellominus.com</code> (regla del laboratorio: cada proyecto es su propia raíz)</td><td><span class="estado pend">Pendiente</span></td></tr>
+          <tr><td>☐</td><td>Confirmar que <code>blog_posts</code> esté aplicada en la base real</td><td><span class="estado pend">Pendiente</span></td></tr>
+          <tr><td>☐</td><td>Validar qué es agente y qué es script con el agente <code>seleccionar-forma</code> (modo incremental)</td><td><span class="estado pend">Pendiente</span></td></tr>
+          <tr><td>☐</td><td>Definir las fuentes permitidas y revisar sus términos de uso antes de recolectar</td><td><span class="estado pend">Pendiente</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section id="versiones">
+    <h2>Control de versiones</h2>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Versión</th><th>Fecha</th><th>Cambios</th></tr></thead>
+        <tbody>
+          <tr><td>00</td><td>7 de octubre de 2026</td><td>Creación. Plan del blog en 7 fases (0 a 6).</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <footer>Plan del Blog Hello Minus. Es la única guía de desarrollo del blog.</footer>
+
+</main>
+</body>
+</html>
