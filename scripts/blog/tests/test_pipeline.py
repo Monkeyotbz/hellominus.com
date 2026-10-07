@@ -4,6 +4,7 @@ from pathlib import Path
 import pandas as pd
 
 sys.path.insert(0, str(Path(__file__).parent.parent))
+from indicadores import comparar  # noqa: E402
 from recolectar import filtrar, registro_socrata  # noqa: E402
 from pipeline import asignar_tema, cargar_temas, deduplicar, limpiar, normalizar, puntuar  # noqa: E402
 
@@ -74,3 +75,14 @@ def test_registro_socrata_arma_un_registro_del_pipeline():
     assert r["url"] == "https://www.datos.gov.co/d/32sa-8pi3"
     assert "valor: 3216.01" in r["resumen"]
     assert r["publicado"] == "2026-10-07T00:00:00.000"
+
+
+def test_comparar_calcula_participacion_y_crecimiento():
+    actual = pd.DataFrame({"ciudad": ["A", "B", "C"], "total": [600, 300, 100]})
+    anterior = pd.DataFrame({"ciudad": ["A", "B"], "total": [500, 300]})
+    r = comparar(actual, anterior, "ciudad")
+    assert list(r["ciudad"]) == ["A", "B", "C"]
+    assert r.loc[0, "participacion_pct"] == 60.0
+    assert r.loc[0, "crecimiento_pct"] == 20.0
+    assert r.loc[1, "crecimiento_pct"] == 0.0
+    assert pd.isna(r.loc[2, "crecimiento_pct"])  # no existía el año anterior: no se inventa un porcentaje
