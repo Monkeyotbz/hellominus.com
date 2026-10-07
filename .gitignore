@@ -41,3 +41,4 @@ Docs/
 __pycache__/
 .pytest_cache/
 scripts/blog/data/
+agentes-sdk/blog/salida/

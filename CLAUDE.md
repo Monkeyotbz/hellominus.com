@@ -37,7 +37,7 @@ Comandos: `npm run dev`, `npm run build` (compila y prerenderiza el blog), `npm 
 - SEO: `scripts/prerender-blog.mjs` corre después de `vite build` y genera el HTML de cada página, `sitemap.xml` y `robots.txt`. Sin credenciales de Supabase no rompe el build. Los artículos publicados después de un despliegue no se prerenderizan hasta el siguiente build.
 - Autoría visible: "Redacción Hellominus — escrito con IA y revisado por una persona". Un artículo no se publica sin aprobación humana en el admin.
 - Todo lo de visas, precios, leyes o seguridad lo revisa una persona antes de publicarse.
-- El pipeline de datos y los agentes del blog viven en este mismo repositorio, separados de la web. Si llama a Claude es un agente; si no, es un script determinista. Python con pandas va en `scripts/blog/` (fase 2) y los agentes (investigador, redactor, revisor) irán en `agentes-sdk/blog/` (fase 3 en adelante). Cada carpeta lleva su `README.md` y su `requirements.txt`.
+- El pipeline de datos y los agentes del blog viven en este mismo repositorio, separados de la web. Si llama a Claude es un agente; si no, es un script determinista. Python con pandas va en `scripts/blog/` (fase 2) y los agentes (investigador, redactor, revisor) viven en `agentes-sdk/blog/` (fase 3); las reglas de revisión que no llaman a Claude están en `scripts/blog/reglas_revision.py`. Cada carpeta lleva su `README.md` y su `requirements.txt`.
 - Los datos recolectados, los entornos de Python (`.venv`) y las claves nunca se suben: el repositorio es público. Solo se sube código.
 - Flujo: recolección (script) → Investigador → Redactor → Revisor → borrador `draft` → aprobación humana en el admin → publicación → prerender.
 - Plan completo y fases: `planes/blog-hello-minus-plan.md`.
