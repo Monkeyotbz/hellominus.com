@@ -1,5 +1,5 @@
 {
-  "_nota": "Fuentes autorizadas. Una fuente solo entra después de revisar sus términos de uso. Campos: id, nombre, tipo (rss), url, licencia, revisada y, opcional, filtro (palabras: solo se guardan los registros que las mencionen) y filtro_campo (\"titulo\" o \"ambos\").",
+  "_nota": "Fuentes autorizadas. Una fuente solo entra después de revisar sus términos de uso. Campos: id, nombre, tipo (rss o socrata; socrata pide además dataset, orden y campo_fecha), url, licencia, revisada y, opcional, filtro (palabras: solo se guardan los registros que las mencionen) y filtro_campo (\"titulo\" o \"ambos\").",
   "fuentes": [
     {
       "id": "uk-fcdo-colombia",
@@ -20,6 +20,16 @@
         "colombia"
       ],
       "filtro_campo": "titulo"
+    },
+    {
+      "id": "datos-gov-trm",
+      "nombre": "Tasa de Cambio Representativa del Mercado (TRM)",
+      "tipo": "socrata",
+      "dataset": "32sa-8pi3",
+      "orden": "vigenciadesde DESC",
+      "campo_fecha": "vigenciadesde",
+      "licencia": "CC BY-SA 4.0. Citar: Superintendencia Financiera de Colombia, vía Portal de Datos Abiertos www.datos.gov.co. Lo derivado debe ofrecerse bajo la misma licencia",
+      "revisada": "2026-10-07"
     }
   ],
   "_descartadas": {

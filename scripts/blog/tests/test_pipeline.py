@@ -4,7 +4,7 @@ from pathlib import Path
 import pandas as pd
 
 sys.path.insert(0, str(Path(__file__).parent.parent))
-from recolectar import filtrar  # noqa: E402
+from recolectar import filtrar, registro_socrata  # noqa: E402
 from pipeline import asignar_tema, cargar_temas, deduplicar, limpiar, normalizar, puntuar  # noqa: E402
 
 EJEMPLO = Path(__file__).parent.parent / "ejemplo" / "registros-ejemplo.csv"
@@ -66,3 +66,11 @@ def test_limpiar_lee_fechas_de_rss():
     fechas = limpiar(df)["publicado"]
     assert fechas.notna().all()
     assert fechas.iloc[0].date().isoformat() == "2026-09-04"
+
+
+def test_registro_socrata_arma_un_registro_del_pipeline():
+    fuente = {"id": "datos-gov-trm", "nombre": "TRM", "dataset": "32sa-8pi3", "campo_fecha": "vigenciadesde"}
+    r = registro_socrata(fuente, {"valor": "3216.01", "unidad": "COP", "vigenciadesde": "2026-10-07T00:00:00.000"})
+    assert r["url"] == "https://www.datos.gov.co/d/32sa-8pi3"
+    assert "valor: 3216.01" in r["resumen"]
+    assert r["publicado"] == "2026-10-07T00:00:00.000"

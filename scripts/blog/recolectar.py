@@ -1,4 +1,4 @@
-"""Recolección de fuentes autorizadas (RSS). Respeta robots.txt y no usa IA."""
+"""Recolección de fuentes autorizadas (RSS y datos abiertos de datos.gov.co). Respeta robots.txt y no usa IA."""
 import json
 import re
 import urllib.robotparser
@@ -64,10 +64,39 @@ def filtrar(df: pd.DataFrame, palabras: list[str] | None, campo: str = "ambos") 
     return df[texto.str.contains(patron)].reset_index(drop=True)
 
 
+def registro_socrata(fuente: dict, fila: dict) -> dict:
+    """Convierte la fila más reciente de un conjunto de datos.gov.co en un registro del pipeline."""
+    resumen = "; ".join(f"{k}: {v}" for k, v in fila.items())
+    fecha = fila.get(fuente.get("campo_fecha", ""), "")
+    return {
+        "fuente": fuente["id"],
+        "titulo": fuente["nombre"],
+        "url": f"https://www.datos.gov.co/d/{fuente['dataset']}",
+        "resumen": resumen,
+        "publicado": fecha,
+    }
+
+
+def leer_socrata(fuente: dict) -> pd.DataFrame:
+    """Lee la fila más reciente de un conjunto de datos abiertos (API Socrata). Un registro por corrida."""
+    url = f"https://www.datos.gov.co/resource/{fuente['dataset']}.json"
+    if not permitido(url):
+        print(f"  omitida {fuente['id']}: robots.txt no lo permite")
+        return pd.DataFrame()
+    params = {"$limit": 1}
+    if fuente.get("orden"):
+        params["$order"] = fuente["orden"]
+    resp = requests.get(url, params=params, headers={"User-Agent": AGENTE}, timeout=30)
+    resp.raise_for_status()
+    filas = resp.json()
+    return pd.DataFrame([registro_socrata(fuente, filas[0])]) if filas else pd.DataFrame()
+
+
 def recolectar() -> pd.DataFrame:
     partes = []
     for fuente in cargar_fuentes():
-        if fuente.get("tipo") == "rss":
+        lector = {"rss": leer_rss, "socrata": leer_socrata}.get(fuente.get("tipo"))
+        if lector:
             print(f"leyendo {fuente['id']}")
-            partes.append(leer_rss(fuente))
+            partes.append(lector(fuente))
     return pd.concat(partes, ignore_index=True) if partes else pd.DataFrame()
