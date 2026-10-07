@@ -1,0 +1,37 @@
+# Pipeline de datos del blog (fase 2)
+
+Script de Python con pandas que recolecta fuentes autorizadas, limpia los registros, quita duplicados y puntúa temas para el blog. **No llama a Claude**: es código determinista. Los agentes irán en `agentes-sdk/blog/` (fase 3).
+
+## Problema
+
+Elegir de qué escribir con datos y no a ojo, y que cada artículo nazca con fuentes comprobables.
+
+## Qué hace
+
+1. `recolectar.py` lee las fuentes RSS de `fuentes.json`, respetando `robots.txt`.
+2. `pipeline.limpiar` deja las columnas esperadas y descarta registros sin título o URL.
+3. `pipeline.deduplicar` quita repetidos por URL y por título.
+4. `pipeline.puntuar` asigna cada registro a un tema (`temas.json`) y calcula, por tema, fuentes distintas, registros, recencia y puntaje.
+5. `run.py` corre todo y guarda `data/temas-<fecha>.csv` (carpeta ignorada por git).
+
+## Cómo correrlo
+
+```
+python -m venv .venv                      # en la raíz del repositorio
+.venv\Scripts\pip install -r scripts\blog\requirements.txt
+cd scripts\blog
+..\..\.venv\Scripts\python run.py --ejemplo    # datos de ejemplo, no reales
+..\..\.venv\Scripts\python -m pytest -q        # pruebas
+```
+
+## Estado y resultado medible
+
+- `fuentes.json` está **vacío a propósito**: una fuente se agrega solo después de revisar sus términos de uso y anotar su licencia.
+- Con `--ejemplo` el pipeline procesa 6 registros de ejemplo: 5 limpios, 4 únicos, 3 temas puntuados. Los datos de ejemplo están rotulados y no son reales.
+- Medida de la fase: registros procesados por semana (se registra cuando haya fuentes reales).
+
+## Pendiente
+
+- Definir y revisar las fuentes autorizadas.
+- Guardar los registros en Postgres (hoy salen a CSV local).
+- Programar la corrida (GitHub Actions, fase 6).

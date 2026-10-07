@@ -35,3 +35,9 @@ docs/img/
 # Carpeta de trabajo local (borradores, criterios de la landing, preguntas para Zuhay).
 Docs/
 /Roadmap*.pdf
+
+# Pipeline del blog (Python): entorno, caché y datos recolectados
+.venv/
+__pycache__/
+.pytest_cache/
+scripts/blog/data/

@@ -1,0 +1,11 @@
+{
+  "_nota": "Temas del blog y las palabras que los identifican. El peso sube el puntaje de los temas que más importan a nómadas digitales.",
+  "temas": [
+    {"id": "visas", "nombre": "Visas y permanencia", "peso": 1.5, "palabras": ["visa", "nomada digital", "migracion", "permiso de permanencia"]},
+    {"id": "costo-de-vida", "nombre": "Costo de vida", "peso": 1.3, "palabras": ["costo de vida", "arriendo", "presupuesto", "precio"]},
+    {"id": "trabajo-remoto", "nombre": "Trabajo remoto", "peso": 1.4, "palabras": ["coworking", "wifi", "internet", "trabajo remoto", "teletrabajo"]},
+    {"id": "destinos", "nombre": "Destinos", "peso": 1.0, "palabras": ["medellin", "cartagena", "jardin", "bogota", "destino", "barrio"]},
+    {"id": "seguridad-salud", "nombre": "Seguridad y salud", "peso": 1.2, "palabras": ["seguridad", "salud", "seguro medico", "alerta"]},
+    {"id": "dinero", "nombre": "Dinero y pagos", "peso": 1.1, "palabras": ["tasa de cambio", "dolar", "pagos", "tarjeta", "impuestos"]}
+  ]
+}
