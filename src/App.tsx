@@ -9,6 +9,8 @@ import AdminApp from './admin/AdminApp';
 import SiteLayout from './site/SiteLayout';
 import HomePage from './home/HomePage';
 import HostsPage from './home/hosts/HostsPage';
+import BlogPage from './blog/BlogPage';
+import PostPage from './blog/PostPage';
 import ToursPage from './site/pages/ToursPage';
 import TourDetailPage from './site/pages/TourDetailPage';
 import StaysPage from './site/pages/StaysPage';
@@ -39,6 +41,8 @@ function App() {
             {/* Portada nueva: lleva su propio encabezado y pie (src/home). */}
             <Route path="/" element={<HomePage />} />
             <Route path="/anfitriones" element={<HostsPage />} />
+            <Route path="/blog" element={<BlogPage />} />
+            <Route path="/blog/:slug" element={<PostPage />} />
 
             <Route element={<SiteLayout />}>
               <Route path="/tours" element={<ToursPage />} />
