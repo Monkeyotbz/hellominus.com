@@ -1,0 +1,29 @@
+{
+  "_nota": "Indicadores calculados con datos abiertos de datos.gov.co. El servidor suma por dimensión y año; pandas compara contra el año anterior. Ambos conjuntos son CC BY-SA 4.0: citar la entidad y el Portal de Datos Abiertos; lo derivado va bajo la misma licencia.",
+  "indicadores": [
+    {
+      "id": "extranjeros-por-ciudad",
+      "titulo": "Extranjeros no residentes por ciudad",
+      "dataset": "7wm8-w5ad",
+      "dimension": "ciudad",
+      "medida": "sum(cant_extranjeros_no_residentes)",
+      "campo_anio": "a_o",
+      "cita": "Ministerio de Comercio, Industria y Turismo (MinCIT), vía Portal de Datos Abiertos www.datos.gov.co",
+      "licencia": "CC BY-SA 4.0",
+      "revisada": "2026-10-07",
+      "limite": 15
+    },
+    {
+      "id": "entradas-por-nacionalidad",
+      "titulo": "Entradas de extranjeros a Colombia por nacionalidad",
+      "dataset": "96sh-4v8d",
+      "dimension": "nacionalidad",
+      "medida": "sum(total)",
+      "campo_anio": "a_o",
+      "cita": "Migración Colombia, vía Portal de Datos Abiertos www.datos.gov.co",
+      "licencia": "CC BY-SA 4.0",
+      "revisada": "2026-10-07",
+      "limite": 15
+    }
+  ]
+}
