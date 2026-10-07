@@ -5,6 +5,7 @@ from pathlib import Path
 from urllib.parse import urlparse
 
 import feedparser
+import requests
 import pandas as pd
 
 BASE = Path(__file__).parent
@@ -16,13 +17,24 @@ def cargar_fuentes(ruta: Path = BASE / "fuentes.json") -> list[dict]:
 
 
 def permitido(url: str) -> bool:
-    """True solo si el robots.txt del sitio deja a nuestro agente leer esa URL."""
+    """True solo si el robots.txt del sitio deja a nuestro agente leer esa URL.
+
+    El robots.txt se pide con nuestro nombre de agente: algunos sitios responden 403
+    a los bots anónimos y eso se leería como "todo prohibido". Si el robots.txt no
+    existe (404), se entiende que todo está permitido; ante cualquier otro error, no.
+    """
     partes = urlparse(url)
-    robots = urllib.robotparser.RobotFileParser(f"{partes.scheme}://{partes.netloc}/robots.txt")
     try:
-        robots.read()
-    except OSError:
+        resp = requests.get(f"{partes.scheme}://{partes.netloc}/robots.txt",
+                            headers={"User-Agent": AGENTE}, timeout=15)
+    except requests.RequestException:
         return False
+    if resp.status_code == 404:
+        return True
+    if resp.status_code != 200:
+        return False
+    robots = urllib.robotparser.RobotFileParser()
+    robots.parse(resp.text.splitlines())
     return robots.can_fetch(AGENTE, url)
 
 
